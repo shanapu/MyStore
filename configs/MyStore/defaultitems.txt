@@ -1,0 +1,23 @@
+"Defaults"
+{
+	"default"
+	{
+		"flags" ""              // flag to recieve this earnings, no flag = everyone
+		"Items"
+		{
+			"item" "goosang_para"
+		//	"item" "uid_Lootbox1"
+		//	"item" "uid_Lootbox2"
+		}
+	}
+	"Admin"
+	{
+		"flags" "g"              // flag to recieve this earnings, no flag = everyone
+		"Items"
+		{
+			"item" "para_rainbow"
+		//	"item" "uid_Lootbox1"
+		//	"item" "uid_Lootbox2"
+		}
+	}
+}

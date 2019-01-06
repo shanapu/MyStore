@@ -1,0 +1,108 @@
+// "time" "* * * * *"
+//         ^ ^ ^ ^ ^
+//         ¦ ¦ ¦ ¦ ¦
+//         ¦ ¦ ¦ ¦ +---------------- Weekday (1-7, Sunday is 7)  only one digit!
+//         ¦ ¦ ¦ +------------------ Month (01-12)               both two digit!
+//         ¦ ¦ +-------------------- Day (01-31)                 both two digit!
+//         ¦ +---------------------- Hour (00-23)                both two digit!
+//         +------------------------ Minute (00-59)              both two digit!
+// * is a wildcard for the whole period (hour, day, month, year, week)
+//
+//
+// "type" "all" - all items will be reduced except the excluded ones - same as "item" "all"
+// "type" "<type>" - all items of this type will be reduced - same type as in configs/MyStore/items.txt
+//
+//
+// "item" "all" - all items will be reduced except the excluded ones - same as "type" "all"
+// "item" "<unique_id>" only this item will be reduced - same unique_id as in configs/MyStore/items.txt - if not exist create one.
+//
+//
+// discount" "<value>%"  with %, you get a percentage discount
+// discount" "<value>"   without %, this amount will be subtracted
+// discount" "-<value>"  add a '-' minus in front of the value to increase the price
+//
+//
+// "flags" "" - all clients recieve this discount
+// "flags" "t" - only player with flag 't' recieve this discount
+//
+//
+// "noplans" "0" - plans will be reduced
+// "noplans" "1" - plans will not be reduced
+//
+//
+// "nomsg" "0" - a chat/hint message appers when discount started/ended
+// "nomsg" "1" - no message appers when discount started/ended
+
+
+"Discount"
+{
+	"VIP Discount"                        // a permanent discount for VIPs
+	{
+		"time" "* * * * *"                // active at all times
+		"type" "all"                      // all items are discounted - same as "item" "all"
+		"discount" "10%"                  // price will be 10% reduced
+		"player" "3"                      // minimal player on server before discount start
+		"nomsg" "1"                       // this discount won't be announced - default: 0
+		"noplans" "1"                     // when a item has a plan the plans will be reduced too. - default: 0
+		"flags" "t"                       // only player with this flag recieve the discount, no flag = everyone
+		"Exclude"                         // all items in Exclude will not be discounted
+		{
+			"type" "playermodel"          // all items from type 'playermodel' will NOT be reduced
+			"item" "uid_uncle_sam_hat"    // this item will NOT be reduced
+		}
+	}
+	"VIP Happy Hour"                      // a Happy Hour for VIPs
+	{
+		"time" "* 18-18 * * 5-6"          // active at saturday & sunday at 6.pm
+		"item" "all"                      // all items are discounted - same as "type" "all"
+		"discount" "33%"                  // price will be 33% reduced
+		"nomsg" "0"                       // this discount will be announced - default: 0
+		"player" "0"                      // minimal player on server before discount start
+		"noplans" "0"                     // when a item has a plan the plans will be reduced too. - default: 0
+		"flags" "t"                       // only player with this flag recieve the discount, no flag = everyone
+	}
+	"Daily Happy Hours"                   // a daily Happy Hours for all
+	{
+		"time" "0 21-22 * * *"            // active daily from 9pm till 11pm
+		"type" "all"                      // all items are discounted - same as "item" "all"
+		"discount" "20%"                  // price will be 20% reduced
+		"player" "0"                      // minimal player on server before discount start
+		"nomsg" "0"                       // this discount will be announced - default: 0
+		"noplans" "0"                     // when a item has a plan the plans will be reduced too. - default: 0
+		"Exclude"                         // all items in Exclude will not be discounted
+		{
+			"type" "playermodel"          // all items from type 'playermodel' will NOT be reduced
+			"item" "uid_uncle_sam_hat"    //this item will NOT be reduced
+		}
+	}
+	"Player Models Sale"                  // a Sale of just one type
+	{
+		"time" "* 14-15 * * 0-4"          // active at monday till friday at 2pm till 4pm
+		"type" "playermodel"              // only items from type 'playermodel' will be reduced
+		"discount" "100"                  // price will be reduced 100 credits
+		"player" "0"                      // minimal player on server before discount start
+		"nomsg" "0"                       // this discount will be announced - default: 0
+		"noplans" "1"                     // when a item has a plan the plans won't be reduced. - default: 0
+	}
+	"Uncle Sam Hat for FREE"              // a free item every hour 5mins
+	{
+		"time" "00-04 * * 01-11 *"        // active every hour from full to 5min past except on december
+		"item" "uid_uncle_sam_hat"        // only this item will be reduced
+		"discount" "100%"                 // price will be 100% reduced - 100% = free
+		"player" "4"                      // minimal player on server before discount start
+	}
+	"Christmas Sale"
+	{
+		"time" "* * 20-30 12-12 *"        // only active from 20th-30th december
+		"type" "all"                      // all items are discounted - same as "item" "all"
+		"discount" "20%"                  // price will be 20% reduced
+		"nomsg" "0"                       // this discount will be announced - default: 0
+	}
+	"Summer Sale"
+	{
+		"time" "* 12-23 * 06-06 *"        // only active daily from 12am till 23pm in june
+		"type" "all"                      // all items are discounted - same as "item" "all"
+		"discount" "33%"                  // price will be 33% reduced
+		"nomsg" "0"                       // this discount will be announced - default: 0
+	}
+}
