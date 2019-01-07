@@ -41,8 +41,6 @@ char g_sPlanName[STORE_MAX_ITEMS][STORE_MAX_PLANS][ITEM_NAME_LENGTH];
 int g_iPlanPrice[STORE_MAX_ITEMS][STORE_MAX_PLANS];
 int g_iPlanTime[STORE_MAX_ITEMS][STORE_MAX_PLANS];
 
-
-
 any g_aItems[STORE_MAX_ITEMS][Item_Data];
 any g_aTypeHandlers[STORE_MAX_TYPES][Type_Handler];
 
@@ -2156,7 +2154,7 @@ public void SQLCallback_Connect(Database db, const char[] error, any data)
 						)");
 		}
 
-		tnx.AddQuery("DELETE FROM mystore_items WHERE `date_of_expiration` <> 0 AND `date_of_expiration` < CURRENT_TIMESTAMP");
+		tnx.AddQuery("DELETE FROM mystore_items WHERE `date_of_expiration` <> 0 AND `date_of_expiration` < %i", GetTime());
 
 		g_hDatabase.Execute(tnx, SQLTXNCallback_Success, SQLTXNCallback_Error, time);
 	}
