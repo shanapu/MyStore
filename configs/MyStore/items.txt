@@ -441,680 +441,735 @@
 					}
 					"slot"		"1"
 				}
-			}
-			"Kill Effect"
+			}"Kill Effect"
+		{
+			"Vortex (fire)"
 			{
-				"Vortex (fire)"
-				{
-					"name"		"fire_vixr_final"
-					"file"		"particles/2j.pcf"
-					"duration"		"1.500000"
-					"preview"		"1"
-					"type"		"particle_kill"
-					"unique_id"		"uid_particle_kill_vortex_(fire)"
-				}
-				"Vortex (ice)"
-				{
-					"name"		"vixr_final"
-					"file"		"particles/2j.pcf"
-					"preview"		"1"
-					"duration"		"1.500000"
-					"type"		"particle_kill"
-					"unique_id"		"uid_particle_kill_vortex_(ice)"
-				}
+				"name"		"fire_vixr_final"
+				"file"		"particles/2j.pcf"
+				"duration"		"1.500000"
+				"preview"		"1"
+				"type"		"particle"
+				"slot"		"kill"
+				"unique_id"		"uid_particle_kill_vortex_(fire)"
 			}
-			"Spawn Effect"
+			"Vortex (ice)"
 			{
-				"Vortex (fire)"
-				{
-					"name"		"fire_vixr_final"
-					"file"		"particles/2j.pcf"
-					"preview"		"1"
-					"duration"		"1.500000"
-					"type"		"particle_spawn"
-					"unique_id"		"uid_particle_spawn_vortex_(fire)"
-				}
-				"Vortex (ice)"
-				{
-					"name"		"vixr_final"
-					"file"		"particles/2j.pcf"
-					"preview"		"1"
-					"duration"		"1.500000"
-					"type"		"particle_spawn"
-					"unique_id"		"uid_particle_spawn_vortex_(ice)"
-				}
+				"name"		"vixr_final"
+				"file"		"particles/2j.pcf"
+				"preview"		"1"
+				"duration"		"1.500000"
+				"type"		"particle"
+				"slot"		"kill"
+				"unique_id"		"uid_particle_kill_vortex_(ice)"
 			}
-			"Hit Effect"
+		}
+		"Spawn Effect"
+		{
+			"Vortex (fire)"
 			{
-				"Blood"
-				{
-					"name"		"blood"
-					"file"		"particles/2j.pcf"
-					"preview"		"1"
-					"duration"		"0.500000"
-					"type"		"particle_hit"
-					"unique_id"		"uid_particle_hit_blood"
-				}
-				"Vortex (ice)"
-				{
-					"name"		"Sparks"
-					"file"		"particles/2j.pcf"
-					"preview"		"1"
-					"duration"		"0.500000"
-					"type"		"particle_hit"
-					"unique_id"		"uid_particle_hit_vortex_(ice)"
-				}
+				"name"		"fire_vixr_final"
+				"file"		"particles/2j.pcf"
+				"preview"		"1"
+				"duration"		"5.500000"
+				"type"		"particle"
+				"slot"		"spawn"
+				"unique_id"		"uid_particle_spawn_vortex"
 			}
-			"Aura"
+			"Vortex (ice)"
 			{
-				"Hell"
-				{
-					"name"		"hell_end"
-					"file"		"particles/2j.pcf"
-					"preview"		"1"
-					"type"		"particle_aura"
-					"steam"		"STEAM_1:1:53209067"
-					"unique_id"		"uid_particle_aura_hell"
-				}
-				"Lightning"
-				{
-					"name"		"molnii_final"
-					"file"		"particles/2j.pcf"
-					"preview"		"1"
-					"type"		"particle_aura"
-					"unique_id"		"uid_particle_aura_lightning"
-				}
-				"Geometry"
-				{
-					"name"		"new_001"
-					"file"		"particles/2j.pcf"
-					"preview"		"1"
-					"type"		"particle_aura"
-					"unique_id"		"uid_particle_aura_geometry"
-				}
-				"Geometry2"
-				{
-					"name"		"new_002"
-					"file"		"particles/2j.pcf"
-					"preview"		"1"
-					"type"		"particle_aura"
-					"unique_id"		"uid_particle_aura_geometry2"
-				}
-				"Pink holl"
-				{
-					"name"		"new_003"
-					"file"		"particles/2j.pcf"
-					"preview"		"1"
-					"type"		"particle_aura"
-					"unique_id"		"uid_particle_aura_pink_holl"
-				}
-				"Tornado (Rainbow)"
-				{
-					"name"		"new_004"
-					"file"		"particles/2j.pcf"
-					"preview"		"1"
-					"type"		"particle_aura"
-					"unique_id"		"uid_particle_aura_tornado_(rainbow)"
-				}
-				"Sphere (Color)"
-				{
-					"name"		"sphere"
-					"file"		"particles/2j.pcf"
-					"preview"		"1"
-					"type"		"particle_aura"
-					"unique_id"		"uid_particle_aura_sphere_(color)"
-				}
-				"Splash"
-				{
-					"name"		"splash"
-					"file"		"particles/2j.pcf"
-					"preview"		"1"
-					"type"		"particle_aura"
-					"unique_id"		"uid_particle_aura_splash"
-				}
-				"Tornado 2 (Color)"
-				{
-					"name"		"tornado"
-					"file"		"particles/2j.pcf"
-					"preview"		"1"
-					"type"		"particle_aura"
-					"unique_id"		"uid_particle_aura_tornado_2_(color)"
-				}
-				"Equalizer (diamond)"
-				{
-					"name"		"ekvalaizer_gray"
-					"file"		"particles/2j.pcf"
-					"preview"		"1"
-					"type"		"particle_aura"
-					"unique_id"		"uid_particle_aura_equalizer_(diamond)"
-				}
-				"Equalizer (orange)"
-				{
-					"name"		"ekvalaizer_white"
-					"file"		"particles/2j.pcf"
-					"preview"		"1"
-					"type"		"particle_aura"
-					"unique_id"		"uid_particle_aura_equalizer_(orange)"
-				}
-				"Equalizer (green)"
-				{
-					"name"		"ekvalaizer_black_blue"
-					"file"		"particles/2j.pcf"
-					"preview"		"1"
-					"type"		"particle_aura"
-					"unique_id"		"uid_particle_aura_equalizer_(green)"
-				}
-				"Equalizer (pink)"
-				{
-					"name"		"ekvalaizer"
-					"file"		"particles/2j.pcf"
-					"preview"		"1"
-					"type"		"particle_aura"
-					"unique_id"		"uid_particle_aura_equalizer_(pink)"
-				}
-				"Arcane Zeus"
-				{
-					"name"		"end"
-					"file"		"particles/2j.pcf"
-					"preview"		"1"
-					"type"		"particle_aura"
-					"unique_id"		"uid_particle_aura_arcane_zeus"
-				}
-				"Comet green"
-				{
-					"name"		"kometa_joints_green_s2sz"
-					"file"		"particles/kom_green.pcf"
-					"preview"		"1"
-					"type"		"particle_aura"
-					"unique_id"		"uid_particle_aura_comet_green"
-				}
-				"Comet red"
-				{
-					"name"		"kometa_joints_red_sxxc"
-					"file"		"particles/kom_red.pcf"
-					"preview"		"1"
-					"type"		"particle_aura"
-					"unique_id"		"uid_particle_aura_comet_red"
-				}
-				"Comet white"
-				{
-					"name"		"kometa_joints_blue_23s"
-					"file"		"particles/kom_white.pcf"
-					"preview"		"1"
-					"type"		"particle_aura"
-					"unique_id"		"uid_particle_aura_comet_white"
-				}
-				"Nyan cat"
-				{
-					"name"		"Nyancat_final"
-					"file"		"particles\nyan_cat.pcf"
-					"preview"		"1"
-					"type"		"particle_aura"
-					"unique_id"		"uid_particle_aura_nyan_cat"
-				}
-				"Blossoms"
-				{
-					"name"		"sakura2_final_slslsl"
-					"file"		"particles/sakura.pcf"
-					"preview"		"1"
-					"type"		"particle_aura"
-					"unique_id"		"uid_particle_aura_blossoms"
-				}
-				"Spiral"
-				{
-					"name"		"spiral_spiral_akskkk"
-					"file"		"particles/spiral.pcf"
-					"preview"		"1"
-					"type"		"particle_aura"
-					"unique_id"		"uid_particle_aura_spiral"
-				}
-				"Butterfly"
-				{
-					"name"		"butterfly_01"
-					"file"		"particles/batterfly.pcf"
-					"preview"		"1"
-					"type"		"particle_aura"
-					"unique_id"		"uid_particle_aura_butterfly"
-				}
-				"Stars"
-				{
-					"name"		"cubecolor"
-					"file"		"particles/stars.pcf"
-					"preview"		"1"
-					"type"		"particle_aura"
-					"unique_id"		"uid_particle_aura_stars"
-				}
-				"Police"
-				{
-					"name"		"viy_viy_viy"
-					"file"		"particles/viy_viy.pcf"
-					"preview"		"1"
-					"type"		"particle_aura"
-					"unique_id"		"uid_particle_aura_police"
-				}
+				"name"		"vixr_final"
+				"file"		"particles/2j.pcf"
+				"preview"		"1"
+				"duration"		"5.500000"
+				"type"		"particle"
+				"slot"		"spawn"
+				"unique_id"		"uid_particle_spawn_vortex"
 			}
-			"Trails"
+		}
+		"Hit Effect"
+		{
+			"Blood"
 			{
-				"particels"
+				"name"		"blood"
+				"file"		"particles/2j.pcf"
+				"preview"		"1"
+				"duration"		"0.500000"
+				"type"		"particle"
+				"slot"		"hit"
+				"unique_id"		"uid_particle_hit_blood"
+			}
+			"Vortex (ice)"
+			{
+				"name"		"Sparks"
+				"file"		"particles/2j.pcf"
+				"preview"		"1"
+				"duration"		"0.500000"
+				"type"		"particle"
+				"slot"		"hit"
+				"unique_id"		"uid_particle_hit_vortex_(ice)"
+			}
+		}
+		"Aura"
+		{
+			"Hell"
+			{
+				"name"		"hell_end"
+				"file"		"particles/2j.pcf"
+				"preview"		"1"
+				"type"		"particle"
+				"slot"		"aura"
+				"steam"		"STEAM_1:1:53209 067"
+				"unique_id"		"uid_particle_aura_hell"
+			}
+			"Lightning"
+			{
+				"name"		"molnii_final"
+				"file"		"particles/2j.pcf"
+				"preview"		"1"
+				"type"		"particle"
+				"slot"		"aura"
+				"unique_id"		"uid_particle_aura_lightning"
+			}
+			"Geometry"
+			{
+				"name"		"new_001"
+				"file"		"particles/2j.pcf"
+				"preview"		"1"
+				"type"		"particle"
+				"slot"		"aura"
+				"unique_id"		"uid_particle_aura_geometry"
+			}
+			"Geometry2"
+			{
+				"name"		"new_002"
+				"file"		"particles/2j.pcf"
+				"preview"		"1"
+				"type"		"particle"
+				"slot"		"aura"
+				"unique_id"		"uid_particle_aura_geometry2"
+			}
+			"Pink holl"
+			{
+				"name"		"new_003"
+				"file"		"particles/2j.pcf"
+				"preview"		"1"
+				"type"		"particle"
+				"slot"		"aura"
+				"unique_id"		"uid_particle_aura_pink_holl"
+			}
+			"Tornado (Rainbow)"
+			{
+				"name"		"new_004"
+				"file"		"particles/2j.pcf"
+				"preview"		"1"
+				"type"		"particle"
+				"slot"		"aura"
+				"unique_id"		"uid_particle_aura_tornado_(rainbow)"
+			}
+			"Sphere (Color)"
+			{
+				"name"		"sphere"
+				"file"		"particles/2j.pcf"
+				"preview"		"1"
+				"type"		"particle"
+				"slot"		"aura"
+				"unique_id"		"uid_particle_aura_sphere_(color)"
+			}
+			"Splash"
+			{
+				"name"		"splash"
+				"file"		"particles/2j.pcf"
+				"preview"		"1"
+				"type"		"particle"
+				"slot"		"aura"
+				"unique_id"		"uid_particle_aura_splash"
+			}
+			"Tornado 2 (Color)"
+			{
+				"name"		"tornado"
+				"file"		"particles/2j.pcf"
+				"preview"		"1"
+				"type"		"particle"
+				"slot"		"aura"
+				"unique_id"		"uid_particle_aura_tornado_2_(color)"
+			}
+			"Equalizer (diamond)"
+			{
+				"name"		"ekvalaizer_gray"
+				"file"		"particles/2j.pcf"
+				"preview"		"1"
+				"type"		"particle"
+				"slot"		"aura"
+				"unique_id"		"uid_particle_aura_equalizer_(diamond)"
+			}
+			"Equalizer (orange)"
+			{
+				"name"		"ekvalaizer_white"
+				"file"		"particles/2j.pcf"
+				"preview"		"1"
+				"type"		"particle"
+				"slot"		"aura"
+				"unique_id"		"uid_particle_aura_equalizer_(orange)"
+			}
+			"Equalizer (green)"
+			{
+				"name"		"ekvalaizer_black_blue"
+				"file"		"particles/2j.pcf"
+				"preview"		"1"
+				"type"		"particle"
+				"slot"		"aura"
+				"unique_id"		"uid_particle_aura_equalizer_(green)"
+			}
+			"Equalizer (pink)"
+			{
+				"name"		"ekvalaizer"
+				"file"		"particles/2j.pcf"
+				"preview"		"1"
+				"type"		"particle"
+				"slot"		"aura"
+				"unique_id"		"uid_particle_aura_equalizer_(pink)"
+			}
+			"Arcane Zeus"
+			{
+				"name"		"end"
+				"file"		"particles/2j.pcf"
+				"preview"		"1"
+				"type"		"particle"
+				"slot"		"aura"
+				"unique_id"		"uid_particle_aura_arcane_zeus"
+			}
+			"Comet green"
+			{
+				"name"		"kometa_joints_green_s2sz"
+				"file"		"particles/kom_green.pcf"
+				"preview"		"1"
+				"type"		"particle"
+				"slot"		"aura"
+				"unique_id"		"uid_particle_aura_comet_green"
+			}
+			"Comet red"
+			{
+				"name"		"kometa_joints_red_sxxc"
+				"file"		"particles/kom_red.pcf"
+				"preview"		"1"
+				"type"		"particle"
+				"slot"		"aura"
+				"unique_id"		"uid_particle_aura_comet_red"
+			}
+			"Comet white"
+			{
+				"name"		"kometa_joints_blue_23s"
+				"file"		"particles/kom_white.pcf"
+				"preview"		"1"
+				"type"		"particle"
+				"slot"		"aura"
+				"unique_id"		"uid_particle_aura_comet_white"
+			}
+			"Nyan cat"
+			{
+				"name"		"Nyancat_final"
+				"file"		"particles\nyan_cat.pcf"
+				"preview"		"1"
+				"type"		"particle"
+				"slot"		"aura"
+				"unique_id"		"uid_particle_aura_nyan_cat"
+			}
+			"Blossoms"
+			{
+				"name"		"sakura2_final_slslsl"
+				"file"		"particles/sakura.pcf"
+				"preview"		"1"
+				"type"		"particle"
+				"slot"		"aura"
+				"unique_id"		"uid_particle_aura_blossoms"
+			}
+			"Spiral"
+			{
+				"name"		"spiral_spiral_akskkk"
+				"file"		"particles/spiral.pcf"
+				"preview"		"1"
+				"type"		"particle"
+				"slot"		"aura"
+				"unique_id"		"uid_particle_aura_spiral"
+			}
+			"Butterfly"
+			{
+				"name"		"butterfly_01"
+				"file"		"particles/batterfly.pcf"
+				"preview"		"1"
+				"type"		"particle"
+				"slot"		"aura"
+				"unique_id"		"uid_particle_aura_butterfly"
+			}
+			"Stars"
+			{
+				"name"		"cubecolor"
+				"file"		"particles/stars.pcf"
+				"preview"		"1"
+				"type"		"particle"
+				"slot"		"aura"
+				"unique_id"		"uid_particle_aura_stars"
+			}
+			"police"
+			{
+				"name"		"viy_viy_viy"
+				"file"		"particles/viy_viy.pcf"
+				"preview"		"1"
+				"type"		"particle"
+				"slot"		"aura"
+				"unique_id"		"uid_particle_aura_police"
+			}
+		}
+		"Trails"
+		{
+			"particels"
+			{
+				"Black Block"
 				{
-					"Black Block"
-					{
-						"name"		"sila_trail_apalaal"
-						"file"		"particles/sila.pcf"
-						"preview"		"1"
-						"type"		"particle_trail"
-						"unique_id"		"uid_particle_trail_black_block"
-					}
-					"Fairys"
-					{
-						"name"		"angel_trail_xzaklk"
-						"file"		"particles/angel.pcf"
-						"preview"		"1"
-						"type"		"particle_trail"
-						"unique_id"		"uid_particle_trail_fairys"
-					}
-					"Hearth"
-					{
-						"name"		"heart_2joints_sllxl"
-						"file"		"particles/hearth.pcf"
-						"preview"		"1"
-						"type"		"particle_trail"
-						"unique_id"		"uid_particle_trail_hearth"
-					}
-					"Bourbone"
-					{
-						"name"		"bourbone_new"
-						"file"		"particles/bourbone.pcf"
-						"preview"		"1"
-						"type"		"particle_trail"
-						"unique_id"		"uid_particle_trail_bourbone"
-					}
-					"Vodka"
-					{
-						"name"		"vodka_new"
-						"file"		"particles/vodka.pcf"
-						"preview"		"1"
-						"type"		"particle_trail"
-						"unique_id"		"uid_particle_trail_vodka"
-					}
-					"Jack Daniels"
-					{
-						"name"		"jack_daniels_new"
-						"file"		"particles/jack.pcf"
-						"preview"		"1"
-						"type"		"particle_trail"
-						"unique_id"		"uid_particle_trail_jack_daniels"
-					}
-					"Orange Block"
-					{
-						"name"		"block_trail_xzaa"
-						"file"		"particles/block.pcf"
-						"preview"		"1"
-						"type"		"particle_trail"
-						"unique_id"		"uid_particle_trail_orange_block"
-					}
-					"White Block"
-					{
-						"name"		"white_power_nigga"
-						"file"		"particles/white_power.pcf"
-						"preview"		"1"
-						"type"		"particle_trail"
-						"unique_id"		"uid_particle_trail_white_block"
-					}
-					"Wallhack"
-					{
-						"name"		"wallhack_trail_tria"
-						"file"		"particles/wallhack.pcf"
-						"preview"		"1"
-						"type"		"particle_trail"
-						"unique_id"		"uid_particle_trail_wallhack"
-					}
-					"Sand"
-					{
-						"name"		"pesok_trail_alll"
-						"file"		"particles/pesok.pcf"
-						"preview"		"1"
-						"type"		"particle_trail"
-						"unique_id"		"uid_particle_trail_sand"
-					}
-					"Noise"
-					{
-						"name"		"pomexa_trail_wedsa"
-						"file"		"particles/pomexa.pcf"
-						"preview"		"1"
-						"type"		"particle_trail"
-						"unique_id"		"uid_particle_trail_noise"
-					}
-					"Laser"
-					{
-						"name"		"laser2_trail_sllx"
-						"file"		"particles/laser.pcf"
-						"preview"		"1"
-						"type"		"particle_trail"
-						"unique_id"		"uid_particle_trail_laser"
-					}
-					"Laser v2"
-					{
-						"name"		"laser_trail_xllsll"
-						"file"		"particles/laser_v2.pcf"
-						"preview"		"1"
-						"type"		"particle_trail"
-						"unique_id"		"uid_particle_trail_laser_v2"
-					}
-					"Purple Energy"
-					{
-						"name"		"energy2_trail_xzaklalk"
-						"file"		"particles/energy.pcf"
-						"preview"		"1"
-						"type"		"particle_trail"
-						"unique_id"		"uid_particle_trail_purple_energy"
-					}
-					"Green Worm"
-					{
-						"name"		"gamma_trail_xz"
-						"file"		"particles/green.pcf"
-						"preview"		"1"
-						"type"		"particle_trail"
-						"unique_id"		"uid_particle_trail_green_worm"
-					}
-					"Energy (Blue)"
-					{
-						"name"		"puzyr"
-						"file"		"particles/2j.pcf"
-						"preview"		"1"
-						"type"		"particle_trail"
-						"unique_id"		"uid_particle_trail_energy_(blue)"
-					}
-					"Energy (Color)"
-					{
-						"name"		"puzyr2"
-						"file"		"particles/2j.pcf"
-						"preview"		"1"
-						"type"		"particle_trail"
-						"unique_id"		"uid_particle_trail_energy_(color)"
-					}
-					"Hell Energy"
-					{
-						"name"		"s_akskskenergy_trail"
-						"file"		"particles/hell_energy.pcf"
-						"preview"		"1"
-						"type"		"particle_trail"
-						"unique_id"		"uid_particle_trail_hell_energy"
-					}
-					"Gamma (Gray)"
-					{
-						"name"		"gamma_gray"
-						"file"		"particles/2j.pcf"
-						"preview"		"1"
-						"type"		"particle_trail"
-						"unique_id"		"uid_particle_trail_gamma_(gray)"
-					}
-					"Gamma (Red-Green)"
-					{
-						"name"		"gamma"
-						"file"		"particles/2j.pcf"
-						"preview"		"1"
-						"type"		"particle_trail"
-						"unique_id"		"uid_particle_trail_gamma_(red-green)"
-					}
-					"Gamma (Light-Blue)"
-					{
-						"name"		"gamma_blue"
-						"file"		"particles/2j.pcf"
-						"preview"		"1"
-						"type"		"particle_trail"
-						"unique_id"		"uid_particle_trail_gamma_(light-blue)"
-					}
-					"Hell Energy"
-					{
-						"name"		"s_akskskenergy_trail"
-						"file"		"particles/hell_energy.pcf"
-						"preview"		"1"
-						"type"		"particle_trail"
-						"unique_id"		"uid_particle_trail_hell_energy"
-					}
-					"Flashs"
-					{
-						"name"		"trail2"
-						"file"		"particles/2j.pcf"
-						"preview"		"1"
-						"type"		"particle_trail"
-						"unique_id"		"uid_particle_trail_flashs"
-					}
-					"Flashs (light blue)"
-					{
-						"name"		"trail2_color1"
-						"file"		"particles/2j.pcf"
-						"preview"		"1"
-						"type"		"particle_trail"
-						"unique_id"		"uid_particle_trail_flashs_(light_blue)"
-					}
-					"Sparks (Pink)"
-					{
-						"name"		"trail_new_001"
-						"file"		"particles/2j.pcf"
-						"preview"		"1"
-						"type"		"particle_trail"
-						"unique_id"		"uid_particle_trail_sparks_(pink)"
-					}
-					"Green Twirl"
-					{
-						"name"		"trail_new_002"
-						"file"		"particles/2j.pcf"
-						"preview"		"1"
-						"type"		"particle_trail"
-						"unique_id"		"uid_particle_trail_green_twirl"
-					}
-					"Ice vs Fire"
-					{
-						"name"		"trail_new_003_final"
-						"file"		"particles/2j.pcf"
-						"preview"		"1"
-						"type"		"particle_trail"
-						"unique_id"		"uid_particle_trail_ice_vs_fire"
-					}
-					"Show lights"
-					{
-						"name"		"trai"
-						"file"		"particles/2j.pcf"
-						"preview"		"1"
-						"type"		"particle_trail"
-						"unique_id"		"uid_particle_trail_show_lights"
-					}
+					"name"		"sila_trail_apalaal"
+					"file"		"particles/sila.pcf"
+					"preview"		"1"
+					"type"		"particle"
+					"slot"		"trail"
+					"unique_id"		"uid_particle_trail_black_block"
 				}
-				"Sprites"
+				"Fairys"
 				{
-					"Blue Lightning"
-					{
-						"material"		"materials/sprites/store/trails/bluelightning.vmt"
-						"preview"		"1"
-						"price"		"1"
-						"width"		"25.000000"
-						"color"		"255 255 255 255"
-						"type"		"trail"
-						"unique_id"		"uid_trail_blue_lightning"
-					}
-					"Crowns"
-					{
-						"material"		"materials/sprites/store/trails/crown.vmt"
-						"preview"		"1"
-						"price"		"1"
-						"width"		"15.000000"
-						"color"		"255 255 255 255"
-						"type"		"trail"
-						"unique_id"		"uid_trail_crowns"
-					}
-					"Awesome"
-					{
-						"preview"		"1"
-						"material"		"materials/sprites/store/trails/awesome.vmt"
-						"price"		"1"
-						"width"		"15.000000"
-						"color"		"255 255 255 255"
-						"type"		"trail"
-						"unique_id"		"uid_trail_awesome"
-					}
-					"Money"
-					{
-						"material"		"materials/sprites/store/trails/Banknoite.vmt"
-						"preview"		"1"
-						"price"		"1"
-						"width"		"15.000000"
-						"color"		"255 255 255 255"
-						"type"		"trail"
-						"unique_id"		"uid_trail_money"
-					}
-					"FFUUU"
-					{
-						"material"		"materials/sprites/store/trails/fuu1.vmt"
-						"preview"		"1"
-						"price"		"1"
-						"width"		"15.000000"
-						"color"		"255 255 255 255"
-						"type"		"trail"
-					}
-					"Pokeball"
-					{
-						"material"		"materials/sprites/store/trails/pokeball.vmt"
-						"preview"		"1"
-						"price"		"1"
-						"width"		"15.000000"
-						"color"		"255 255 255 255"
-						"type"		"trail"
-						"unique_id"		"uid_trail_pokeball"
-					}
-					"Psychball"
-					{
-						"material"		"materials/sprites/store/trails/psychball.vmt"
-						"preview"		"1"
-						"price"		"1"
-						"width"		"15.000000"
-						"color"		"255 255 255 255"
-						"type"		"trail"
-						"unique_id"		"uid_trail_psychball"
-					}
-					"Rainbow"
-					{
-						"material"		"materials/sprites/store/trails/rainbow.vmt"
-						"preview"		"1"
-						"price"		"1"
-						"width"		"15.000000"
-						"color"		"255 255 255 255"
-						"type"		"trail"
-						"unique_id"		"uid_trail_rainbow"
-					}
-					"Sug Leaf"
-					{
-						"material"		"materials/sprites/store/trails/smugleaf.vmt"
-						"preview"		"1"
-						"price"		"1"
-						"width"		"15.000000"
-						"color"		"255 255 255 255"
-						"type"		"trail"
-						"unique_id"		"uid_trail_sug_leaf"
-					}
-					"Spongebob"
-					{
-						"material"		"materials/sprites/store/trails/spongebob.vmt"
-						"preview"		"1"
-						"price"		"1"
-						"width"		"15.000000"
-						"color"		"255 255 255 255"
-						"type"		"trail"
-						"unique_id"		"uid_trail_spongebob"
-					}
-					"Trollface"
-					{
-						"material"		"materials/sprites/store/trails/trollface.vmt"
-						"preview"		"1"
-						"price"		"1"
-						"width"		"15.000000"
-						"color"		"255 255 255 255"
-						"type"		"trail"
-						"unique_id"		"uid_trail_trollface"
-					}
-					"Windows"
-					{
-						"material"		"materials/sprites/store/trails/windows.vmt"
-						"preview"		"1"
-						"price"		"1"
-						"width"		"15.000000"
-						"color"		"255 255 255 255"
-						"type"		"trail"
-						"unique_id"		"uid_trail_windows"
-					}
-					"YingYang"
-					{
-						"material"		"materials/sprites/store/trails/yingyang2.vmt"
-						"preview"		"1"
-						"price"		"1"
-						"width"		"15.000000"
-						"color"		"255 255 255 255"
-						"type"		"trail"
-						"unique_id"		"uid_trail_yingyang"
-					}
-					"Sug Leaf"
-					{
-						"material"		"materials/sprites/store/trails/smugleaf.vmt"
-						"preview"		"1"
-						"price"		"1"
-						"width"		"15.000000"
-						"color"		"255 255 255 255"
-						"type"		"trail"
-						"unique_id"		"uid_trail_sug_leaf"
-					}
+					"name"		"angel_trail_xzaklk"
+					"file"		"particles/angel.pcf"
+					"preview"		"1"
+					"type"		"particle"
+					"slot"		"trail"
+					"unique_id"		"uid_particle_trail_fairys"
+				}
+				"Hearth"
+				{
+					"name"		"heart_2joints_sllxl"
+					"file"		"particles/hearth.pcf"
+					"preview"		"1"
+					"type"		"particle"
+					"slot"		"trail"
+					"unique_id"		"uid_particle_trail_hearth"
+				}
+				"Bourbone"
+				{
+					"name"		"bourbone_new"
+					"file"		"particles/bourbone.pcf"
+					"preview"		"1"
+					"type"		"particle"
+					"slot"		"trail"
+					"unique_id"		"uid_particle_trail_bourbone"
+				}
+				"Vodka"
+				{
+					"name"		"vodka_new"
+					"file"		"particles/vodka.pcf"
+					"preview"		"1"
+					"type"		"particle"
+					"slot"		"trail"
+					"unique_id"		"uid_particle_trail_vodka"
+				}
+				"Jack Daniels"
+				{
+					"name"		"jack_daniels_new"
+					"file"		"particles/jack.pcf"
+					"preview"		"1"
+					"type"		"particle"
+					"slot"		"trail"
+					"unique_id"		"uid_particle_trail_jack_daniels"
+				}
+				"Orange Block"
+				{
+					"name"		"block_trail_xzaa"
+					"file"		"particles/block.pcf"
+					"preview"		"1"
+					"type"		"particle"
+					"slot"		"trail"
+					"unique_id"		"uid_particle_trail_orange_block"
+				}
+				"White Block"
+				{
+					"name"		"white_power_nigga"
+					"file"		"particles/white_power.pcf"
+					"preview"		"1"
+					"type"		"particle"
+					"slot"		"trail"
+					"unique_id"		"uid_particle_trail_white_block"
+				}
+				"Wallhack"
+				{
+					"name"		"wallhack_trail_tria"
+					"file"		"particles/wallhack.pcf"
+					"preview"		"1"
+					"type"		"particle"
+					"slot"		"trail"
+					"unique_id"		"uid_particle_trail_wallhack"
+				}
+				"Sand"
+				{
+					"name"		"pesok_trail_alll"
+					"file"		"particles/pesok.pcf"
+					"preview"		"1"
+					"type"		"particle"
+					"slot"		"trail"
+					"unique_id"		"uid_particle_trail_sand"
+				}
+				"Noise"
+				{
+					"name"		"pomexa_trail_wedsa"
+					"file"		"particles/pomexa.pcf"
+					"preview"		"1"
+					"type"		"particle"
+					"slot"		"trail"
+					"unique_id"		"uid_particle_trail_noise"
+				}
+				"Laser"
+				{
+					"name"		"laser2_trail_sllx"
+					"file"		"particles/laser.pcf"
+					"preview"		"1"
+					"type"		"particle"
+					"slot"		"trail"
+					"unique_id"		"uid_particle_trail_laser"
+				}
+				"Laser v2"
+				{
+					"name"		"laser_trail_xllsll"
+					"file"		"particles/laser_v2.pcf"
+					"preview"		"1"
+					"type"		"particle"
+					"slot"		"trail"
+					"unique_id"		"uid_particle_trail_laser_v2"
+				}
+				"Purple Energy"
+				{
+					"name"		"energy2_trail_xzaklalk"
+					"file"		"particles/energy.pcf"
+					"preview"		"1"
+					"type"		"particle"
+					"slot"		"trail"
+					"unique_id"		"uid_particle_trail_purple_energy"
+				}
+				"Green Worm"
+				{
+					"name"		"gamma_trail_xz"
+					"file"		"particles/green.pcf"
+					"preview"		"1"
+					"type"		"particle"
+					"slot"		"trail"
+					"unique_id"		"uid_particle_trail_green_worm"
+				}
+				"Energy (Blue)"
+				{
+					"name"		"puzyr"
+					"file"		"particles/2j.pcf"
+					"preview"		"1"
+					"type"		"particle"
+					"slot"		"trail"
+					"unique_id"		"uid_particle_trail_energy_(blue)"
+				}
+				"Energy (Color)"
+				{
+					"name"		"puzyr2"
+					"file"		"particles/2j.pcf"
+					"preview"		"1"
+					"type"		"particle"
+					"slot"		"trail"
+					"unique_id"		"uid_particle_trail_energy_(color)"
+				}
+				"Hell Energy"
+				{
+					"name"		"s_akskskenergy_trail"
+					"file"		"particles/hell_energy.pcf"
+					"preview"		"1"
+					"type"		"particle"
+					"slot"		"trail"
+					"unique_id"		"uid_particle_trail_hell_energy"
+				}
+				"Gamma (Gray)"
+				{
+					"name"		"gamma_gray"
+					"file"		"particles/2j.pcf"
+					"preview"		"1"
+					"type"		"particle"
+					"slot"		"trail"
+					"unique_id"		"uid_particle_trail_gamma_(gray)"
+				}
+				"Gamma (Red-Green)"
+				{
+					"name"		"gamma"
+					"file"		"particles/2j.pcf"
+					"preview"		"1"
+					"type"		"particle"
+					"slot"		"trail"
+					"unique_id"		"uid_particle_trail_gamma_(red-green)"
+				}
+				"Gamma (Light-Blue)"
+				{
+					"name"		"gamma_blue"
+					"file"		"particles/2j.pcf"
+					"preview"		"1"
+					"type"		"particle"
+					"slot"		"trail"
+					"unique_id"		"uid_particle_trail_gamma_(light-blue)"
+				}
+				"Hell Energy"
+				{
+					"name"		"s_akskskenergy_trail"
+					"file"		"particles/hell_energy.pcf"
+					"preview"		"1"
+					"type"		"particle"
+					"slot"		"trail"
+					"unique_id"		"uid_particle_trail_hell_energy"
+				}
+				"Flashs"
+				{
+					"name"		"trail2"
+					"file"		"particles/2j.pcf"
+					"preview"		"1"
+					"type"		"particle"
+					"slot"		"trail"
+					"unique_id"		"uid_particle_trail_flashs"
+				}
+				"Flashs (light blue)"
+				{
+					"name"		"trail2_color1"
+					"file"		"particles/2j.pcf"
+					"preview"		"1"
+					"type"		"particle"
+					"slot"		"trail"
+					"unique_id"		"uid_particle_trail_flashs_(light_blue)"
+				}
+				"Sparks (Pink)"
+				{
+					"name"		"trail_new_001"
+					"file"		"particles/2j.pcf"
+					"preview"		"1"
+					"type"		"particle"
+					"slot"		"trail"
+					"unique_id"		"uid_particle_trail_sparks_(pink)"
+				}
+				"Green Twirl"
+				{
+					"name"		"trail_new_002"
+					"file"		"particles/2j.pcf"
+					"preview"		"1"
+					"type"		"particle"
+					"slot"		"trail"
+					"unique_id"		"uid_particle_trail_green_twirl"
+				}
+				"Ice vs Fire"
+				{
+					"name"		"trail_new_003_final"
+					"file"		"particles/2j.pcf"
+					"preview"		"1"
+					"type"		"particle"
+					"slot"		"trail"
+					"unique_id"		"uid_particle_trail_ice_vs_fire"
+				}
+				"Show lights"
+				{
+					"name"		"trai"
+					"file"		"particles/2j.pcf"
+					"preview"		"1"
+					"type"		"particle"
+					"slot"		"trail"
+					"unique_id"		"uid_particle_trail_show_lights"
 				}
 			}
-			"Lights"
+			"Sprites"
 			{
-				"1"
+				"Blue Lightning"
 				{
-					"color"		"150 150 255 255"
-					"brightness"		"1"
+					"material"		"materials/sprites/store/trails/bluelightning.vmt"
 					"preview"		"1"
-					"style"		"0"
-					"distance"		"0"
-					"radius"		"440"
 					"price"		"1"
-					"type"		"light"
-					"unique_id"		"uid_light_1"
+					"width"		"25.000000"
+					"color"		"255 255 255 255"
+					"type"		"trail"
+					"unique_id"		"uid_trail_blue_lightning"
 				}
-				"2"
+				"Crowns"
 				{
-					"color"		"240 240 240 255"
-					"brightness"		"1"
+					"material"		"materials/sprites/store/trails/crown.vmt"
 					"preview"		"1"
-					"style"		"0"
-					"distance"		"0"
-					"radius"		"340"
 					"price"		"1"
-					"type"		"light"
-					"unique_id"		"uid_light_2"
+					"width"		"15.000000"
+					"color"		"255 255 255 255"
+					"type"		"trail"
+					"unique_id"		"uid_trail_crowns"
 				}
-				"3"
+				"Awesome"
 				{
-					"color"		"0 125 0 255"
-					"brightness"		"1"
-					"style"		"0"
 					"preview"		"1"
-					"distance"		"0"
-					"radius"		"640"
+					"material"		"materials/sprites/store/trails/awesome.vmt"
 					"price"		"1"
-					"type"		"light"
-					"unique_id"		"uid_light_3"
+					"width"		"15.000000"
+					"color"		"255 255 255 255"
+					"type"		"trail"
+					"unique_id"		"uid_trail_awesome"
 				}
-				"4"
+				"Money"
 				{
-					"color"		"125 77 0 255"
-					"brightness"		"1"
-					"style"		"0"
+					"material"		"materials/sprites/store/trails/Banknoite.vmt"
 					"preview"		"1"
-					"distance"		"0"
-					"radius"		"540"
 					"price"		"1"
-					"type"		"light"
-					"unique_id"		"uid_light_4"
+					"width"		"15.000000"
+					"color"		"255 255 255 255"
+					"type"		"trail"
+					"unique_id"		"uid_trail_money"
 				}
+				"FFUUU"
+				{
+					"material"		"materials/sprites/store/trails/fuu1.vmt"
+					"preview"		"1"
+					"price"		"1"
+					"width"		"15.000000"
+					"color"		"255 255 255 255"
+					"type"		"trail"
+				}
+				"Pokeball"
+				{
+					"material"		"materials/sprites/store/trails/pokeball.vmt"
+					"preview"		"1"
+					"price"		"1"
+					"width"		"15.000000"
+					"color"		"255 255 255 255"
+					"type"		"trail"
+					"unique_id"		"uid_trail_pokeball"
+				}
+				"Psychball"
+				{
+					"material"		"materials/sprites/store/trails/psychball.vmt"
+					"preview"		"1"
+					"price"		"1"
+					"width"		"15.000000"
+					"color"		"255 255 255 255"
+					"type"		"trail"
+					"unique_id"		"uid_trail_psychball"
+				}
+				"Rainbow"
+				{
+					"material"		"materials/sprites/store/trails/rainbow.vmt"
+					"preview"		"1"
+					"price"		"1"
+					"width"		"15.000000"
+					"color"		"255 255 255 255"
+					"type"		"trail"
+					"unique_id"		"uid_trail_rainbow"
+				}
+				"Sug Leaf"
+				{
+					"material"		"materials/sprites/store/trails/smugleaf.vmt"
+					"preview"		"1"
+					"price"		"1"
+					"width"		"15.000000"
+					"color"		"255 255 255 255"
+					"type"		"trail"
+					"unique_id"		"uid_trail_sug_leaf"
+				}
+				"Spongebob"
+				{
+					"material"		"materials/sprites/store/trails/spongebob.vmt"
+					"preview"		"1"
+					"price"		"1"
+					"width"		"15.000000"
+					"color"		"255 255 255 255"
+					"type"		"trail"
+					"unique_id"		"uid_trail_spongebob"
+				}
+				"Trollface"
+				{
+					"material"		"materials/sprites/store/trails/trollface.vmt"
+					"preview"		"1"
+					"price"		"1"
+					"width"		"15.000000"
+					"color"		"255 255 255 255"
+					"type"		"trail"
+					"unique_id"		"uid_trail_trollface"
+				}
+				"Windows"
+				{
+					"material"		"materials/sprites/store/trails/windows.vmt"
+					"preview"		"1"
+					"price"		"1"
+					"width"		"15.000000"
+					"color"		"255 255 255 255"
+					"type"		"trail"
+					"unique_id"		"uid_trail_windows"
+				}
+				"YingYang"
+				{
+					"material"		"materials/sprites/store/trails/yingyang2.vmt"
+					"preview"		"1"
+					"price"		"1"
+					"width"		"15.000000"
+					"color"		"255 255 255 255"
+					"type"		"trail"
+					"unique_id"		"uid_trail_yingyang"
+				}
+				"Sug Leaf"
+				{
+					"material"		"materials/sprites/store/trails/smugleaf.vmt"
+					"preview"		"1"
+					"price"		"1"
+					"width"		"15.000000"
+					"color"		"255 255 255 255"
+					"type"		"trail"
+					"unique_id"		"uid_trail_sug_leaf"
+				}
+			}
+		}
+		"Lights"
+		{
+			"1"
+			{
+				"color"		"150 150 255 255"
+				"brightness"		"1"
+				"preview"		"1"
+				"style"		"0"
+				"distance"		"0"
+				"radius"		"440"
+				"price"		"1"
+				"type"		"light"
+				"unique_id"		"uid_light_1"
+			}
+			"2"
+			{
+				"color"		"240 240 240 255"
+				"brightness"		"1"
+				"preview"		"1"
+				"style"		"0"
+				"distance"		"0"
+				"radius"		"340"
+				"price"		"1"
+				"type"		"light"
+				"unique_id"		"uid_light_2"
+			}
+			"3"
+			{
+				"color"		"0 125 0 255"
+				"brightness"		"1"
+				"style"		"0"
+				"preview"		"1"
+				"distance"		"0"
+				"radius"		"640"
+				"price"		"1"
+				"type"		"light"
+				"unique_id"		"uid_light_3"
+			}
+			"4"
+			{
+				"color"		"125 77 0 255"
+				"brightness"		"1"
+				"style"		"0"
+				"preview"		"1"
+				"distance"		"0"
+				"radius"		"540"
+				"price"		"1"
+				"type"		"light"
+				"unique_id"		"uid_light_4"
 			}
 		}
 		"Weapons"
