@@ -10,7 +10,7 @@
 		"nick_multi"		"1.2"				// multiplier for nickname string
 		"groupid"			"123456"			// steam groupid for getting multiplier on credits
 		"groupid_multi"		"1.2"				// multiplier for groupid
-		"clantag"			"[MyClanTag]"		// string in nickname for getting multiplier on credits
+		"clantag"			"[MyClanTag]"		// string in clantag for getting multiplier on credits
 		"clantag_multi"		"1.2"				// multiplier matching clan tag
 		"timer"				"5"					// timer time to get earnings for playtime (active/inactive)
 		"active"			"1"					// credits you earn for playing in a team ("timer")
@@ -56,9 +56,9 @@
 		"msg"				"1"					// Notification for earning credits. 0 = disbaled / 1 = single notification on earn / 2 = Sum credits on death or end of round / 3 = shown detailed stats  on death or end of round
 		"nick"				"mywebsite.team"	// string in nickname for getting multiplier on credits
 		"nick_multi"		"1.3"				// multiplier for nickname string
-		"groupid"			"123456"			// string in nickname for getting multiplier on credits
+		"groupid"			"123456"			// steam groupid for getting multiplier on credits
 		"groupid_multi"		"1.2"				// multiplier for groupid
-		"clantag"			"[MyClanTag.Admin]"	// string in nickname for getting multiplier on credits
+		"clantag"			"[MyClanTag.Admin]"	// string in clantag for getting multiplier on credits
 		"clantag_multi"		"1.3"				// multiplier matching clan tag
 		"timer"				"5"					// timer time to get earnings for playtime (active/inactive)
 		"active"			"1"					// credits you earn for playing in a team ("timer")
