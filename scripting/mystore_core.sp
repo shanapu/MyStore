@@ -1993,7 +1993,7 @@ void SQL_SaveClientInventory(int client)
 		if (g_iPlayerItems[client][i][SYNCED] == 0 && g_iPlayerItems[client][i][DELETED] == 0)
 		{
 			g_iPlayerItems[client][i][SYNCED] = 1;
-			Format(sQuery, sizeof(sQuery), "INSERT INTO mystore_items (`player_id`, `type`, `unique_id`, `date_of_purchase`, `date_of_expiration`, `price_of_purchase`) VALUES(%i, \"%s\", \"%s\", %i, %i, %i)", g_iPlayerID[client], sType, sUniqueId, g_iPlayerItems[client][i][DATE_PURCHASE], g_iPlayerItems[client][i][DATE_EXPIRATION], g_iPlayerItems[client][i][PRICE_PURCHASE]);
+			Format(sQuery, sizeof(sQuery), "INSERT INTO mystore_items (`player_id`, `type`, `unique_id`, `date_of_purchase`, `date_of_expiration`, `price_of_purchase`) VALUES (%i, \"%s\", \"%s\", %i, %i, %i)", g_iPlayerID[client], sType, sUniqueId, g_iPlayerItems[client][i][DATE_PURCHASE], g_iPlayerItems[client][i][DATE_EXPIRATION], g_iPlayerItems[client][i][PRICE_PURCHASE]);
 			g_hDatabase.Query(SQLCallback_Void_Error, sQuery);
 		}
 		else if (g_iPlayerItems[client][i][SYNCED] == 1 && g_iPlayerItems[client][i][DELETED] == 1)
@@ -2251,20 +2251,20 @@ public void SQLCallback_LoadClientInventory_Items(Database db, DBResultSet resul
 		while(results.FetchRow())
 		{
 			iUniqueID = -1;
-			iExpiration = results.FetchInt(5);
+			iExpiration = results.FetchInt(4);
 			if (iExpiration && iExpiration <= itime)
 				continue;
 
-			results.FetchString(2, sType, sizeof(sType));
-			results.FetchString(3, sUniqueId, sizeof(sUniqueId));
+			results.FetchString(1, sType, sizeof(sType));
+			results.FetchString(2, sUniqueId, sizeof(sUniqueId));
 			while((iUniqueID = GetItemId(sType, sUniqueId, iUniqueID)) != -1)
 			{
 				g_iPlayerItems[client][i][UNIQUE_ID] = iUniqueID;
 				g_iPlayerItems[client][i][SYNCED] = 1;
 				g_iPlayerItems[client][i][DELETED] = 0;
-				g_iPlayerItems[client][i][DATE_PURCHASE] = results.FetchInt(4);
+				g_iPlayerItems[client][i][DATE_PURCHASE] = results.FetchInt(3);
 				g_iPlayerItems[client][i][DATE_EXPIRATION] = iExpiration;
-				g_iPlayerItems[client][i][PRICE_PURCHASE] = results.FetchInt(6);
+				g_iPlayerItems[client][i][PRICE_PURCHASE] = results.FetchInt(5);
 
 				i++;
 			}
@@ -2836,6 +2836,8 @@ public int Native_GiveItem(Handle plugin, int numParams)
 	g_iPlayerItems[client][iIndex][PRICE_PURCHASE] = price;
 	g_iPlayerItems[client][iIndex][SYNCED] = 0;
 	g_iPlayerItems[client][iIndex][DELETED] = 0;
+
+	SQL_SaveClientInventory(client);
 }
 
 public int Native_RemoveItem(Handle plugin, int numParams)
@@ -2857,6 +2859,8 @@ public int Native_RemoveItem(Handle plugin, int numParams)
 	{
 		g_iPlayerItems[client][iIndex][DELETED] = 1;
 	}
+
+	SQL_SaveClientInventory(client);
 }
 
 
@@ -2873,11 +2877,16 @@ public int Native_UnequipItem(Handle plugin, int numParams)
 	}
 
 	UnequipItem(client, itemid, false);
+	
+	SQL_SaveClientEquipment(client);
 }
 
 public int Native_EquipItem(Handle plugin, int numParams)
 {
-	UseItem(GetNativeCell(1), GetNativeCell(2));
+	int client = GetNativeCell(1);
+	UseItem(client, GetNativeCell(2));
+
+	SQL_SaveClientEquipment(client);
 }
 
 public int Native_GetClientTarget(Handle plugin, int numParams)
@@ -3234,14 +3243,6 @@ void GoThroughConfig(KeyValues &kv, int parent = -1)
 		}
 	}
 	while kv.GotoNextKey();
-
-	/*
-	kv.GoBack();
-	//kv.JumpToKey("Store");
-
-	char sFile[PLATFORM_MAX_PATH];
-	BuildPath(Path_SM, sFile, sizeof(sFile), "configs/MyStore/items1.txt");
-	KeyValuesToFile(kv, sFile);*/
 }
 
 
