@@ -146,7 +146,7 @@ public bool ParaChute_Config(KeyValues &kv, int itemid)
 
 	if (!FileExists(g_sModels[g_iCount], true))
 	{
-		MyStore_LogMessage(0, LOG_ERROR, "Can't find sound %s.", g_sModels[g_iCount]);
+		MyStore_LogMessage(0, LOG_ERROR, "Can't find model %s.", g_sModels[g_iCount]);
 		return false;
 	}
 
