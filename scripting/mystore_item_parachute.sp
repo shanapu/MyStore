@@ -1,12 +1,18 @@
 /*
- * Parachutes for Zephyrus store
+ * MyStore - Parachute item module
  * by: shanapu
- * https://github.com/shanapu/StoreParachute/
+ * https://github.com/shanapu/
  * 
- * used code by zipcore
- * https://gitlab.com/Zipcore/HungerGames/blob/master/addons/sourcemod/scripting/hungergames/tools/parachute.sp
- * 
- * Copyright (C) 2018 Thomas Schmidt (shanapu)
+ * Copyright (C) 2018-2019 Thomas Schmidt (shanapu)
+ * Credits: SWAT_88 - https://forums.alliedmods.net/showthread.php?p=580269
+ * Contributer:
+ *
+ * Original development by Zephyrus - https://github.com/dvarnai/store-plugin
+ *
+ * Love goes out to the sourcemod team and all other plugin developers!
+ * THANKS FOR MAKING FREE SOFTWARE!
+ *
+ * This file is part of the MyStore SourceMod Plugin.
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, version 3.0, as published by the
@@ -21,29 +27,21 @@
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-/******************************************************************************
-                   STARTUP
-******************************************************************************/
-
-
-
 #define COOLDOWN 5.0
 #define TIME 300
 
 int g_iJumps[MAXPLAYERS + 1];
 Handle g_hTimerReload[MAXPLAYERS + 1];
 
-
-// Includes
 #include <sourcemod>
 #include <sdktools>
 #include <sdkhooks>
 #include <clientprefs>
 
-#include <mystore>
+#include <mystore> //https://raw.githubusercontent.com/shanapu/MyStore/master/scripting/include/mystore.inc
 
-#include <smartdm>
-#include <colors>
+#include <smartdm> //https://forums.alliedmods.net/attachment.php?attachmentid=136152&d=1406298576
+#include <colors> //https://raw.githubusercontent.com/shanapu/MyStore/master/scripting/include/colors.inc
 
 #pragma semicolon 1
 #pragma newdecls required
@@ -102,12 +100,12 @@ public Action Command_Hide(int client, int args)
 	g_bHide[client] = !g_bHide[client];
 	if (g_bHide[client])
 	{
-		CPrintToChat(client, "%s Parachute disabled", g_sChatPrefix); //todo translate
+		CPrintToChat(client, "%s%t", g_sChatPrefix, "Item hidden", "parachute");
 		SetClientCookie(client, g_hHideCookie, "1");
 	}
 	else
 	{
-		CPrintToChat(client, "%s Parachute enabled", g_sChatPrefix);
+		CPrintToChat(client, "%s%t", g_sChatPrefix, "Item visible", "parachute");
 		SetClientCookie(client, g_hHideCookie, "0");
 	}
 
@@ -212,7 +210,6 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 		if (0 <= g_iJumps[client] <= TIME)
 		{
 			g_iJumps[client]++;
-			PrintToChatAll("jump '%i",g_iJumps[client]);
 		}
 		else
 		{

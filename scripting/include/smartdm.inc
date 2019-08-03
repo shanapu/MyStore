@@ -138,8 +138,14 @@ stock Downloader_GetMaterialsFromVMT(const String:vmt[], String:materials[][], m
 
 new Handle:g_hCachedFiles = INVALID_HANDLE;
 new Handle:g_hCachedNums = INVALID_HANDLE;
-stock Downloader_AddFileToDownloadsTable(const String:filename[])
+stock Downloader_AddFileToDownloadsTable(char[] filename)
 {
+	int len = strlen(filename);
+	ReplaceString(filename, len, "\\", "/");
+	for(int ch=0; ch<len; ch++){
+		filename[ch] = CharToLower(filename[ch]);
+	}
+	
 	if(!FileExists2(filename))
 		return 0;
 
@@ -166,7 +172,7 @@ stock Downloader_AddFileToDownloadsTable(const String:filename[])
 		return true;
 	}
 
-	decl String:m_szExt[16];
+	decl String:m_szExt[32];
 	new m_iDot = FindCharInString(filename, '.', true);
 	if(m_iDot == -1)
 		return true;
@@ -174,7 +180,7 @@ stock Downloader_AddFileToDownloadsTable(const String:filename[])
 	new m_iNumFiles = 0;
 
 	strcopy(m_szExt, sizeof(m_szExt), filename[m_iDot]);
-	decl String:m_szMaterials[8][PLATFORM_MAX_PATH];
+	decl String:m_szMaterials[16][PLATFORM_MAX_PATH];
 	decl m_iNum;
 	if(strcmp(m_szExt, ".mdl") == 0)
 	{
@@ -184,8 +190,9 @@ stock Downloader_AddFileToDownloadsTable(const String:filename[])
 		m_iNum = Downloader_ParseMDL(filename, STRING(m_szInternal), m_szMaterials, sizeof(m_szMaterials), sizeof(m_szMaterials[]));
 		for(new i=0;i<m_iNum;++i)
 		{
-			if(FileExists2(m_szMaterials[i]))
+			if(FileExists2(m_szMaterials[i])){
 				m_iNumFiles += Downloader_AddFileToDownloadsTable(m_szMaterials[i])+1;
+			}
 		}
 
 		m_iNum = Downloader_GetModelFiles(filename, m_szInternal, m_szFiles, sizeof(m_szFiles), sizeof(m_szFiles[]));
@@ -198,6 +205,7 @@ stock Downloader_AddFileToDownloadsTable(const String:filename[])
 		for(new i=0;i<m_iNum;++i)
 		{
 			Format(m_szMaterial, sizeof(m_szMaterial), "materials\\%s.vtf", m_szMaterials[i]);
+
 			if(FileExists2(m_szMaterial))
 				m_iNumFiles += Downloader_AddFileToDownloadsTable(m_szMaterial)+1;
 		}
@@ -255,6 +263,11 @@ public CacheDirectory(const String:directory[])
 			CacheDirectory(m_szPath);
 		else if(m_eType == FileType_File)
 		{
+			int len = strlen(m_szPath);
+			ReplaceString(m_szPath, len, "\\", "/");
+			for(int ch=0; ch<len; ch++){
+				m_szPath[ch] = CharToLower(m_szPath[ch]);
+			}
 			SetTrieString(g_hCustomFiles, m_szPath[m_unOffset], m_szPath);
 		}
 	}
@@ -266,10 +279,19 @@ stock Handle:OpenFile2(const String:file[], const String:mode[])
 	if(g_hCustomFiles == INVALID_HANDLE)
 		CacheCustomDirectory();
 
+	decl String:file2[PLATFORM_MAX_PATH];
+	strcopy(file2, PLATFORM_MAX_PATH, file);
+	
+	int len = strlen(file2);
+	ReplaceString(file2, len, "\\", "/");
+	for(int ch=0; ch<len; ch++){
+		file2[ch] = CharToLower(file2[ch]);
+	}
+	
 	decl String:m_szPath[PLATFORM_MAX_PATH];
-	if(!GetTrieString(g_hCustomFiles, file, STRING(m_szPath)))
+	if(!GetTrieString(g_hCustomFiles, file2, STRING(m_szPath)))
 	{
-		strcopy(STRING(m_szPath), file);
+		strcopy(STRING(m_szPath), file2);
 	}
 
 	return OpenFile(m_szPath, mode);
@@ -277,13 +299,23 @@ stock Handle:OpenFile2(const String:file[], const String:mode[])
 
 stock bool:FileExists2(const String:file[])
 {
-	if(g_hCustomFiles == INVALID_HANDLE)
+	if(g_hCustomFiles == INVALID_HANDLE){
 		CacheCustomDirectory();
-
+	}
+	
+	decl String:file2[PLATFORM_MAX_PATH];
+	strcopy(file2, PLATFORM_MAX_PATH, file);
+	
+	int len = strlen(file2);
+	ReplaceString(file2, len, "\\", "/");
+	for(int ch=0; ch<len; ch++){
+		file2[ch] = CharToLower(file2[ch]);
+	}
+			
 	decl String:m_szPath[PLATFORM_MAX_PATH];
-	if(!GetTrieString(g_hCustomFiles, file, STRING(m_szPath)))
-		return FileExists(file);
-
+	if(!GetTrieString(g_hCustomFiles, file2, STRING(m_szPath))){
+		return FileExists(file2);
+	}
 	return FileExists(m_szPath);
 }
 

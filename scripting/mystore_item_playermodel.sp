@@ -1,13 +1,42 @@
+/*
+ * MyStore - Player model item module
+ * by: shanapu
+ * https://github.com/shanapu/
+ * 
+ * Copyright (C) 2018-2019 Thomas Schmidt (shanapu)
+ * Credits: Kxnrl - https://github.com/Kxnrl/Store
+ * Contributer:
+ *
+ * Original development by Zephyrus - https://github.com/dvarnai/store-plugin
+ *
+ * Love goes out to the sourcemod team and all other plugin developers!
+ * THANKS FOR MAKING FREE SOFTWARE!
+ *
+ * This file is part of the MyStore SourceMod Plugin.
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, version 3.0, as published by the
+ * Free Software Foundation.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include <sourcemod>
 #include <sdktools>
 #include <sdkhooks>
 #include <cstrike>
 
-#include <mystore>
+#include <mystore> //https://raw.githubusercontent.com/shanapu/MyStore/master/scripting/include/mystore.inc
 
-#include <colors>
-#include <smartdm>
-#include <autoexecconfig>
+#include <colors> //https://raw.githubusercontent.com/shanapu/MyStore/master/scripting/include/colors.inc
+#include <smartdm> //https://forums.alliedmods.net/attachment.php?attachmentid=136152&d=1406298576
+#include <autoexecconfig> //https://raw.githubusercontent.com/Impact123/AutoExecConfig/development/autoexecconfig.inc
 
 #pragma semicolon 1
 #pragma newdecls required
@@ -25,6 +54,7 @@ ConVar gc_bEnable;
 
 int g_iCount = 0;
 
+int g_iModel[MAXPLAYERS + 1] = {-1, ...};
 Handle g_hTimerPreview[MAXPLAYERS + 1];
 int g_iPreviewEntity[MAXPLAYERS + 1] = {INVALID_ENT_REFERENCE, ...};
 
@@ -33,7 +63,7 @@ public void OnPluginStart()
 {
 	LoadTranslations("mystore.phrases");
 
-	AutoExecConfig_SetFile("items", "MyStore");
+	AutoExecConfig_SetFile("items", "sourcemod/MyStore");
 	AutoExecConfig_SetCreateFile(true);
 
 	MyStore_RegisterHandler("playermodel", PlayerModels_OnMapStart, PlayerModels_Reset, PlayerModels_Config, PlayerModels_Equip, PlayerModels_Remove, true);
@@ -58,14 +88,14 @@ public void OnSettingChanged(ConVar convar, const char[] oldValue, const char[] 
 {
 	if (convar == gc_bEnable)
 	{
-	/*	if (StringToInt(newValue) == 1) // enable
+		if (StringToInt(newValue) == 1) // enable
 		{
 			for (int i = 1; i <= MaxClients; i++)
 			{
 				if (!IsClientInGame(i) || IsFakeClient(i))
 					continue;
 
-				CreateTimer(gc_fDelay.FloatValue, PlayerModels_PlayerSpawnPost, GetClientUserId(i));
+				CS_UpdateClientModel(i);
 			}
 		}
 		else // disable
@@ -75,10 +105,12 @@ public void OnSettingChanged(ConVar convar, const char[] oldValue, const char[] 
 				if (!IsClientInGame(i) || IsFakeClient(i))
 					continue;
 
-			
+				if (GetClientTeam(i) != g_iTeam[MyStore_GetDataIndex(g_iModel[i])] || g_iModel[i] == -1)
+					continue;
+
+				PlayerModels_Equip(i, g_iModel[i]);
 			}
 		}
-	*/
 	}
 }
 
@@ -125,6 +157,8 @@ public bool PlayerModels_Config(KeyValues &kv, int itemid)
 public int PlayerModels_Equip(int client, int itemid)
 {
 	int iIndex = MyStore_GetDataIndex(itemid);
+	g_iModel[client] = itemid;
+
 	if (gc_bChangeInstant.BoolValue && IsPlayerAlive(client) && (GetClientTeam(client) == g_iTeam[iIndex] || g_iTeam[iIndex] == 0))
 	{
 		SetClientModel(client, g_sModel[iIndex], g_sArms[iIndex], iIndex);
@@ -148,6 +182,7 @@ public int PlayerModels_Equip(int client, int itemid)
 public int PlayerModels_Remove(int client, int itemid)
 {
 	int iIndex = MyStore_GetDataIndex(itemid);
+	g_iModel[client] = -1;
 	if (MyStore_IsClientLoaded(client) && !gc_bChangeInstant.BoolValue)
 		CPrintToChat(client, "%s%t", g_sChatPrefix, "PlayerModels Settings Changed");
 
@@ -260,6 +295,7 @@ public void OnClientDisconnect(int client)
 	{
 		TriggerTimer(g_hTimerPreview[client], false);
 	}
+	g_iModel[client] = -1;
 }
 
 public void MyStore_OnPreviewItem(int client, char[] type, int index)

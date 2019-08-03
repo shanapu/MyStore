@@ -1,14 +1,43 @@
+/*
+ * MyStore - Dice gamble module
+ * by: shanapu
+ * https://github.com/shanapu/
+ * 
+ * Copyright (C) 2018-2019 Thomas Schmidt (shanapu)
+ * Credits:
+ * Contributer:
+ *
+ * Original development by Zephyrus - https://github.com/dvarnai/store-plugin
+ *
+ * Love goes out to the sourcemod team and all other plugin developers!
+ * THANKS FOR MAKING FREE SOFTWARE!
+ *
+ * This file is part of the MyStore SourceMod Plugin.
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, version 3.0, as published by the
+ * Free Software Foundation.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #pragma semicolon 1
 #pragma newdecls required
 
 #include <sourcemod>
 #include <adminmenu>
 
-#include <mystore>
+#include <mystore> //https://raw.githubusercontent.com/shanapu/MyStore/master/scripting/include/mystore.inc
 
-#include <colors>
+#include <colors> //https://raw.githubusercontent.com/shanapu/MyStore/master/scripting/include/colors.inc
 
-#include <autoexecconfig>
+#include <autoexecconfig> //https://raw.githubusercontent.com/Impact123/AutoExecConfig/development/autoexecconfig.inc
 
 ConVar gc_bEnable;
 
@@ -17,7 +46,6 @@ ConVar gc_iMax;
 ConVar gc_fAutoStop;
 ConVar gc_fSpeed;
 ConVar gc_bAlive;
-ConVar gc_bVersus;
 
 char g_sCreditsName[64];
 char g_sChatPrefix[128];
@@ -33,11 +61,6 @@ int g_iBet[MAXPLAYERS+1] = {-1, ...};
 int g_iPosition[MAXPLAYERS+1] = {-1, ...};
 int g_iDiceBet[MAXPLAYERS+1] = {-1, ...};
 
-int g_iVersusStarter[MAXPLAYERS+1] = {-1, ...};
-int g_iVersusTarget[MAXPLAYERS+1] = {-1, ...};
-
-int g_iVersus[MAXPLAYERS+1] = {-1, ...};
-
 public void OnPluginStart()
 {
 	LoadTranslations("mystore.phrases");
@@ -45,7 +68,7 @@ public void OnPluginStart()
 
 	RegConsoleCmd("sm_dice", Command_Dice, "Open the Dice casino game");
 
-	AutoExecConfig_SetFile("gamble", "MyStore");
+	AutoExecConfig_SetFile("gamble", "sourcemod/MyStore");
 	AutoExecConfig_SetCreateFile(true);
 
 	gc_fSpeed = AutoExecConfig_CreateConVar("mystore_dice_speed", "0.1", "Speed the wheel spin", _, true, 0.1, true, 0.80);
@@ -53,7 +76,7 @@ public void OnPluginStart()
 	gc_bAlive = AutoExecConfig_CreateConVar("mystore_dice_alive", "1", "0 - Only dead player can start a game. 1 - Allow alive player to start a game.", _, true, 0.0);
 	gc_iMin = AutoExecConfig_CreateConVar("mystore_dice_min", "20", "Minium amount of credits to spend", _, true, 1.0);
 	gc_iMax = AutoExecConfig_CreateConVar("mystore_dice_max", "2000", "Maximum amount of credits to spend", _, true, 2.0);
-	gc_bVersus = AutoExecConfig_CreateConVar("mystore_dice_versus", "1", "Allow player play against each other", _, true, 0.0, true, 1.0);
+//	gc_bVersus = AutoExecConfig_CreateConVar("mystore_dice_versus", "1", "Allow player play against each other", _, true, 0.0, true, 1.0);
 
 	AutoExecConfig_ExecuteFile();
 	AutoExecConfig_CleanFile();
@@ -382,16 +405,7 @@ void Panel_ChooseNum(int client)
 	Format(sBuffer, sizeof(sBuffer), "Choose Number (1:6)");
 	panel.DrawItem(sBuffer, !gc_bAlive.BoolValue && IsPlayerAlive(client) ? ITEMDRAW_SPACER : ITEMDRAW_DEFAULT);
 
-	if (gc_bVersus.BoolValue)
-	{
-		panel.CurrentKey = 6;
-		Format(sBuffer, sizeof(sBuffer), "Versus Player - WIP - won't work");
-		panel.DrawItem(sBuffer, !gc_bAlive.BoolValue && IsPlayerAlive(client) ? ITEMDRAW_SPACER : ITEMDRAW_DEFAULT);
-	}
-	else
-	{
-		panel.DrawText(" ");
-	}
+	panel.DrawText(" ");
 
 	panel.DrawText(" ");
 	panel.CurrentKey = 7;
@@ -456,11 +470,6 @@ public int Handler_PlaceColor(Menu panel, MenuAction action, int client, int ite
 				Panel_ChooseNumber(client);
 				FakeClientCommand(client, "play sound/%s", g_sMenuItem);
 			}
-			case 6:
-			{
-				Menu_VersusChoosePlayer(client);
-				FakeClientCommand(client, "play sound/%s", g_sMenuItem);
-			}
 			case 7:
 			{
 				Panel_Dice(client);
@@ -474,389 +483,6 @@ public int Handler_PlaceColor(Menu panel, MenuAction action, int client, int ite
 			case 9: FakeClientCommand(client, "play sound/%s", g_sMenuExit);
 		}
 	}
-
-	delete panel;
-}
-
-void Menu_VersusChoosePlayer(int client)
-{
-	Menu menu = new Menu(Handler_VersusChoosePlayer);
-
-	char sBuffer[100];
-	int iCredits = MyStore_GetClientCredits(client);
-	Format(sBuffer, sizeof(sBuffer), "%t\n%t", "dice", "Title Credits", g_sCreditsName, iCredits);
-	menu.SetTitle(sBuffer);
-	menu.ExitBackButton = true;
-	menu.ExitButton = true;
-	int count = 0;
-
-	for (int i = 1; i <= MaxClients; i++)
-	{
-		if (i == client)
-			continue;
-
-		if (!IsClientInGame(i) || IsFakeClient(i))
-			continue;
-
-		if (!gc_bAlive.BoolValue && IsPlayerAlive(i))
-			continue;
-
-		int credits = MyStore_GetClientCredits(i);
-		char sUserid[32];
-		IntToString(GetClientUserId(i), sUserid, sizeof(sUserid));
-
-		Format(sBuffer, sizeof(sBuffer), "%N%s", i, credits >= g_iBet[client] ? "" : " (not enought credits)"); //credits name
-		menu.AddItem(sUserid, sBuffer, credits >= g_iBet[client] ? ITEMDRAW_DEFAULT : ITEMDRAW_DISABLED);
-		count++;
-	}
-
-	if (count < 1)
-	{
-		CPrintToChat(client, "%s%t", g_sChatPrefix, "Min Player", 1);
-		Panel_ChooseNum(client);
-		delete menu;
-	}
-	else
-	{
-		menu.Display(client, MENU_TIME_FOREVER);
-	}
-}
-
-public int Handler_VersusChoosePlayer(Menu menu, MenuAction action, int client, int param2)
-{
-	if (action == MenuAction_End)
-	{
-		delete menu;
-	}
-	else if (action == MenuAction_Cancel)
-	{
-		if (param2 == MenuCancel_ExitBack)
-		{
-			MyStore_SetClientPreviousMenu(client, MENU_PARENT);
-			MyStore_DisplayPreviousMenu(client);
-		}
-	}
-	else if (action == MenuAction_Select)
-	{
-		int userid, target;
-		
-		char sId[24];
-		menu.GetItem(param2, sId, sizeof(sId));
-
-		userid = StringToInt(sId);
-
-		if ((target = GetClientOfUserId(userid)) == 0)
-		{
-			CPrintToChat(client, "%s%t", g_sChatPrefix, "Player no longer available");
-			FakeClientCommand(client, "play sound/%s", g_sMenuExit);
-		}
-		else if (!gc_bAlive.BoolValue && IsPlayerAlive(client))
-		{
-			CPrintToChat(client, "%s%t", g_sChatPrefix, "Must be dead");
-			FakeClientCommand(client, "play sound/%s", g_sMenuExit);
-		}
-		else
-		{
-			g_iVersus[target] = client;
-			g_iVersus[client] = target;
-			g_iPosition[client] = g_iPosition[g_iVersus[client]];
-
-			Panel_AskVersus(target);
-			Panel_WaitVersus(client);
-
-			FakeClientCommand(target, "play sound/%s", g_sMenuItem);
-			FakeClientCommand(client, "play sound/%s", g_sMenuItem);
-		}
-	}
-}
-
-
-// Open the choose color panel
-void Panel_AskVersus(int client)
-{
-	char sBuffer[128];
-	int iCredits = MyStore_GetClientCredits(client);
-	int iCredits_starter = MyStore_GetClientCredits(g_iVersus[client]);
-	Panel panel = new Panel();
-
-	Format(sBuffer, sizeof(sBuffer), "%t\n%t", "dice", "Title Credits", g_sCreditsName, iCredits);
-	panel.SetTitle(sBuffer);
-
-	PanelInject_Dice(panel, client);
-
-	panel.DrawText(" ");
-
-	Format(sBuffer, sizeof(sBuffer), "    %N%s\n    %s %i %s", g_iVersus[client], " challenged you to dice.", "Do you accept the challenge for", g_iBet[g_iVersus[client]], g_sCreditsName); //translate
-	panel.DrawText(sBuffer);
-
-	panel.DrawText(" ");
-
-	panel.CurrentKey = 3;
-	Format(sBuffer, sizeof(sBuffer), "%s Low - #1-3", "Accept and bet on");
-	panel.DrawItem(sBuffer);
-
-	panel.CurrentKey = 4;
-	Format(sBuffer, sizeof(sBuffer), "%s High - #4-6", "Accept and bet on");
-	panel.DrawItem(sBuffer); //translate
-
-	if (iCredits >= g_iBet[g_iVersus[client]] * 2 && iCredits_starter >= g_iBet[g_iVersus[client]] * 2)
-	{
-		panel.CurrentKey = 5;
-		Format(sBuffer, sizeof(sBuffer), "Raise bet x2");
-		panel.DrawItem(sBuffer);
-	}
-	panel.DrawText(" ");
-
-	panel.CurrentKey = 6;
-	Format(sBuffer, sizeof(sBuffer), "%s", "Reject Challange");
-	panel.DrawItem(sBuffer); //translate
-
-	panel.DrawText(" ");
-
-	panel.CurrentKey = 7;
-	Format(sBuffer, sizeof(sBuffer), "%t", "Back");
-	panel.DrawItem(sBuffer, ITEMDRAW_DEFAULT);
-
-	panel.CurrentKey = 8;
-	Format(sBuffer, sizeof(sBuffer), "%t", "Game Info");
-	panel.DrawItem(sBuffer, ITEMDRAW_DISABLED);
-
-	panel.CurrentKey = 9;
-	Format(sBuffer, sizeof(sBuffer), "%t", "Exit");
-	panel.DrawItem(sBuffer, ITEMDRAW_DEFAULT);
-
-	panel.Send(client, Handler_AskVersus, MENU_TIME_FOREVER);
-
-	delete panel;
-}
-
-
-public int Handler_AskVersus(Menu panel, MenuAction action, int client, int itemNum)
-{
-	if (action == MenuAction_Select)
-	{
-		switch(itemNum)
-		{
-			case 3, 4:
-			{
-				// Decline when player come back to life
-				if (!gc_bAlive.BoolValue && IsPlayerAlive(client))
-				{
-					Panel_Dice(client);
-
-					FakeClientCommand(client, "play sound/%s", g_sMenuExit);
-
-					CPrintToChat(client, "%s%t", g_sChatPrefix, "Must be dead");
-				}
-				// Remove Credits & start the game
-				else
-				{
-					g_iBet[client] = g_iBet[g_iVersus[client]];
-					int iCredits = MyStore_GetClientCredits(client);
-					int iCredits_starter = MyStore_GetClientCredits(g_iVersus[client]);
-
-					if (iCredits >= g_iBet[g_iVersus[client]] && iCredits_starter >= g_iBet[g_iVersus[client]])
-					{
-						switch(itemNum)
-						{
-							case 3:
-							{
-								g_iDiceBet[client] = 0;
-								g_iDiceBet[g_iVersus[client]] = 7;
-							}
-							case 4:
-							{
-								g_iDiceBet[client] = 7;
-								g_iDiceBet[g_iVersus[client]] = 0;
-							}
-						}
-
-						MyStore_SetClientCredits(client, iCredits - g_iBet[client], "Bet Dice Versus");
-						MyStore_SetClientCredits(g_iVersus[client], iCredits_starter - g_iBet[client], "Bet Dice Versus");
-
-						Start_Dice(client);
-					}
-					// when player has yet had not enough Credits (double check)
-					else
-					{
-						FakeClientCommand(client, "play sound/%s", g_sMenuExit);
-						Panel_Dice(client);
-
-						CPrintToChat(client, "%s%t", g_sChatPrefix, "Not enough Credits", g_sCreditsName);
-					}
-				}
-			}
-			case 5:
-			{
-				// Decline when player come back to life
-				if (!gc_bAlive.BoolValue && IsPlayerAlive(client))
-				{
-					Panel_Dice(client);
-
-					FakeClientCommand(client, "play sound/%s", g_sMenuExit);
-
-					CPrintToChat(client, "%s%t", g_sChatPrefix, "Must be dead");
-				}
-				// Remove Credits & start the game
-				else
-				{
-					g_iBet[client] = g_iBet[g_iVersus[client]] * 2;
-					int iCredits = MyStore_GetClientCredits(client);
-					int iCredits_starter = MyStore_GetClientCredits(g_iVersus[client]);
-
-					if (iCredits >= g_iBet[g_iVersus[client]] && iCredits_starter >= g_iBet[g_iVersus[client]])
-					{
-						switch(GetRandomInt(0,1))
-						{
-							case 0:
-							{
-								g_iDiceBet[client] = 0;
-								g_iDiceBet[g_iVersus[client]] = 7;
-							}
-							case 1:
-							{
-								g_iDiceBet[client] = 7;
-								g_iDiceBet[g_iVersus[client]] = 0;
-							}
-						}
-
-						MyStore_SetClientCredits(client, iCredits - g_iBet[client], "Bet Dice Versus");
-						MyStore_SetClientCredits(g_iVersus[client], iCredits_starter - g_iBet[client], "Bet Dice Versus");
-
-						Start_Dice(client);
-					}
-					// when player has yet had not enough Credits (double check)
-					else
-					{
-						FakeClientCommand(client, "play sound/%s", g_sMenuExit);
-						Panel_Dice(client);
-
-						CPrintToChat(client, "%s%t", g_sChatPrefix, "Not enough Credits", g_sCreditsName);
-					}
-				}
-			}
-			case 7:
-			{
-				Panel_ChooseNum(g_iVersus[client]);
-				Panel_Dice(client);
-
-				CPrintToChat(g_iVersus[client], "%s%s", g_sChatPrefix, "opponent reject challange");
-				CPrintToChat(client, "%s%s", g_sChatPrefix, "You reject challage");
-				FakeClientCommand(client, "play sound/%s", g_sMenuExit);
-				FakeClientCommand(g_iVersus[client], "play sound/%s", g_sMenuExit);
-				g_iVersus[g_iVersus[client]] = -1;
-				g_iVersus[client] = -1;
-			}
-			case 6 ,9:
-			{
-				Panel_ChooseNum(g_iVersus[client]);
-				Panel_DeletePanel(client);
-				CPrintToChat(g_iVersus[client], "%s%s", g_sChatPrefix, "opponent reject challange");
-				CPrintToChat(client, "%s%s", g_sChatPrefix, "You reject challage");
-				FakeClientCommand(client, "play sound/%s", g_sMenuExit);
-				FakeClientCommand(g_iVersus[client], "play sound/%s", g_sMenuExit);
-				g_iVersus[g_iVersus[client]] = -1;
-				g_iVersus[client] = -1;
-			}
-		}
-	}
-
-	delete panel;
-}
-
-
-// Open the choose color panel
-void Panel_WaitVersus(int client)
-{
-	FakeClientCommand(client, "play sound/%s", g_sMenuItem);
-
-	char sBuffer[128];
-	int iCredits = MyStore_GetClientCredits(client);
-	Panel panel = new Panel();
-
-	Format(sBuffer, sizeof(sBuffer), "%t\n%t", "dice", "Title Credits", g_sCreditsName, iCredits);
-	panel.SetTitle(sBuffer);
-
-	PanelInject_Dice(panel, client);
-
-	panel.DrawText(" ");
-
-	Format(sBuffer, sizeof(sBuffer), "    Your Challange: %i %s\n    %s", g_iBet[client], g_sCreditsName, "Please wait for response"); //translate
-	panel.DrawText(sBuffer);
-
-	panel.DrawText(" ");
-
-	panel.DrawText(" ");
-
-	panel.DrawText(" ");
-
-	panel.DrawText(" ");
-
-	panel.DrawText(" ");
-
-	panel.DrawText(" ");
-
-	panel.CurrentKey = 7;
-	Format(sBuffer, sizeof(sBuffer), "%t", "Back");
-	panel.DrawItem(sBuffer, ITEMDRAW_DEFAULT);
-
-	panel.CurrentKey = 8;
-	Format(sBuffer, sizeof(sBuffer), "%t", "Game Info");
-	panel.DrawItem(sBuffer, ITEMDRAW_DISABLED);
-
-	panel.CurrentKey = 9;
-	Format(sBuffer, sizeof(sBuffer), "%t", "Exit");
-	panel.DrawItem(sBuffer, ITEMDRAW_DEFAULT);
-
-	panel.Send(client, Handler_WaitVersus, MENU_TIME_FOREVER);
-
-	delete panel;
-}
-
-
-public int Handler_WaitVersus(Menu panel, MenuAction action, int client, int itemNum)
-{
-	if (action == MenuAction_Select)
-	{
-		switch(itemNum)
-		{
-			case 7:
-			{
-				Panel_ChooseNum(client);
-				Panel_DeletePanel(g_iVersus[client]);
-
-				CPrintToChat(g_iVersus[client], "%s%s", g_sChatPrefix, "opponent reject challange");
-				CPrintToChat(client, "%s%s", g_sChatPrefix, "You reject challage");
-				FakeClientCommand(client, "play sound/%s", g_sMenuExit);
-				FakeClientCommand(g_iVersus[client], "play sound/%s", g_sMenuExit);
-				g_iVersus[g_iVersus[client]] = -1;
-				g_iVersus[client] = -1;
-			}
-			case 9:
-			{
-				Panel_DeletePanel(g_iVersus[client]);
-
-				CPrintToChat(g_iVersus[client], "%s%s", g_sChatPrefix, "opponent reject challange");
-				CPrintToChat(client, "%s%s", g_sChatPrefix, "You reject challage");
-				FakeClientCommand(client, "play sound/%s", g_sMenuExit);
-				FakeClientCommand(g_iVersus[client], "play sound/%s", g_sMenuExit);
-				g_iVersus[g_iVersus[client]] = -1;
-				g_iVersus[client] = -1;
-			}
-		}
-	}
-
-	delete panel;
-}
-
-// Open the choose color panel
-void Panel_DeletePanel(int client)
-{
-	Panel panel = new Panel();
-
-	panel.DrawText(" ");
-
-	panel.Send(client, INVALID_FUNCTION, 0);
 
 	delete panel;
 }
@@ -1001,7 +627,6 @@ void Panel_RunAndWin(int client)
 	char sBuffer[128];
 	int iCredits = MyStore_GetClientCredits(client);
 	Panel panel = new Panel();
-	int target = -1;
 
 	Format(sBuffer, sizeof(sBuffer), "%t\n%t", "dice", "Title Credits", g_sCreditsName, iCredits);
 	panel.SetTitle(sBuffer);
@@ -1010,7 +635,7 @@ void Panel_RunAndWin(int client)
 	if (g_bFlipping[client])
 	{
 		int random = GetRandomInt(1,6);
-		while(random == g_iPosition[client])
+		while (random == g_iPosition[client])
 		{
 			random = GetRandomInt(1,6);
 		}
@@ -1028,80 +653,25 @@ void Panel_RunAndWin(int client)
 
 		panel.DrawText(" ");
 
-		//Is versus
-		if (g_iVersus[client] != -1)
-		{
-			switch(g_iDiceBet[client])
-			{
-				case 0: Format(sBuffer, sizeof(sBuffer), "    %N on Low #1-3", client);
-				case 7: Format(sBuffer, sizeof(sBuffer), "    %N on High #4-6", client);
-			}
-			panel.DrawText(sBuffer);
 
-			switch(g_iDiceBet[g_iVersus[client]])
-			{
-				case 0: Format(sBuffer, sizeof(sBuffer), "    %N on Low #1-3", g_iVersus[client]);
-				case 7: Format(sBuffer, sizeof(sBuffer), "    %N on High #4-6", g_iVersus[client]);
-			}
-			panel.DrawText(sBuffer);
-			panel.DrawText(" ");
-		}
-		//single player
-		else
+		switch(g_iDiceBet[client])
 		{
-			// Draw the placed color
-			switch(g_iDiceBet[client])
-			{
-				case 0: Format(sBuffer, sizeof(sBuffer), "    %t Low #1-3", "Bet on");
-				case 1, 2, 3, 4, 5, 6: Format(sBuffer, sizeof(sBuffer), "    %t #%i", "Bet on", g_iDiceBet[client]);
-				case 7: Format(sBuffer, sizeof(sBuffer), "    %t High #4-6", "Bet on");
-			}
-			panel.DrawText(sBuffer);
-			panel.DrawText(" ");
+			case 0: Format(sBuffer, sizeof(sBuffer), "    %t %t", "Bet on", "Low #1-3");
+			case 1, 2, 3, 4, 5, 6: Format(sBuffer, sizeof(sBuffer), "    %t #%i", "Bet on", g_iDiceBet[client]);
+			case 7: Format(sBuffer, sizeof(sBuffer), "    %t %t", "Bet on", "High #4-6");
 		}
+		panel.DrawText(sBuffer);
 		panel.DrawText(" ");
-	}
-	// When dice has stopped
-	else if (g_iVersus[client] != -1)
-	{
-		panel.DrawText(" ");//wer hat gewonnen
-		
-		int winner = -1;
-		if ((g_iDiceBet[client] == 0 && g_iPosition[client] < 4) || (g_iDiceBet[client] == 7 && g_iPosition[client] > 3))
-		{
-			winner = client;
-		}
-		else
-		{
-			winner = g_iVersus[client];
-		}
-
-		Format(sBuffer, sizeof(sBuffer), "    %N won with %s", winner, g_iPosition[client] < 4 ? "Low" : "High");
-		panel.DrawText(sBuffer);
-
-		Format(sBuffer, sizeof(sBuffer), "    %N lost with %s", winner != client ? client : g_iVersus[client], g_iPosition[client] > 3 ? "Low" : "High");
-		panel.DrawText(sBuffer);
-
-		Format(sBuffer, sizeof(sBuffer), "    %N %i %s", "win x Credits", winner, g_iBet[client] * 2, g_sCreditsName);
-		panel.DrawText(sBuffer);
 
 		panel.DrawText(" ");
-		panel.DrawText(" ");
-		// Process the won Credits & remaining notfiction
-		ProcessWin(winner, g_iBet[client], 2);
-
-		g_bFlipping[client] = false; //??
-		target = g_iVersus[client];
-		g_iVersus[target] = -1;
-		g_iVersus[client] = -1;
 	}
 	else
 	{
 		// If indicator is on choosen color -> WIN
-		if ((g_iDiceBet[client] == 0 && g_iPosition[client] < 4) || (g_iDiceBet[client] == 7 && g_iPosition[client] > 3) || g_iVersus[client] != -1)
+		if ((g_iDiceBet[client] == 0 && g_iPosition[client] < 4) || (g_iDiceBet[client] == 7 && g_iPosition[client] > 3))
 		{
 			panel.DrawText(" ");
-			Format(sBuffer, sizeof(sBuffer), "    You won with %s", g_iDiceBet[client] < 4 ? "Low" : "High");
+			Format(sBuffer, sizeof(sBuffer), "    %t %s", "You won with", g_iDiceBet[client] < 4 ? "Low" : "High");
 			panel.DrawText(sBuffer);
 
 			panel.DrawText(" ");
@@ -1117,7 +687,7 @@ void Panel_RunAndWin(int client)
 		else if (g_iDiceBet[client] == g_iPosition[client])
 		{
 			panel.DrawText(" ");
-			Format(sBuffer, sizeof(sBuffer), "    You won with #%i", g_iDiceBet[client]);
+			Format(sBuffer, sizeof(sBuffer), "    %t #%i", "You won with", g_iDiceBet[client]);
 			panel.DrawText(sBuffer);
 
 			panel.DrawText(" ");
@@ -1154,12 +724,8 @@ void Panel_RunAndWin(int client)
 	panel.DrawItem(sBuffer, g_bFlipping[client] ? ITEMDRAW_DISABLED : ITEMDRAW_DEFAULT);
 	panel.CurrentKey = 9;
 	Format(sBuffer, sizeof(sBuffer), "%t", g_bFlipping[client] ? "Cancel" : "Exit");
-	panel.DrawItem(sBuffer, g_iVersus[client] != -1 ? ITEMDRAW_DISABLED : ITEMDRAW_DEFAULT);
+	panel.DrawItem(sBuffer, ITEMDRAW_DEFAULT); // ITEMDRAW_DISABLED ???
 
-	if (g_iVersus[client] != -1 || target != -1)
-	{
-		panel.Send(target != -1 ? target : g_iVersus[client], Handler_RunWin, MENU_TIME_FOREVER);
-	}
 	panel.Send(client, Handler_RunWin, MENU_TIME_FOREVER);
 
 	delete panel;
@@ -1214,9 +780,7 @@ public int Handler_RunWin(Menu panel, MenuAction action, int client, int itemNum
 				}
 
 				g_bFlipping[client] = false;
-				int target = g_iVersus[client];
-				g_iVersus[target] = -1;
-				g_iVersus[client] = -1;
+
 				FakeClientCommand(client, "play sound/%s", g_sMenuExit);
 			}
 		}
@@ -1230,11 +794,11 @@ void PanelInject_Dice(Panel panel, int client)
 {
 	char sBuffer[32];
 	panel.DrawText("   ──────");
-	Format(sBuffer, sizeof(sBuffer), "  │ %s    %s │", g_iPosition[client] > 3 ? "⏺" : "  ", g_iPosition[client] > 1 ? "⏺" : "  ");
+	Format(sBuffer, sizeof(sBuffer), "  │ %s    %s │", g_iPosition[client] > 3 ? "•" : "  ", g_iPosition[client] > 1 ? "•" : "  ");
 	panel.DrawText(sBuffer);
-	Format(sBuffer, sizeof(sBuffer), "  │ %s %s %s │    %i", g_iPosition[client] == 6 ? "⏺" : "  ", g_iPosition[client] & 1 ? "⏺" : "  ", g_iPosition[client] == 6 ? "⏺" : "  ", g_iPosition[client]);
+	Format(sBuffer, sizeof(sBuffer), "  │ %s %s %s │    %i", g_iPosition[client] == 6 ? "•" : "  ", g_iPosition[client] & 1 ? "•" : "  ", g_iPosition[client] == 6 ? "•" : "  ", g_iPosition[client]);
 	panel.DrawText(sBuffer);
-	Format(sBuffer, sizeof(sBuffer), "  │ %s    %s │", g_iPosition[client] > 1 ? "⏺" : "  ", g_iPosition[client] > 3 ? "⏺" : "  ");
+	Format(sBuffer, sizeof(sBuffer), "  │ %s    %s │", g_iPosition[client] > 1 ? "•" : "  ", g_iPosition[client] > 3 ? "•" : "  ");
 	panel.DrawText(sBuffer);
 	panel.DrawText("   ──────");
 }
@@ -1284,18 +848,18 @@ void Panel_GameInfo(int client)
 	panel.DrawText(" ");
 	panel.DrawText(" ");
 
-	Format(sBuffer, sizeof(sBuffer), "    %s %t %i", "Low #1-3' = ", "bet x", 2);
+	Format(sBuffer, sizeof(sBuffer), "    %t %t %i", "Low #1-3' = ", "bet x", 2);
 	panel.DrawText(sBuffer);
 
 	panel.DrawText(" ");
 	panel.DrawText(" ");
-	Format(sBuffer, sizeof(sBuffer), "    %s %t %i", "High #4-6 = ", "bet x", 2);
+	Format(sBuffer, sizeof(sBuffer), "    %t %t %i", "High #4-6 = ", "bet x", 2);
 	panel.DrawText(sBuffer);
 
 	panel.DrawText(" ");
 	panel.DrawText(" ");
 
-	Format(sBuffer, sizeof(sBuffer), "    %s %t %i", "Exact #x  = ", "bet x", 6);
+	Format(sBuffer, sizeof(sBuffer), "    %t %t %i", "Exact #x  = ", "bet x", 6);
 	panel.DrawText(sBuffer);
 
 

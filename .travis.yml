@@ -1,0 +1,21 @@
+addons:
+  apt:
+    packages:
+    - lftp
+    - lib32z1
+    - lib32stdc++6
+
+language: c
+
+sudo: false
+
+env:
+  - VERSION=1.9
+  - VERSION=1.10
+
+
+script:
+  - 'bash travisCI/test.sh $VERSION $TRAVIS_BRANCH; fi'
+
+notifications:
+    email: false

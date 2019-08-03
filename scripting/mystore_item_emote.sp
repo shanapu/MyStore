@@ -1,15 +1,42 @@
-// https://forums.alliedmods.net/showthread.php?t=309198
+/*
+ * MyStore - Emote item module
+ * by: shanapu
+ * https://github.com/shanapu/
+ * 
+ * Copyright (C) 2018-2019 Thomas Schmidt (shanapu)
+ * Credits: Rachnus - https://forums.alliedmods.net/showthread.php?t=309198
+ * Contributer:
+ *
+ * Original development by Zephyrus - https://github.com/dvarnai/store-plugin
+ *
+ * Love goes out to the sourcemod team and all other plugin developers!
+ * THANKS FOR MAKING FREE SOFTWARE!
+ *
+ * This file is part of the MyStore SourceMod Plugin.
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, version 3.0, as published by the
+ * Free Software Foundation.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include <sourcemod>
 #include <sdktools>
 #include <sdkhooks>
 #include <clientprefs>
 
-#include <colors>
-#include <mystore>
+#include <colors> //https://raw.githubusercontent.com/shanapu/MyStore/master/scripting/include/colors.inc
+#include <mystore> //https://raw.githubusercontent.com/shanapu/MyStore/master/scripting/include/mystore.inc
 
-#include <smartdm>
-#include <autoexecconfig>
+#include <smartdm> //https://forums.alliedmods.net/attachment.php?attachmentid=136152&d=1406298576
+#include <autoexecconfig> //https://raw.githubusercontent.com/Impact123/AutoExecConfig/development/autoexecconfig.inc
 
 #pragma semicolon 1
 #pragma newdecls required
@@ -45,7 +72,7 @@ public void OnPluginStart()
 {
 	LoadTranslations("mystore.phrases");
 
-	AutoExecConfig_SetFile("item", "MyStore");
+	AutoExecConfig_SetFile("items", "sourcemod/MyStore");
 	AutoExecConfig_SetCreateFile(true);
 
 	gc_fHeight= AutoExecConfig_CreateConVar("mystore_emote_height", "130.0", "distance above players head", _, true, 1.0);
@@ -82,12 +109,12 @@ public Action Command_Hide(int client, int args)
 	g_bHide[client] = !g_bHide[client];
 	if (g_bHide[client])
 	{
-		CPrintToChat(client, "%s Emotes disabled", g_sChatPrefix); //todo translate
+		CPrintToChat(client, "%s%t", g_sChatPrefix, "Item hidden", "emote");
 		SetClientCookie(client, g_hHideCookie, "1");
 	}
 	else
 	{
-		CPrintToChat(client, "%s Emotes enabled", g_sChatPrefix);
+		CPrintToChat(client, "%s%t", g_sChatPrefix, "Item visible", "emote");
 		SetClientCookie(client, g_hHideCookie, "0");
 	}
 
@@ -187,6 +214,9 @@ public int Emotes_Equip(int client, int itemid)
 	}
 
 	SpawnEmote(client, iIndex);
+
+	MyStore_SetClientPreviousMenu(client, MENU_PARENT);
+	MyStore_DisplayPreviousMenu(client);
 
 	return g_iPerm[iIndex];
 }

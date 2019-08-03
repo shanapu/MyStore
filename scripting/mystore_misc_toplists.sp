@@ -1,12 +1,41 @@
+/*
+ * MyStore - Toplist module
+ * by: shanapu
+ * https://github.com/shanapu/
+ * 
+ * Copyright (C) 2018-2019 Thomas Schmidt (shanapu)
+ * Credits: Totenfluch - https://totenfluch.de/
+ * Contributer:
+ *
+ * Original development by Zephyrus - https://github.com/dvarnai/store-plugin
+ *
+ * Love goes out to the sourcemod team and all other plugin developers!
+ * THANKS FOR MAKING FREE SOFTWARE!
+ *
+ * This file is part of the MyStore SourceMod Plugin.
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, version 3.0, as published by the
+ * Free Software Foundation.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include <sourcemod>
 #include <sdktools>
 #include <sdkhooks>
 #include <cstrike>
 
-#include <mystore>
+#include <mystore> //https://raw.githubusercontent.com/shanapu/MyStore/master/scripting/include/mystore.inc
 
-#include <colors>
-#include <autoexecconfig>
+#include <colors> //https://raw.githubusercontent.com/shanapu/MyStore/master/scripting/include/colors.inc
+#include <autoexecconfig> //https://raw.githubusercontent.com/Impact123/AutoExecConfig/development/autoexecconfig.inc
 
 #pragma semicolon 1
 #pragma newdecls required
@@ -44,7 +73,7 @@ public void OnPluginStart()
 	RegConsoleCmd("sm_topworth", Command_InventarWorth);
 	RegConsoleCmd("sm_toptotal", Command_InventarAndCreditsWorth);
 
-	AutoExecConfig_SetFile("settings", "MyStore");
+	AutoExecConfig_SetFile("settings", "sourcemod/MyStore");
 	AutoExecConfig_SetCreateFile(true);
 
 	gc_iMaxShown = AutoExecConfig_CreateConVar("mystore_toplist_max", "10", "", _, true, 1.0);
@@ -336,7 +365,7 @@ public void SQLTXNCallback_Success(Database db, any data, int numQueries, DBResu
 			g_aTopLists[i].Clear();
 
 			//Loop through the result rows and write them into DataPacks
-			while(results[i].FetchRow())
+			while (results[i].FetchRow())
 			{
 				DataPack pack = new DataPack();
 
@@ -525,12 +554,12 @@ int SecToTime(int time, char[] buffer, int size)
 	int iMinutes = 0;
 	int iSeconds = time;
 
-	while(iSeconds > 3600)
+	while (iSeconds > 3600)
 	{
 		iHours++;
 		iSeconds -= 3600;
 	}
-	while(iSeconds > 60)
+	while (iSeconds > 60)
 	{
 		iMinutes++;
 		iSeconds -= 60;

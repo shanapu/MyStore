@@ -5,14 +5,14 @@
 		"flags"				""					// flag to recieve this earnings, no flag = everyone
 		"player"			"0"					// minimal player on server before recieve earnings
 		"bots"				"0"					// do Bot kills count for these explode
-		"msg"				"1"					// Notification for earning credits. 0 = disbaled / 1 = single notification on earn / 2 = Sum credits on death or end of round / 3 = shown detailed stats  on death or end of round
+		"msg"				"1"					// Notification for earning credits. 0 = disbaled / 1 = single notification on every earning / 2 = Sum credits on death or end of round / 3 = shown detailed stats on death or end of round
 		"nick"				"mywebsite.tld"		// string in nickname for getting multiplier on credits
-		"nick_multi"		"1.2"				// multiplier for nickname string
+		"nick_multi"		"1.2"				// multiplier for nickname string - multiply with all multiplier and earnings, except dailys
 		"groupid"			"123456"			// steam groupid for getting multiplier on credits
-		"groupid_multi"		"1.2"				// multiplier for groupid
+		"groupid_multi"		"1.2"				// multiplier for groupid - multiply with all multiplier and earnings, except dailys
 		"clantag"			"[MyClanTag]"		// string in clantag for getting multiplier on credits
-		"clantag_multi"		"1.2"				// multiplier matching clan tag
-		"timer"				"5"					// timer time to get earnings for playtime (active/inactive)
+		"clantag_multi"		"1.2"				// multiplier matching clan tag - multiply with all multiplier and earnings, except dailys
+		"timer"				"120"					// timer time to get earnings for playtime (active/inactive)
 		"active"			"1"					// credits you earn for playing in a team ("timer")
 		"inactive"			"0"					// credits you earn for beeing spectator ("timer")
 		"kill"				"10"				// credits you earn for make a kill 
@@ -60,7 +60,7 @@
 		"groupid_multi"		"1.2"				// multiplier for groupid
 		"clantag"			"[MyClanTag.Admin]"	// string in clantag for getting multiplier on credits
 		"clantag_multi"		"1.3"				// multiplier matching clan tag
-		"timer"				"5"					// timer time to get earnings for playtime (active/inactive)
+		"timer"				"120"					// timer time to get earnings for playtime (active/inactive)
 		"active"			"1"					// credits you earn for playing in a team ("timer")
 		"inactive"			"0"					// credits you earn for beeing spectator ("timer")
 		"kill"				"10"				// credits you earn for make a kill 

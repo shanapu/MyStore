@@ -1,12 +1,41 @@
+/*
+ * MyStore - Lootbox module
+ * by: shanapu
+ * https://github.com/shanapu/
+ * 
+ * Copyright (C) 2018-2019 Thomas Schmidt (shanapu)
+ * Credits:
+ * Contributer:
+ *
+ * Original development by Zephyrus - https://github.com/dvarnai/store-plugin
+ *
+ * Love goes out to the sourcemod team and all other plugin developers!
+ * THANKS FOR MAKING FREE SOFTWARE!
+ *
+ * This file is part of the MyStore SourceMod Plugin.
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, version 3.0, as published by the
+ * Free Software Foundation.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include <sourcemod>
 #include <sdktools>
 #include <sdkhooks>
 
-#include <mystore>
+#include <mystore> //https://raw.githubusercontent.com/shanapu/MyStore/master/scripting/include/mystore.inc
 
-#include <colors>
-#include <smartdm>
-#include <autoexecconfig>
+#include <colors> //https://raw.githubusercontent.com/shanapu/MyStore/master/scripting/include/colors.inc
+#include <smartdm> //https://forums.alliedmods.net/attachment.php?attachmentid=136152&d=1406298576
+#include <autoexecconfig> //https://raw.githubusercontent.com/Impact123/AutoExecConfig/development/autoexecconfig.inc
 
 #pragma semicolon 1
 #pragma newdecls required
@@ -21,11 +50,7 @@
 #define LEVEL_AMOUNT 5
 
 ConVar gc_sPickUpSound;
-ConVar gc_sEfxFile;
-ConVar gc_sEfxName;
 
-char g_sEfxFile[128];
-char g_sEfxName[128];
 char g_sPickUpSound[128];
 
 char g_sChatPrefix[128];
@@ -33,6 +58,8 @@ char g_sCreditsName[64];
 float g_fSellRatio;
 
 char g_sModel[MAX_LOOTBOXES][PLATFORM_MAX_PATH];
+char g_sEfxFile[MAX_LOOTBOXES][PLATFORM_MAX_PATH];
+char g_sEfxName[MAX_LOOTBOXES][PLATFORM_MAX_PATH];
 char g_sLootboxItems[MAX_LOOTBOXES][STORE_MAX_ITEMS / 4][LEVEL_AMOUNT][PLATFORM_MAX_PATH]; //assuming min 4 item on a box
 float g_fChance[MAX_LOOTBOXES][LEVEL_AMOUNT];
 
@@ -61,12 +88,10 @@ public void OnPluginStart()
 {
 	LoadTranslations("mystore.phrases");
 
-	AutoExecConfig_SetFile("lootbox", "MyStore");
+	AutoExecConfig_SetFile("lootbox", "sourcemod/MyStore");
 	AutoExecConfig_SetCreateFile(true);
 
 	gc_sPickUpSound = AutoExecConfig_CreateConVar("mystore_lootbox_sound_pickup", "ui/csgo_ui_crate_open.wav", "Path to the pickup sound");
-	gc_sEfxFile = AutoExecConfig_CreateConVar("mystore_lootbox_efx_pickup_file", "particles/2j.pcf", "Path to the .pcf file");
-	gc_sEfxName = AutoExecConfig_CreateConVar("mystore_lootbox_efx_pickup_name", "spiral_spiral_akskkk", "name of the particle effect");
 
 	AutoExecConfig_ExecuteFile();
 	AutoExecConfig_CleanFile();
@@ -91,9 +116,6 @@ public void MyStore_OnConfigExecuted(ConVar enable, char[] name, char[] prefix, 
 	strcopy(g_sChatPrefix, sizeof(g_sChatPrefix), prefix);
 	strcopy(g_sCreditsName, sizeof(g_sCreditsName), credits);
 
-	gc_sEfxFile.GetString(g_sEfxFile, sizeof(g_sEfxFile));
-	gc_sEfxName.GetString(g_sEfxName, sizeof(g_sEfxName));
-
 	g_fSellRatio = FindConVar("mystore_sell_ratio").FloatValue;
 	if (g_fSellRatio < 0.1)
 	{
@@ -107,6 +129,16 @@ public void Lootbox_OnMapStart()
 	{
 		PrecacheModel(g_sModel[i], true);
 		Downloader_AddFileToDownloadsTable(g_sModel[i]);
+
+		if (!g_sEfxName[i][0])
+			continue;
+
+		PrecacheParticleSystem(g_sEfxName[i]);
+		if (FileExists(g_sEfxFile[i], true) && g_sEfxFile[i][0])
+		{
+			Downloader_AddFileToDownloadsTable(g_sEfxFile[i]);
+			PrecacheGeneric(g_sEfxFile[i], true);
+		}
 	}
 
 	gc_sPickUpSound.GetString(g_sPickUpSound, sizeof(g_sPickUpSound));
@@ -117,13 +149,6 @@ public void Lootbox_OnMapStart()
 	{
 		AddFileToDownloadsTable(sBuffer);
 		PrecacheSound(g_sPickUpSound, true);
-	}
-
-	PrecacheParticleSystem(g_sEfxName);
-	if (FileExists(g_sEfxFile, true) && g_sEfxFile[0])
-	{
-		Downloader_AddFileToDownloadsTable(g_sEfxFile);
-		PrecacheGeneric(g_sEfxFile, true);
 	}
 
 	PrecacheModel("models/props_crates/static_crate_40.mdl", true);
@@ -156,6 +181,9 @@ public bool Lootbox_Config(KeyValues &kv, int itemid)
 		return false;
 	}
 
+	kv.GetString("file", g_sEfxFile[g_iBoxCount], PLATFORM_MAX_PATH);
+	kv.GetString("name", g_sEfxName[g_iBoxCount], PLATFORM_MAX_PATH);
+
 	float percent = 0.0;
 	g_fChance[g_iBoxCount][LEVEL_GREY] = kv.GetFloat("grey", 50.0);
 	g_fChance[g_iBoxCount][LEVEL_BLUE] = kv.GetFloat("blue", 20.0);
@@ -182,7 +210,6 @@ public bool Lootbox_Config(KeyValues &kv, int itemid)
 		int lvlindex = -1;
 
 		kv.GetSectionName(sBuffer, sizeof(sBuffer));
-		PrintToServer("kv.GetSectionName: %s", sBuffer);
 		if (StrEqual(sBuffer,"grey", false))
 		{
 			lvlindex = LEVEL_GREY;
@@ -369,14 +396,7 @@ int CreateTriggerProp(int ent, float pos[3], char[] name)
 
 	GetEntPropVector(ent, Prop_Send, "m_vecMins", fMins);
 	GetEntPropVector(ent, Prop_Send, "m_vecMaxs", fMaxs);
-/*
-	fMins[0] += -5.0;
-	fMins[1] += -5.0;
-	fMins[2] += -5.0;
-	fMaxs[0] += 5.0;
-	fMaxs[1] += 5.0;
-	fMaxs[2] += 5.0;
-*/
+
 	SetEntPropVector(iTrigger, Prop_Send, "m_vecMins", fMins);
 	SetEntPropVector(iTrigger, Prop_Send, "m_vecMaxs", fMaxs);
 	SetEntProp(iTrigger, Prop_Send, "m_nSolidType", 2);
@@ -410,22 +430,21 @@ public void Hook_OnBreak(const char[] output, int ent, int client, float delay)
 
 	any item[Item_Data];
 	MyStore_GetItem(itemid, item);
+	any handler[Type_Handler];
+	MyStore_GetHandler(item[iHandler], handler);
 
 	if (MyStore_HasClientItem(client, itemid))
 	{
 		MyStore_SetClientCredits(client, MyStore_GetClientCredits(client) + item[iPrice], "Cashed a box item");
-		CPrintToChat(client, "%sAlready has item. we will sell it. you get %i creds", g_sChatPrefix, item[iPrice]); //todo translate
+		CPrintToChat(client, "%s%t", g_sChatPrefix, "Already own item from box. Get Credits back", item[szName], handler[szType], item[iPrice], g_sCreditsName);
 	}
 	else
 	{
 		MyStore_GiveItem(client, itemid, _, _, item[iPrice]);
-		CPrintToChat(client, "%sYou won item: '%s'", g_sChatPrefix, item[szName]); //todo translate
+		CPrintToChat(client, "%s%t", g_sChatPrefix, "You won lootbox item", item[szName], handler[szType]);
 
 		if (item[bPreview])
 		{
-			any handler[Type_Handler];
-			MyStore_GetHandler(item[iHandler], handler);
-
 			Call_StartForward(gf_hPreviewItem);
 			Call_PushCell(client);
 			Call_PushString(handler[szType]);
@@ -438,7 +457,7 @@ public void Hook_OnBreak(const char[] output, int ent, int client, float delay)
 	GetClientAbsOrigin(client, fVec);
 	EmitAmbientSound(g_sPickUpSound, fVec, _, _, _, _, _, _);
 
-	if (!g_sEfxName[0])
+	if (!g_sEfxName[g_iClientBox[client]][0])
 		return;
 
 	float fOri[3];
@@ -446,7 +465,7 @@ public void Hook_OnBreak(const char[] output, int ent, int client, float delay)
 
 	int iEfx = CreateEntityByName("info_particle_system");
 	DispatchKeyValue(iEfx, "start_active", "0");
-	DispatchKeyValue(iEfx, "effect_name", g_sEfxName);
+	DispatchKeyValue(iEfx, "effect_name", g_sEfxName[g_iClientBox[client]]);
 	DispatchSpawn(iEfx);
 	ActivateEntity(iEfx);
 	TeleportEntity(iEfx, fOri, NULL_VECTOR, NULL_VECTOR);
@@ -535,18 +554,22 @@ public Action Timer_Color(Handle timer, DataPack pack)
 	g_iClientSpeed[client] -= 5;
 	EmitAmbientSound("ui/csgo_ui_crate_item_scroll.wav", fPos, _, _, _, _, _, _);
 
-	char sBuffer[8];
+	char sBuffer[128];
 	IntToString(g_iClientSpeed[client], sBuffer, sizeof(sBuffer));
 	DispatchKeyValue(rotator, "maxspeed", sBuffer);
 	AcceptEntityInput(rotator, "Start");
 
 	if (g_iClientSpeed[client] < 1)
 	{
-		CPrintToChat(client, "%sDestroy to open!", g_sChatPrefix); //todo translate
-		PrintHintText(client, "Destroy to open!"); //todo translate
 		SetEntProp(trigger, Prop_Data, "m_iHealth", 70);
 		SetEntProp(trigger, Prop_Data, "m_takedamage", 2);
 		HookSingleEntityOutput(trigger, "OnBreak", Hook_OnBreak, true);
+
+		CPrintToChat(client, "%s%t", g_sChatPrefix, "Damage the crate to open");
+
+		Format(sBuffer, sizeof(sBuffer), "%t", "Damage the crate to open");
+		CRemoveTags(sBuffer, sizeof(sBuffer));
+		PrintHintText(client, sBuffer);
 
 		return Plugin_Stop;
 	}
@@ -643,7 +666,6 @@ public Action Timer_Color(Handle timer, DataPack pack)
 		return Plugin_Continue;
 	}
 
-
 	return Plugin_Continue;
 }
 
@@ -657,7 +679,7 @@ public void Event_RoundEnd(Event event, char[] name, bool dontBroadcast)
 		{
 			MyStore_GiveItem(i, g_iItemID[g_iClientBox[i]], 0, 0, 0);
 
-			CPrintToChat(i, "%s%s", g_sChatPrefix, "Lootbox No Open in time get back."); //todo translate
+			CPrintToChat(i, "%s%t", g_sChatPrefix, "You haven't opend the box in given time");
 		}
 		g_iClientBox[i] = -1;
 

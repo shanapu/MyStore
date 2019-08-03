@@ -1,10 +1,39 @@
+/*
+ * MyStore - Jumpstyles item module
+ * by: shanapu
+ * https://github.com/shanapu/
+ * 
+ * Copyright (C) 2018-2019 Thomas Schmidt (shanapu)
+ * Credits:
+ * Contributer:
+ *
+ * Original development by Zephyrus - https://github.com/dvarnai/store-plugin
+ *
+ * Love goes out to the sourcemod team and all other plugin developers!
+ * THANKS FOR MAKING FREE SOFTWARE!
+ *
+ * This file is part of the MyStore SourceMod Plugin.
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, version 3.0, as published by the
+ * Free Software Foundation.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #pragma semicolon 1
 #pragma newdecls required
 
 #include <sourcemod>
 #include <sdktools>
 
-#include <mystore>
+#include <mystore> //https://raw.githubusercontent.com/shanapu/MyStore/master/scripting/include/mystore.inc
 
 bool g_bEquiptBunny[MAXPLAYERS + 1] = false;
 bool g_bEquiptFroggy[MAXPLAYERS + 1] = false;
@@ -25,7 +54,7 @@ public void OnPluginStart()
 {
 	MyStore_RegisterHandler("bunnyhob", _, _, Bunnyhop_Config, Bunnyhop_Equip, Bunnyhop_Remove, true);
 	MyStore_RegisterHandler("froggyjump", _, _, FroggyJump_Config, FroggyJump_Equip, FroggyJump_Remove, true);
-//	MyStore_RegisterHandler("hunterjump", _, _, HunterJump_Config, HunterJump_Equip, HunterJump_Remove, true);
+//	MyStore_RegisterHandler("hunterjump", _, _, HunterJump_Config, HunterJump_Equip, HunterJump_Remove, true); //todo
 }
 
 public void MyStore_OnConfigExecuted(ConVar enable, char[] name, char[] prefix, char[] credits)
@@ -234,7 +263,6 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 
 		g_LeapLastTime[client] = GetGameTime();
 	}
-
 
 	return Plugin_Continue;
 }

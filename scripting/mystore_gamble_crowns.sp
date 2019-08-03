@@ -1,13 +1,42 @@
+/*
+ * MyStore - Crowns gamble module
+ * by: shanapu
+ * https://github.com/shanapu/
+ * 
+ * Copyright (C) 2018-2019 Thomas Schmidt (shanapu)
+ * Credits:
+ * Contributer:
+ *
+ * Original development by Zephyrus - https://github.com/dvarnai/store-plugin
+ *
+ * Love goes out to the sourcemod team and all other plugin developers!
+ * THANKS FOR MAKING FREE SOFTWARE!
+ *
+ * This file is part of the MyStore SourceMod Plugin.
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, version 3.0, as published by the
+ * Free Software Foundation.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #pragma semicolon 1
 #pragma newdecls required
 
 #include <sourcemod>
 
-#include <mystore>
+#include <mystore> //https://raw.githubusercontent.com/shanapu/MyStore/master/scripting/include/mystore.inc
 
-#include <colors>
+#include <colors> //https://raw.githubusercontent.com/shanapu/MyStore/master/scripting/include/colors.inc
 
-#include <autoexecconfig>
+#include <autoexecconfig> //https://raw.githubusercontent.com/Impact123/AutoExecConfig/development/autoexecconfig.inc
 
 ConVar gc_bEnable;
 
@@ -40,7 +69,7 @@ public void OnPluginStart()
 
 	RegConsoleCmd("sm_crowns", Command_Crowns, "Open the Simple Crowns casino game");
 
-	AutoExecConfig_SetFile("gamble", "MyStore");
+	AutoExecConfig_SetFile("gamble", "sourcemod/MyStore");
 	AutoExecConfig_SetCreateFile(true);
 
 	gc_fSpeed = AutoExecConfig_CreateConVar("mystore_crowns_speed", "0.1", "Speed the wheel spin", _, true, 0.1, true, 0.80);
@@ -208,7 +237,7 @@ void Panel_Crowns(int client)
 	char sSymbolsRoll1[9][1] = {"㍴", "♛", "㋛", "☠", "㍴", "♛", "㋛", "☠", "㍴"};
 	char sSymbolsRoll2[9][1] = {"♛", "☠", "㍴", "㋛", "♛", "☠", "㍴", "㋛", "♛"};
 	char sSymbolsRoll3[9][1] = {"☠", "♛", "㋛", "㍴", "☠", "♛", "㋛", "㍴", "☠"};
-				   //0    1    2     3    4    5     6    7     8
+							    //0    1    2     3    4    5     6    7     8
 
 	// draw slot machine
 	Format(sBuffer, sizeof(sBuffer), "    |  %s   %s   %s    | ", sSymbolsRoll1[g_iRoll[client][0] - 2], sSymbolsRoll2[g_iRoll[client][1] - 2], sSymbolsRoll3[g_iRoll[client][2] - 2]);
@@ -395,43 +424,6 @@ void Panel_RunAndWin(int client)
 	char sSymbolsRoll2[9][] = {"♛", "☠", "㍴", "㋛", "♛", "☠", "㍴", "㋛", "♛"};
 	char sSymbolsRoll3[9][] = {"☠", "♛", "㋛", "㍴", "☠", "♛", "㋛", "㍴", "☠"};
 							// 0    1    2     3    4    5     6    7     8
-
-							/*
-							When hit fail on first or seconds instant stop
-	switch(g_iRollStopped[client])
-	{
-		case 1:
-		{
-			if (StrEqual(sSymbolsRoll1[g_iRoll[client][0]], "☠"))
-			{
-				g_iRollStopped[client] = 4;
-				
-				g_iRoll[client][1] = 5;
-				g_iRoll[client][2] = 4;
-				FakeClientCommand(client, "play sound/%s", g_sMenuExit);
-
-				delete g_hTimerRun[client];
-				delete g_hTimerRollStop[client];
-				MyStore_SetClientRecurringMenu(client, false);
-			}
-		}
-		case 2:
-		{
-			if (StrEqual(sSymbolsRoll2[g_iRoll[client][1]], "☠"))
-			{
-				g_iRollStopped[client] = 4;
-				
-				g_iRoll[client][0] = 3;
-				g_iRoll[client][2] = 4;
-				FakeClientCommand(client, "play sound/%s", g_sMenuExit);
-
-				delete g_hTimerRun[client];
-				delete g_hTimerRollStop[client];
-				MyStore_SetClientRecurringMenu(client, false);
-
-			}
-		}
-	}*/
 
 	if (g_iRollStopped[client] > 2)
 	{

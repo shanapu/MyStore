@@ -1,14 +1,9 @@
-work in progress
-
-initially no support
-
-unfinished features
-
 slow development
 
-hardcoded messages
-
-bugs n errors
+maybe bugs n errors
 
 pr welcome
 
+## Need some tester and bug reporter
+
+https://steamcommunity.com/id/shanapu

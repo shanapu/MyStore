@@ -1,3 +1,31 @@
+/*
+ * MyStore - Include file
+ * by: shanapu
+ * https://github.com/shanapu/
+ * 
+ * Copyright (C) 2018-2019 Thomas Schmidt (shanapu)
+ * Credits:
+ * Contributer:
+ *
+ * Original development by Zephyrus - https://github.com/dvarnai/store-plugin
+ *
+ * Love goes out to the sourcemod team and all other plugin developers!
+ * THANKS FOR MAKING FREE SOFTWARE!
+ *
+ * This file is part of the MyStore SourceMod Plugin.
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, version 3.0, as published by the
+ * Free Software Foundation.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #if defined _mystore_included
 	#endinput
@@ -7,7 +35,7 @@
 public SharedPlugin __pl_mystore =
 {
 	name = "mystore",
-	file = "mystore.smx",
+	file = "mystore_core.smx",
 
 #if defined REQUIRE_PLUGIN
 	required = 1,
@@ -15,7 +43,6 @@ public SharedPlugin __pl_mystore =
 	required = 0,
 #endif
 };
-
 
 #if !defined REQUIRE_PLUGIN
 public void __pl_mystore_SetNTVOptional()
@@ -52,6 +79,7 @@ public void __pl_mystore_SetNTVOptional()
 	MarkNativeAsOptional("MyStore_SellClientItem");
 	MarkNativeAsOptional("MyStore_HasClientItem");
 	MarkNativeAsOptional("MyStore_IterateEquippedItems");
+	MarkNativeAsOptional("MyStore_SQLEscape");
 	MarkNativeAsOptional("MyStore_SQLQuery");
 	MarkNativeAsOptional("MyStore_SQLTransaction");
 }
@@ -469,7 +497,16 @@ native int MyStore_GetClientTarget(int client);
 native int MyStore_IterateEquippedItems(int client, int &start, bool attributes = false);
 
 /**
- * Iterate throuh all equipped items of a client.
+ * Send an string to core plugin to escape for SQL querys/transactions
+ *
+ * @param tnx			string to escape
+
+ * @return				-1 if db is not connected else 1
+ */
+native int MyStore_SQLEscape(char[] escapeString);
+
+/**
+ * Send and SQL transaction through the core plugin to database server
  *
  * @param tnx			Transaction to query
  * @param callback		Callback to recieve answer from db
@@ -480,7 +517,7 @@ native int MyStore_IterateEquippedItems(int client, int &start, bool attributes 
 native int MyStore_SQLTransaction(Transaction tnx, SQLTxnSuccess callback, any data);
 
 /**
- * Iterate throuh all equipped items of a client.
+ * Send and SQL query through the core plugin to database server
  *
  * @param query			Query to send to db
  * @param callback		Callback to recieve answer from db
@@ -491,7 +528,7 @@ native int MyStore_SQLTransaction(Transaction tnx, SQLTxnSuccess callback, any d
 native int MyStore_SQLQuery(char[] query, SQLQueryCallback callback, any data);
 
 /**
- * Iterate throuh all equipped items of a client.
+ * Set an mystore Log Message
  *
  * @param client		Client triggered logging event
  * @param callback		Message to log

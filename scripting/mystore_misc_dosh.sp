@@ -1,13 +1,40 @@
-//https://forums.alliedmods.net/showthread.php?p=2558324
+/*
+ * MyStore - Dosh money module
+ * by: shanapu
+ * https://github.com/shanapu/
+ * 
+ * Copyright (C) 2018-2019 Thomas Schmidt (shanapu)
+ * Credits: PeEzZ - https://forums.alliedmods.net/showthread.php?p=2558324
+ * Contributer:
+ *
+ * Original development by Zephyrus - https://github.com/dvarnai/store-plugin
+ *
+ * Love goes out to the sourcemod team and all other plugin developers!
+ * THANKS FOR MAKING FREE SOFTWARE!
+ *
+ * This file is part of the MyStore SourceMod Plugin.
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, version 3.0, as published by the
+ * Free Software Foundation.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include <sourcemod>
 #include <sdktools>
 #include <sdkhooks>
 
-#include <mystore>
+#include <mystore> //https://raw.githubusercontent.com/shanapu/MyStore/master/scripting/include/mystore.inc
 
-#include <colors>
-#include <autoexecconfig>
+#include <colors> //https://raw.githubusercontent.com/shanapu/MyStore/master/scripting/include/colors.inc
+#include <autoexecconfig> //https://raw.githubusercontent.com/Impact123/AutoExecConfig/development/autoexecconfig.inc
 
 #pragma semicolon 1
 #pragma newdecls required
@@ -36,7 +63,7 @@ public void OnPluginStart()
 
 	HookEvent("round_start", Event_RoundStart);
 
-	AutoExecConfig_SetFile("dosh", "MyStore");
+	AutoExecConfig_SetFile("dosh", "sourcemod/MyStore");
 	AutoExecConfig_SetCreateFile(true);
 
 	gc_iAmount = AutoExecConfig_CreateConVar("mystore_dosh_amount", "100", "The amount of credits for one dosh.",  _, true, 1.0);
@@ -187,7 +214,7 @@ public Action Timer_Money(Handle timer, int reference)
 		float money_pos[3], client_pos[3];
 
 		GetEntPropVector(entity, Prop_Data, "m_vecOrigin", money_pos);
-		for(int client = 1; client <= MaxClients; client++)
+		for (int client = 1; client <= MaxClients; client++)
 		{
 			if (IsClientInGame(client) && IsPlayerAlive(client))
 			{

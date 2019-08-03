@@ -1,27 +1,48 @@
+/*
+ * MyStore - Core plugin
+ * by: shanapu
+ * https://github.com/shanapu/
+ * 
+ * Copyright (C) 2018-2019 Thomas Schmidt (shanapu)
+ * Credits: Kxnrl - https://github.com/Kxnrl/Store
+ * Contributer:
+ *
+ * Original development by Zephyrus - https://github.com/dvarnai/store-plugin
+ *
+ * Love goes out to the sourcemod team and all other plugin developers!
+ * THANKS FOR MAKING FREE SOFTWARE!
+ *
+ * This file is part of the MyStore SourceMod Plugin.
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, version 3.0, as published by the
+ * Free Software Foundation.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #pragma semicolon 1
 #pragma newdecls required
-
-
-#define PLUGIN_NAME "MyStore - MyResurrection of the Resurrection"
-#define PLUGIN_AUTHOR "shanapu, Zephyrus"
-#define PLUGIN_DESCRIPTION "A completely old Store system - completely new rewritten."
-#define PLUGIN_VERSION "0.x"
-#define PLUGIN_URL ""
 
 
 #include <sourcemod>
 #include <sdktools>
 #include <cstrike>
 
-#include <mystore>
+#include <mystore> //https://raw.githubusercontent.com/shanapu/MyStore/master/scripting/include/mystore.inc
 
-#include <colors>
-#include <autoexecconfig>
+#include <colors> //https://raw.githubusercontent.com/shanapu/MyStore/master/scripting/include/colors.inc
+#include <autoexecconfig> //https://raw.githubusercontent.com/Impact123/AutoExecConfig/development/autoexecconfig.inc
 
 #undef REQUIRE_PLUGIN
 #include <adminmenu>
 #define REQUIRE_PLUGIN
-
 
 
 int g_iEquipment[MAXPLAYERS + 1][STORE_MAX_TYPES * STORE_MAX_SLOTS];
@@ -64,8 +85,8 @@ ConVar gc_bConfirm;
 ConVar gc_sAdminFlags;
 ConVar gc_bSaveOnDeath;
 ConVar gc_bShowVIP;
-ConVar gc_bLogging;
-ConVar gc_bLoggingLevel;
+ConVar gc_iLogging;
+ConVar gc_iLoggingLevel;
 ConVar gc_bSilent;
 ConVar gc_sPrefix;
 ConVar gc_sName;
@@ -75,7 +96,7 @@ ConVar gc_bGenerateUId;
 
 Database g_hDatabase = null;
 
-Handle g_hLogFile = null;
+File g_hLogFile = null;
 
 Handle gf_hOnItemEquipt;
 Handle gf_hPreviewItem;
@@ -105,13 +126,14 @@ TopMenu g_hTopMenu = null;
 
 TopMenuObject g_hTopMenuObject;
 
+
 public Plugin myinfo = 
 {
-	name = PLUGIN_NAME,
-	author = PLUGIN_AUTHOR,
-	description = PLUGIN_DESCRIPTION,
-	version = PLUGIN_VERSION,
-	url = PLUGIN_URL
+	name = "MyStore - MyResurrection of the Resurrection",
+	author = "shanapu, Zephyrus",
+	description = "A completely old Store system - completely rewritten.",
+	version = "0.1",
+	url = "github.com/shanapu/MyStore"
 };
 
 public void OnPluginStart()
@@ -134,7 +156,7 @@ public void OnPluginStart()
 	RegConsoleCmd("sm_credits", Command_Credits);
 
 	DirExistsEx("cfg/MyStore");
-	AutoExecConfig_SetFile("core", "MyStore");
+	AutoExecConfig_SetFile("core", "sourcemod/MyStore");
 	AutoExecConfig_SetCreateFile(true);
 
 	// Register ConVars
@@ -150,8 +172,8 @@ public void OnPluginStart()
 	gc_sPrefix = AutoExecConfig_CreateConVar("mystore_chat_tag", "{green}[MyStore] {default}", "The chat tag to use for displaying messages (with colors).");
 	gc_sName = AutoExecConfig_CreateConVar("mystore_name", "MyStore", "Name for the store for displaying messages & menus (no colors).");
 	gc_bShowVIP = AutoExecConfig_CreateConVar("mystore_show_vip_items", "0", "If you enable this, items with flags will be shown in grey.", _, true, 0.0, true, 1.0);
-	gc_bLogging = AutoExecConfig_CreateConVar("mystore_logging", "0", "Set this to 1 for file logging and 2 to SQL logging (only MySQL). Leaving on 0 = disabled. ", _, true, 0.0, true, 2.0);
-	gc_bLoggingLevel = AutoExecConfig_CreateConVar("mystore_logging_level", "4", "4 = Log all events - Error, Admin, Event & Credit / 3 = No log credits - Log Error, Admin & Event / 2 = No log credits & events - Log Error & Admin / 1 = Only Log Error", _, true, 1.0, true, 4.0);
+	gc_iLogging = AutoExecConfig_CreateConVar("mystore_logging", "0", "Set this to 1 for file logging and 2 to SQL logging. Leaving on 0 = disabled. ", _, true, 0.0, true, 2.0);
+	gc_iLoggingLevel = AutoExecConfig_CreateConVar("mystore_logging_level", "4", "4 = Log all events - Error, Admin, Event & Credit / 3 = No log credits - Log Error, Admin & Event / 2 = No log credits & events - Log Error & Admin / 1 = Only Log Error", _, true, 1.0, true, 4.0);
 	gc_bSilent = AutoExecConfig_CreateConVar("mystore_silent_givecredits", "0", "Controls the give credits message visibility. 0 = public 1 = private 2 = no message", _, true, 0.0, true, 2.0);
 	gc_sCustomCommand = AutoExecConfig_CreateConVar("mystore_cmds", "shop, item, mystore", "Set your custom chat commands for the store(!store (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)");
 	gc_sCreditsName = AutoExecConfig_CreateConVar("mystore_credits_name", "Credits", "Set your credits name");
@@ -309,17 +331,12 @@ public void OnConfigsExecuted()
 	Forward_OnConfigsExecuted();
 
 	// Open log file
-	if (gc_bLogging.IntValue != 1 || g_hLogFile != null)
+	if (gc_iLogging.IntValue != 1 || g_hLogFile != null)
 		return;
 
 	char sPath[PLATFORM_MAX_PATH];
-	BuildPath(Path_SM, sPath, sizeof(sPath), "logs/mystore.log.txt");
-	g_hLogFile = OpenFile(sPath, "w+");
-}
-
-public void OnAllPluginsLoaded()
-{
-	CreateTimer(0.1, Timer_LoadConfig);
+	BuildPath(Path_SM, sPath, sizeof(sPath), "logs/mystore.log");
+	g_hLogFile = OpenFile(sPath, "at");
 }
 
 public void OnPluginEnd()
@@ -395,6 +412,7 @@ public Action Command_Say(int client, char [] command, int args)
 						BuyItem(client, i);
 					}
 				}
+
 				break;
 			}
 		}
@@ -641,7 +659,7 @@ public Action Command_ResetPlayer(int client, int params)
 			CPrintToChat(client, "%s%t", g_sChatPrefix, "Credit Too Many Matches");
 			return Plugin_Handled;
 		}
-		
+
 		if (iClients != 1)
 		{
 			CPrintToChat(client, "%s%t", g_sChatPrefix, "Credit No Match");
@@ -703,16 +721,15 @@ public Action Command_Credits(int client, int params)
 
 public void Event_PlayerDeath(Event event, char[] name, bool dontBroadcast)
 {
-	int victim = GetClientOfUserId(event.GetInt("userid"));
-
 	if (!gc_bSaveOnDeath.BoolValue)
 		return;
+
+	int victim = GetClientOfUserId(event.GetInt("userid"));
 
 	SQL_SaveClientData(victim);
 	SQL_SaveClientInventory(victim);
 	SQL_SaveClientEquipment(victim);
 }
-
 
 /******************************************************************************
                    Sourcemod forwards
@@ -824,7 +841,7 @@ public void AdminMenu_ResetDb(TopMenu topmenu, TopMenuAction action, TopMenuObje
 	else if (action == TopMenuAction_SelectOption)
 	{
 		g_iMenuNum[client] = 0;
-		MyStore_DisplayConfirmMenu(client, "Do you want to reset database?\nServer will be restarted!", FakeMenuHandler_ResetDatabase, 0);
+		MyStore_DisplayConfirmMenu(client, "Do you want to reset database?\nAfter that, you have to restart the server!", FakeMenuHandler_ResetDatabase, 0);
 	}
 }
 
@@ -1060,6 +1077,15 @@ void DisplayStoreMenu(int client, int parent = -1, int last = -1)
 	g_iMenuNum[client] = 1;
 	int target = g_iMenuClient[client];
 
+	if (!target || !IsClientInGame(target) || IsFakeClient(target))
+	{
+		g_iMenuClient[client] = client;
+
+		//Display Store Menu ...
+		DisplayStoreMenu(client);
+		return;
+	}
+
 	Menu menu = new Menu(MenuHandler_Store);
 
 	// Build menu title
@@ -1076,6 +1102,10 @@ void DisplayStoreMenu(int client, int parent = -1, int last = -1)
 		}
 
 		g_iMenuBack[client] = g_aItems[parent][iParent];
+	}
+	else if (g_bInvMode[client])
+	{
+		menu.SetTitle("%t\n%t", "Title Inventory", "Title Credits", g_sCreditsName, g_iCredits[target]);
 	}
 	else if (client == target)
 	{
@@ -1161,7 +1191,7 @@ void DisplayStoreMenu(int client, int parent = -1, int last = -1)
 						menu.InsertItem(iPosition, sId, sBuffer, (costs <= g_iCredits[target] ? ITEMDRAW_DEFAULT : ITEMDRAW_DISABLED));
 					}
 				}
-			//	iPosition++; // old
+				iPosition++; // old
 			}
 			// This is a normal item
 			else
@@ -1223,7 +1253,7 @@ void DisplayStoreMenu(int client, int parent = -1, int last = -1)
 
 			}
 
-			iPosition++;
+		//	iPosition++;  //new
 		}
 	}
 
@@ -1855,7 +1885,7 @@ public int MenuHandler_Item(Menu menu, MenuAction action, int client, int param2
 					Call_PushString(g_aTypeHandlers[g_aItems[g_iSelectedItem[client]][iHandler]][szType]);
 					Call_PushCell(g_aItems[g_iSelectedItem[client]][iDataIndex]);
 					Call_Finish();
-					g_iSpam[client] = GetTime() + 10; //todo preivewtime
+					g_iSpam[client] = GetTime() + 10;
 				}
 				else
 				{
@@ -1941,6 +1971,8 @@ public Action Timer_DatabaseTimeout(Handle timer, int userid)
 	{
 		SetFailState("Database connection failed to initialize after %i retrie(s)", gc_iDBRetries.IntValue);
 	}
+
+	CreateTimer(0.1, Timer_LoadConfig);
 
 	return Plugin_Stop;
 }
@@ -2154,9 +2186,13 @@ public void SQLCallback_Connect(Database db, const char[] error, any data)
 						)");
 		}
 
-		tnx.AddQuery("DELETE FROM mystore_items WHERE `date_of_expiration` <> 0 AND `date_of_expiration` < %i", GetTime());
+		char sQuery[256];
+		Format(sQuery, sizeof(sQuery), "DELETE FROM mystore_items WHERE `date_of_expiration` <> 0 AND `date_of_expiration` < %i", GetTime());
+		tnx.AddQuery(sQuery);
 
 		g_hDatabase.Execute(tnx, SQLTXNCallback_Success, SQLTXNCallback_Error, time);
+
+		CreateTimer(0.1, Timer_LoadConfig);
 	}
 }
 
@@ -2248,7 +2284,7 @@ public void SQLCallback_LoadClientInventory_Items(Database db, DBResultSet resul
 		int itime = GetTime();
 
 		int i = 0;
-		while(results.FetchRow())
+		while (results.FetchRow())
 		{
 			iUniqueID = -1;
 			iExpiration = results.FetchInt(4);
@@ -2257,7 +2293,7 @@ public void SQLCallback_LoadClientInventory_Items(Database db, DBResultSet resul
 
 			results.FetchString(1, sType, sizeof(sType));
 			results.FetchString(2, sUniqueId, sizeof(sUniqueId));
-			while((iUniqueID = GetItemId(sType, sUniqueId, iUniqueID)) != -1)
+			while ((iUniqueID = GetItemId(sType, sUniqueId, iUniqueID)) != -1)
 			{
 				g_iPlayerItems[client][i][UNIQUE_ID] = iUniqueID;
 				g_iPlayerItems[client][i][SYNCED] = 1;
@@ -2291,7 +2327,7 @@ public void SQLCallback_LoadClientInventory_Equipment(Database db, DBResultSet r
 		char sType[16];
 		int iUniqueID;
 
-		while(results.FetchRow())
+		while (results.FetchRow())
 		{
 			results.FetchString(1, sType, sizeof(sType));
 			results.FetchString(2, sUniqueId, sizeof(sUniqueId));
@@ -2435,6 +2471,7 @@ public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max
 	CreateNative("MyStore_TransferClientItem", Native_TransferClientItem);
 	CreateNative("MyStore_HasClientItem", Native_HasClientItem);
 	CreateNative("MyStore_IterateEquippedItems", Native_IterateEquippedItems);
+	CreateNative("MyStore_SQLEscape", Native_SQLEscape);
 	CreateNative("MyStore_SQLQuery", Native_SQLQuery);
 	CreateNative("MyStore_SQLTransaction", Native_SQLTransaction);
 	CreateNative("MyStore_LogMessage", Native_LogMessage);
@@ -2527,6 +2564,20 @@ public void Natives_SQLTXNCallback_Error(Database db, DataPack pack, int numQuer
 	MyLogMessage(0, LOG_ERROR, "Natives_SQLTXNCallback_Error: %s - Plugin: %s Querys: %i - FailedIndex: %i", error, sBuffer, numQueries, failIndex);
 }
 
+public int Native_SQLEscape(Handle plugin, int numParams)
+{
+	if (g_hDatabase == null)
+		return -1;
+
+	char sBuffer[512];
+	GetNativeString(1, sBuffer, sizeof(sBuffer));
+
+	g_hDatabase.Escape(sBuffer, sBuffer, sizeof(sBuffer));
+
+	SetNativeString(1, sBuffer, sizeof(sBuffer));
+
+	return 1;
+}
 
 public int Native_SQLQuery(Handle plugin, int numParams)
 {
@@ -2942,7 +2993,7 @@ public int Native_SellClientItem(Handle plugin, int numParams)
 			iLeft = 0;
 		}
 
-		iCredit = RoundToCeil(iCredit * view_as<float>(iLeft) / view_as<float>(iLength));
+		iCredit = RoundToCeil(iCredit * iLeft / iLength * 1.0);
 	}
 	else
 	{
@@ -3179,6 +3230,7 @@ void GoThroughConfig(KeyValues &kv, int parent = -1)
 			{
 				Format(g_aItems[g_iItemCount][szUniqueId], 64, "uid_%s_%s_%i", sType, g_aItems[g_iItemCount][szName], parent);
 				ReplaceString(g_aItems[g_iItemCount][szUniqueId], 64, " ", "_");
+				ReplaceString(g_aItems[g_iItemCount][szUniqueId], 64, "-", "_");
 				StringToLower(g_aItems[g_iItemCount][szUniqueId]);
 				kv.SetString("unique_id", g_aItems[g_iItemCount][szUniqueId]);
 			}
@@ -3416,10 +3468,10 @@ bool PackageHasClientItem(int client, int packageid, bool invmode = false)
 
 void MyLogMessage(int client = 0, int level, char[] message, any ...)
 {
-	if (gc_bLogging.IntValue < 1)
+	if (gc_iLogging.IntValue < 1)
 		return;
 
-	if (gc_bLoggingLevel.IntValue <= level)
+	if (gc_iLoggingLevel.IntValue <= level)
 		return;
 
 	char sLevel[8];
@@ -3438,14 +3490,18 @@ void MyLogMessage(int client = 0, int level, char[] message, any ...)
 		}
 	}
 
-	switch(gc_bLogging.IntValue)
+	switch(gc_iLogging.IntValue)
 	{
-		case 1: LogToOpenFileEx(g_hLogFile, "%s - %L - %s", sLevel, client, sReason);
 		case 2:
 		{
 			char sQuery[256];
+			g_hDatabase.Escape(sQuery, sQuery, sizeof(sQuery));
 			Format(sQuery, sizeof(sQuery), "INSERT INTO mystore_logs (level, player_id, reason, date) VALUES(\"%s\", %i, \"%s\", %i)", sLevel, g_iPlayerID[client], sReason, GetTime());
 			g_hDatabase.Query(SQLCallback_Void_Error, sQuery);
+		}
+		default:
+		{
+			LogToOpenFileEx(g_hLogFile, "%s - %L - %s", sLevel, client, sReason); //WriteFileLine(g_hLogFile, "%s - %L - %s", sLevel, client, sReason); //todo dont work
 		}
 	}
 }
@@ -3563,7 +3619,7 @@ int GetClientBySteamID(char[] steamid)
 {
 	char authid[32];
 
-	for(int i = 1; i <= MaxClients; i++)
+	for (int i = 1; i <= MaxClients; i++)
 	{
 		if (!IsClientInGame(i))
 			continue;

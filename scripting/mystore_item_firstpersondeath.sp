@@ -1,4 +1,31 @@
-// https://forums.alliedmods.net/showthread.php?t=297516
+/*
+ * MyStore - Emote item module
+ * by: shanapu
+ * https://github.com/shanapu/
+ * 
+ * Copyright (C) 2018-2019 Thomas Schmidt (shanapu)
+ * Credits: Franc1sco - https://forums.alliedmods.net/showthread.php?t=297516
+ * Contributer:
+ *
+ * Original development by Zephyrus - https://github.com/dvarnai/store-plugin
+ *
+ * Love goes out to the sourcemod team and all other plugin developers!
+ * THANKS FOR MAKING FREE SOFTWARE!
+ *
+ * This file is part of the MyStore SourceMod Plugin.
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, version 3.0, as published by the
+ * Free Software Foundation.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #pragma semicolon 1
 #pragma newdecls required
@@ -7,9 +34,9 @@
 #include <sdktools>
 #include <sdkhooks>
 
-#include <mystore>
+#include <mystore> //https://raw.githubusercontent.com/shanapu/MyStore/master/scripting/include/mystore.inc
 
-#include <autoexecconfig>
+#include <autoexecconfig> //https://raw.githubusercontent.com/Impact123/AutoExecConfig/development/autoexecconfig.inc
 
 ConVar gc_bEnable;
 
@@ -22,7 +49,7 @@ public void OnPluginStart()
 {
 	LoadTranslations("mystore.phrases");
 
-	AutoExecConfig_SetFile("items", "MyStore");
+	AutoExecConfig_SetFile("items", "sourcemod/MyStore");
 	AutoExecConfig_SetCreateFile(true);
 
 	AutoExecConfig_ExecuteFile();
@@ -144,7 +171,7 @@ bool SpawnCam(int client, int Ragdoll)
 
 public Action ClearCamTimer(Handle timer, int client)
 {
-	if(ClientCamera[client])
+	if (ClientCamera[client])
 	{
 //		DarkenScreen(client, 0, false);
 
@@ -152,13 +179,13 @@ public Action ClearCamTimer(Handle timer, int client)
 		ClientCamera[client] = false;
 	}
 }
-
+/*
 void DarkenScreen(int client, int duration, bool dark)
 {
 	Handle hFadeClient = StartMessageOne("Fade", client);
 	PbSetInt(hFadeClient, "duration", duration);
 	PbSetInt(hFadeClient, "hold_time", 0);
-	if(!dark)
+	if (!dark)
 	{
 		PbSetInt(hFadeClient, "flags", 0x0010); // FFADE_STAYOUT	0x0008		ignores the duration, stays faded out until new ScreenFade message received
 	}
@@ -169,7 +196,7 @@ void DarkenScreen(int client, int duration, bool dark)
 	PbSetColor(hFadeClient, "clr", {0, 0, 0, 255});
 	EndMessage();
 }
-
+*/
 public void OnClientDisconnect(int client)
 {
 	g_bEquipt[client] = false;

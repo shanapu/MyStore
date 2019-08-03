@@ -1,3 +1,32 @@
+/*
+ * MyStore - Connect item module
+ * by: shanapu
+ * https://github.com/shanapu/
+ * 
+ * Copyright (C) 2018-2019 Thomas Schmidt (shanapu)
+ * Credits:
+ * Contributer:
+ *
+ * Original development by Zephyrus - https://github.com/dvarnai/store-plugin
+ *
+ * Love goes out to the sourcemod team and all other plugin developers!
+ * THANKS FOR MAKING FREE SOFTWARE!
+ *
+ * This file is part of the MyStore SourceMod Plugin.
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, version 3.0, as published by the
+ * Free Software Foundation.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #pragma semicolon 1
 #pragma newdecls required
 
@@ -7,8 +36,8 @@
 #include <cstrike>
 #include <geoip>
 
-#include <colors>
-#include <mystore>
+#include <colors> //https://raw.githubusercontent.com/shanapu/MyStore/master/scripting/include/colors.inc
+#include <mystore> //https://raw.githubusercontent.com/shanapu/MyStore/master/scripting/include/mystore.inc
 
 char g_sChatPrefix[128];
 
@@ -40,19 +69,26 @@ public void Connect_OnMapStart()
 
 	for (int i = 0; i < g_iCount; i++)
 	{
-		FormatEx(sBuffer, sizeof(sBuffer), "sound/%s", g_sConnectSound[i]);
-		if (!FileExists(sBuffer, true))
-			continue;
+		if (g_sConnectSound[i][0])
+		{
+			FormatEx(sBuffer, sizeof(sBuffer), "sound/%s", g_sConnectSound[i]);
+			if (FileExists(sBuffer, true))
+			{
+				PrecacheSound(g_sConnectSound[i], true);
+				AddFileToDownloadsTable(sBuffer);
+			}
+		}
 
-		PrecacheSound(g_sConnectSound[i], true);
-		AddFileToDownloadsTable(sBuffer);
+		if (g_sDisconnectSound[i][0])
+		{
+			FormatEx(sBuffer, sizeof(sBuffer), "sound/%s", g_sDisconnectSound[i]);
+			if (!FileExists(sBuffer, true))
+				continue;
 
-		FormatEx(sBuffer, sizeof(sBuffer), "sound/%s", g_sDisconnectSound[i]);
-		if (!FileExists(sBuffer, true))
-			continue;
+			PrecacheSound(g_sDisconnectSound[i], true);
+			AddFileToDownloadsTable(sBuffer);
+		}
 
-		PrecacheSound(g_sDisconnectSound[i], true);
-		AddFileToDownloadsTable(sBuffer);
 	}
 }
 
@@ -65,11 +101,11 @@ public bool Connect_Config(KeyValues &kv, int itemid)
 {
 	MyStore_SetDataIndex(itemid, g_iCount);
 
-	kv.GetString("connect_text", g_sConnectText[g_iCount], 128);
-	kv.GetString("connect_sound", g_sConnectSound[g_iCount], 128);
+	kv.GetString("connect_text", g_sConnectText[g_iCount], 128, "");
+	kv.GetString("connect_sound", g_sConnectSound[g_iCount], 128, "");
 	g_fConnectVolume[g_iCount] = kv.GetFloat("connect_sound_volume", 1.0);
-	kv.GetString("disconnect_text", g_sDisconnectText[g_iCount], 128);
-	kv.GetString("disconnect_sound", g_sDisconnectSound[g_iCount], 128);
+	kv.GetString("disconnect_text", g_sDisconnectText[g_iCount], 128, "");
+	kv.GetString("disconnect_sound", g_sDisconnectSound[g_iCount], 128, "");
 	g_fDisconnectVolume[g_iCount] = kv.GetFloat("disconnect_sound_volume", 1.0);
 
 	if (g_fConnectVolume[g_iCount] > 1.0)
@@ -126,22 +162,25 @@ public Action Timer_OnClientPutInServer(Handle timer, int userid)
 	if (!client || !IsClientInGame(client) || g_iActive[client] == -1)
 		return Plugin_Handled;
 
-	char sBuffer[256];
-	strcopy(sBuffer, sizeof(sBuffer), g_sConnectText[g_iActive[client]]);
-	char sName[64];
-	char sIP[16];
-	char sCode[4];
-	char sCountry[32];
-	GetClientIP(client, sIP, sizeof(sIP));
-	GeoipCountry(sIP, sCountry, sizeof(sCountry));
-	GeoipCode3(sIP, sCode);
-	GetClientName(client, sName, sizeof(sName));
+	if (g_sConnectText[g_iActive[client]][0])
+	{
+		char sBuffer[256];
+		strcopy(sBuffer, sizeof(sBuffer), g_sConnectText[g_iActive[client]]);
+		char sName[64];
+		char sIP[16];
+		char sCode[4];
+		char sCountry[32];
+		GetClientIP(client, sIP, sizeof(sIP));
+		GeoipCountry(sIP, sCountry, sizeof(sCountry));
+		GeoipCode3(sIP, sCode);
+		GetClientName(client, sName, sizeof(sName));
 
-	ReplaceString(sBuffer, sizeof(sBuffer), "{name}", sName);
-	ReplaceString(sBuffer, sizeof(sBuffer), "{country}", sCountry);
-	ReplaceString(sBuffer, sizeof(sBuffer), "{country_code}", sCode);
+		ReplaceString(sBuffer, sizeof(sBuffer), "{name}", sName);
+		ReplaceString(sBuffer, sizeof(sBuffer), "{country}", sCountry);
+		ReplaceString(sBuffer, sizeof(sBuffer), "{country_code}", sCode);
 
-	CPrintToChatAll("%s%s", g_sChatPrefix, sBuffer);
+		CPrintToChatAll("%s%s", g_sChatPrefix, sBuffer);
+	}
 
 	if (!g_sConnectSound[g_iActive[client]][0])
 		return Plugin_Handled;
@@ -153,7 +192,10 @@ public Action Timer_OnClientPutInServer(Handle timer, int userid)
 
 public void OnClientDisconnect(int client)
 {
-	if (isValidClient(client) && g_iActive[client] != -1)
+	if (!client || !IsClientInGame(client) || g_iActive[client] == -1)
+		return;
+
+	if (g_sDisconnectText[g_iActive[client]][0])
 	{
 		char sBuffer[256];
 		strcopy(sBuffer, sizeof(sBuffer), g_sDisconnectText[g_iActive[client]]);
@@ -171,15 +213,10 @@ public void OnClientDisconnect(int client)
 		ReplaceString(sBuffer, sizeof(sBuffer), "{country_code}", sCode);
 
 		CPrintToChatAll("%s%s", g_sChatPrefix, sBuffer);
-
-		if (!g_sDisconnectSound[g_iActive[client]][0])
-			return;
-
-		EmitSoundToAll(g_sDisconnectSound[g_iActive[client]], SOUND_FROM_WORLD, _, SNDLEVEL_RAIDSIREN, _, g_fDisconnectVolume[g_iActive[client]]);
 	}
-}
 
-bool isValidClient(int client)
-{
-	return (1 <= client <= MaxClients && IsClientInGame(client));
+	if (!g_sDisconnectSound[g_iActive[client]][0])
+		return;
+
+	EmitSoundToAll(g_sDisconnectSound[g_iActive[client]], SOUND_FROM_WORLD, _, SNDLEVEL_RAIDSIREN, _, g_fDisconnectVolume[g_iActive[client]]);
 }

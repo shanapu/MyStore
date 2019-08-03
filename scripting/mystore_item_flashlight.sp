@@ -1,4 +1,31 @@
-// https://forums.alliedmods.net/showthread.php?p=2042310
+/*
+ * MyStore - Flashlight item module
+ * by: shanapu
+ * https://github.com/shanapu/
+ * 
+ * Copyright (C) 2018-2019 Thomas Schmidt (shanapu)
+ * Credits: Mitchell - https://forums.alliedmods.net/showthread.php?p=2042310
+ * Contributer:
+ *
+ * Original development by Zephyrus - https://github.com/dvarnai/store-plugin
+ *
+ * Love goes out to the sourcemod team and all other plugin developers!
+ * THANKS FOR MAKING FREE SOFTWARE!
+ *
+ * This file is part of the MyStore SourceMod Plugin.
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, version 3.0, as published by the
+ * Free Software Foundation.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #pragma semicolon 1
 #pragma newdecls required
@@ -6,9 +33,9 @@
 #include <sourcemod>
 #include <sdktools>
 
-#include <mystore>
+#include <mystore> //https://raw.githubusercontent.com/shanapu/MyStore/master/scripting/include/mystore.inc
 
-#include <autoexecconfig>
+#include <autoexecconfig> //https://raw.githubusercontent.com/Impact123/AutoExecConfig/development/autoexecconfig.inc
 
 ConVar gc_bEnable;
 ConVar bSnd;
@@ -23,7 +50,7 @@ public void OnPluginStart()
 	AddCommandListener(Command_LAW, "+lookatweapon");
 	RegConsoleCmd("sm_flashlight", Command_FlashLight);
 
-	AutoExecConfig_SetFile("items", "MyStore");
+	AutoExecConfig_SetFile("items", "sourcemod/MyStore");
 	AutoExecConfig_SetCreateFile(true);
 
 	bSnd = AutoExecConfig_CreateConVar("mystore_flashlight_sound", "1", "Enable sound when a player uses the flash light.", _, true, 0.0, true, 1.0);

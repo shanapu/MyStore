@@ -1,3 +1,32 @@
+/*
+ * MyStore - Teambet gamble module
+ * by: shanapu
+ * https://github.com/shanapu/
+ * 
+ * Copyright (C) 2018-2019 Thomas Schmidt (shanapu)
+ * Credits:
+ * Contributer:
+ *
+ * Original development by Zephyrus - https://github.com/dvarnai/store-plugin
+ *
+ * Love goes out to the sourcemod team and all other plugin developers!
+ * THANKS FOR MAKING FREE SOFTWARE!
+ *
+ * This file is part of the MyStore SourceMod Plugin.
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, version 3.0, as published by the
+ * Free Software Foundation.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #pragma semicolon 1
 #pragma newdecls required
 
@@ -5,10 +34,10 @@
 #include <sdktools>
 #include <cstrike>
 
-#include <mystore>
+#include <mystore> //https://raw.githubusercontent.com/shanapu/MyStore/master/scripting/include/mystore.inc
 
-#include <colors>
-#include <autoexecconfig>
+#include <colors> //https://raw.githubusercontent.com/shanapu/MyStore/master/scripting/include/colors.inc
+#include <autoexecconfig> //https://raw.githubusercontent.com/Impact123/AutoExecConfig/development/autoexecconfig.inc
 
 ConVar gc_iBetPeriod;
 ConVar gc_iMinPlayer;
@@ -37,7 +66,7 @@ public void OnPluginStart()
 {
 	LoadTranslations("mystore.phrases");
 
-	AutoExecConfig_SetFile("gamble", "MyStore");
+	AutoExecConfig_SetFile("gamble", "sourcemod/MyStore");
 	AutoExecConfig_SetCreateFile(true);
 
 	gc_iBetPeriod = AutoExecConfig_CreateConVar("mystore_teambet_period", "35", "How many seconds teambet should be enabled for after round start", _, true, 5.0);
@@ -628,11 +657,11 @@ void Panel_GameInfo(int client)
 	panel.DrawText(" ");
 	panel.DrawText(" ");
 
-	Format(sBuffer, sizeof(sBuffer), "    %s", "Mutli = PotCT + PotT / PotWinningTeam");
+	Format(sBuffer, sizeof(sBuffer), "    %t", "Mutli = PotCT + PotT / PotWinningTeam");
 	panel.DrawText(sBuffer);
 
 	panel.DrawText(" ");
-	Format(sBuffer, sizeof(sBuffer), "    %s", "Bet * Multi = Your Win");
+	Format(sBuffer, sizeof(sBuffer), "    %t", "Bet * Multi = Your Win");
 	panel.DrawText(sBuffer);
 
 	panel.DrawText(" ");

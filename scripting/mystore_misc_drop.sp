@@ -1,12 +1,41 @@
+/*
+ * MyStore - Drop-item module
+ * by: shanapu
+ * https://github.com/shanapu/
+ * 
+ * Copyright (C) 2018-2019 Thomas Schmidt (shanapu)
+ * Credits:
+ * Contributer:
+ *
+ * Original development by Zephyrus - https://github.com/dvarnai/store-plugin
+ *
+ * Love goes out to the sourcemod team and all other plugin developers!
+ * THANKS FOR MAKING FREE SOFTWARE!
+ *
+ * This file is part of the MyStore SourceMod Plugin.
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, version 3.0, as published by the
+ * Free Software Foundation.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include <sourcemod>
 #include <sdktools>
 #include <sdkhooks>
 
-#include <mystore>
+#include <mystore> //https://raw.githubusercontent.com/shanapu/MyStore/master/scripting/include/mystore.inc
 
-#include <colors>
-#include <smartdm>
-#include <autoexecconfig>
+#include <colors> //https://raw.githubusercontent.com/shanapu/MyStore/master/scripting/include/colors.inc
+#include <smartdm> //https://forums.alliedmods.net/attachment.php?attachmentid=136152&d=1406298576
+#include <autoexecconfig> //https://raw.githubusercontent.com/Impact123/AutoExecConfig/development/autoexecconfig.inc
 
 #define MAX_DROPS 64
 
@@ -23,6 +52,10 @@ ConVar gc_sDropSound;
 ConVar gc_sPickUpSound;
 ConVar gc_sEfxFile;
 ConVar gc_sEfxName;
+ConVar gc_iRed;
+ConVar gc_iBlue;
+ConVar gc_iGreen;
+ConVar gc_iAlpha;
 
 char g_sEfxFile[128];
 char g_sEfxName[128];
@@ -40,7 +73,7 @@ public void OnPluginStart()
 {
 	LoadTranslations("mystore.phrases");
 
-	AutoExecConfig_SetFile("drop", "MyStore");
+	AutoExecConfig_SetFile("drop", "sourcemod/MyStore");
 	AutoExecConfig_SetCreateFile(true);
 
 	gc_bDropEnabled = AutoExecConfig_CreateConVar("mystore_drop_enable", "1", "Enable/disable droping of already bought items.", _, true, 0.0, true, 1.0);
@@ -52,6 +85,10 @@ public void OnPluginStart()
 	gc_sPickUpSound = AutoExecConfig_CreateConVar("mystore_drop_sound_pickup", "physics/wood/wood_box_break1.wav", "Path to the pickup sound")
 	gc_sEfxFile = AutoExecConfig_CreateConVar("mystore_drop_efx_pickup_file", "particles/2j.pcf", "Path to the .pcf file")
 	gc_sEfxName = AutoExecConfig_CreateConVar("mystore_drop_efx_pickup_name", "tornado", "name of the particle effect")
+	gc_iRed = AutoExecConfig_CreateConVar("mystore_drop_glow_r", "85", "Red value of glow effect (set R, G , B & alpha values to 0 to disable) (Rgb)", _, true, 0.0, true, 255.0);
+	gc_iGreen = AutoExecConfig_CreateConVar("mystore_drop_glow_g", "85", "Green value of glow effect (set R, G, B & alpha values to 0 to disable) (rGb)", _, true, 0.0, true, 255.0);
+	gc_iBlue = AutoExecConfig_CreateConVar("mystore_drop_glow_b", "5", "Blue value of glow effect (set R, G, B & alpha values to 0 to disable) (rgB)", _, true, 0.0, true, 255.0);
+	gc_iAlpha = AutoExecConfig_CreateConVar("mystore_drop_glow_a", "185", "Alpha value of glow effect (set R, G, B & alpha values to 0 to disable) (alpha)", _, true, 0.0, true, 255.0);
 
 	AutoExecConfig_ExecuteFile();
 	AutoExecConfig_CleanFile();
@@ -308,10 +345,10 @@ void CreateGlow(int ent)
 	SetEntPropFloat(ent, Prop_Send, "m_flGlowMaxDist", 2000.0);
 
 
-	SetEntData(ent, iOffset, 185, _, true);
-	SetEntData(ent, iOffset + 1, 185, _, true);
-	SetEntData(ent, iOffset + 2, 5, _, true);
-	SetEntData(ent, iOffset + 3, 85, _, true);
+	SetEntData(ent, iOffset, gc_iRed.IntValue, _, true);
+	SetEntData(ent, iOffset + 1, gc_iGreen.IntValue, _, true);
+	SetEntData(ent, iOffset + 2, gc_iBlue.IntValue, _, true);
+	SetEntData(ent, iOffset + 3, gc_iAlpha.IntValue, _, true);
 }
 
 void CreateTriggerProp(int ent, float pos[3], char[] name)

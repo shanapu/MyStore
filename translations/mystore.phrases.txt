@@ -1,12 +1,40 @@
-﻿"Phrases"
+﻿/*
+ * MyStore - Translations file
+ * by: shanapu
+ * https://github.com/shanapu/
+ * 
+ * Copyright (C) 2018-2019 Thomas Schmidt (shanapu)
+ * Credits:
+ * Contributer:
+ *
+ * Original development by Zephyrus - https://github.com/dvarnai/store-plugin
+ *
+ * Love goes out to the sourcemod team and all other plugin developers!
+ * THANKS FOR MAKING FREE SOFTWARE!
+ *
+ * This file is part of the MyStore SourceMod Plugin.
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, version 3.0, as published by the
+ * Free Software Foundation.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+"Phrases"
 {
 	// Common
 	"You dont have permission"
 	{
-		"en" "You don't have permission to access this."
-		"hu" "Nincs jogosultságod ehhez."
+		"en"		"You don't have permission to access this."
+		"hu"		"Nincs jogosultságod ehhez."
 	}
-
 
 	"x hours, x minutes, x seconds"
 	{
@@ -14,18 +42,17 @@
 		"en"		"{1} hours {2} minutes and {3} seconds"
 	}
 
-
 	"x minutes, x seconds"
 	{
 		"#format"	"{1:i},{2:i}"
 		"en"		"{1} minutes and {2} seconds"
 	}
+
 	"x seconds"
 	{
 		"#format"	"{1:i}"
 		"en"		"{1} seconds"
 	}
-
 
 	"Counter-Terrorist"
 	{
@@ -37,26 +64,30 @@
 		"en"		"Terrorist"
 	}
 
-
-	"Spacer"
+	"Spacer" //Earning Sum
 	{
 		"en"		"{green}----------------------"
 	}
 
 	"Must be Alive"
 	{
-		"en" "You must be alive to use this."
-		"hu" "Ez a parancs halottként nem használható."
+		"en"		"You must be alive to use this."
+		"hu"		"Ez a parancs halottként nem használható."
+	}
+
+	"HUD"
+	{
+		"en"		"HUD"
 	}
 
 	"Back"
 	{
-		"en" "Back"
+		"en"		"Back"
 	}
 
 	"Exit"
 	{
-		"en" "Exit"
+		"en"		"Exit"
 	}
 
 	"Close"
@@ -71,245 +102,263 @@
 
 	"Confirm_Yes"
 	{
-		"en" "Yes"
-		"hu" "Igen"
+		"en"		"Yes"
+		"hu"		"Igen"
 	}
 	
 	"Confirm_No"
 	{
-		"en" "No"
-		"hu" "Nem"
+		"en"		"No"
+		"hu"		"Nem"
 	}
 
 	"Wrong Team"
 	{
-		"en" "You can't use this item in your team."
+		"en"		"You can't use this item in your team."
 	}
 
 	"Round Limit"
 	{
-		"en" "You have reached the maximum use of this item in this round."
+		"en"		"You have reached the maximum use of this item in this round."
 	}
 
 	"Spam Cooldown"
 	{
-		"#format" "{1:i}"
-		"en" "Spam Protection. Please wait {1} seconds."
+		"#format"	"{1:i}"
+		"en"		"Spam Protection. Please wait {1} seconds."
+	}
+
+	"Item hidden"
+	{
+		"#format"	"{1:t}"
+		"en"		"{darkred}{1} {default}hidden. You wont't see them anymore."
+	}
+
+	"Item visible"
+	{
+		"#format"	"{1:t}"
+		"en"		"{green}{1}s {default}are visible again."
 	}
 
 	// Core
 	"Player Resetted"
 	{
-		"#format" "{1:N}"
-		"en" "{1} has been resetted."
-		"hu" "{1} nullázva lett."
+		"#format"	"{1:N}"
+		"en"		"{1} has been resetted."
+		"hu"		"{1} nullázva lett."
 	}
 
 	"Player Credits"
 	{
-		"#format" "{1:N},{2:i},{3:s}"
-		"en" "{green}{1}{default} has {green}{2}{default} {3}."
+		"#format"	"{1:N},{2:i},{3:s}"
+		"en"		"{green}{1}{default} has {green}{2}{default} {3}."
 	}
+
 	"Inventory hasnt been fetched"
 	{
-		"en" "Please wait. Your inventory hasn't been fetched yet."
-		"hu" "Várj egy kicsit. A tárgyaid még nem töltöttek be."
+		"en"		"Please wait. Your inventory hasn't been fetched yet."
+		"hu"		"Várj egy kicsit. A tárgyaid még nem töltöttek be."
 	}
 
 	"Item Bought"
 	{
-		"#format" "{1:s}"
-		"en" "{1}"
-		"hu" "{1}"
+		"#format"	"{1:s}"
+		"en"		"{1}"
+		"hu"		"{1}"
 	}
 
 	"Item Available"
 	{
-		"#format" "{1:s},{2:i}"
-		"en" "{1} ({2})"
-		"hu" "{1} ({2})"
+		"#format"	"{1:s},{2:i}"
+		"en"		"{1} ({2})"
+		"hu"		"{1} ({2})"
 	}
 
 	"Item Plan Available"
 	{
-		"#format" "{1:s}"
-		"en" "{1} (Choose a plan)"
-		"hu" "{1} (Válassz időszakot)"
+		"#format"	"{1:s}"
+		"en"		"{1} (Choose a plan/abo)"
+		"hu"		"{1} (Válassz időszakot)"
 	}
 
 	"Item Equipped"
 	{
-		"#format" "{1:s}"
-		"en" "{1} [EQUIPPED]"
-		"hu" "{1} [FELVÉVE]"
+		"#format"	"{1:s}"
+		"en"		"{1} [EQUIPPED]"
+		"hu"		"{1} [FELVÉVE]"
 	}
 
 	"Item Equip"
 	{
-		"en" "Equip this item"
-		"hu" "Tárgy felvétele"
+		"en"		"Equip this item"
+		"hu"		"Tárgy felvétele"
 	}
 
 	"Item Unequip"
 	{
-		"en" "Unequip"
-		"hu" "Tárgy levétele"
+		"en"		"Unequip"
+		"hu"		"Tárgy levétele"
 	}
-	
+
 	"Item Use"
 	{
-		"en" "Use this item"
-		"hu" "Tárgy használata"
+		"en"		"Use this item"
+		"hu"		"Tárgy használata"
 	}
 
 	"Title Store"
 	{
-		"#format" "{1:s}"
-		"en" "{1} Menu"
+		"#format"	"{1:s}"
+		"en"		"{1} Menu"
 	}
-	
+
+	"Title Inventory"
+	{
+		"en"		"Inventory"
+	}
+
 	"Title Credits"
 	{
-		"#format" "{1:s},{2:i}"
-		"en" "{1}: {2}"
-		"hu" "{1}: {2}"
+		"#format"	"{1:s},{2:i}"
+		"en"		"{1}: {2}"
+		"hu"		"{1}: {2}"
 	}
-	
+
 	"Title Expiration"
 	{
-		"#format" "{1:i},{2:i}"
-		"en" "Expires in {1}d {2}h"
-		"hu" "Lejár {1}n {2}ó múlva"
+		"#format"	"{1:i},{2:i}"
+		"en"		"Expires in {1}d {2}h"
+		"hu"		"Lejár {1}n {2}ó múlva"
 	}
 
 	"Chat Bought Item"
 	{
-		"#format" "{1:s},{2:t}"
-		"en" "You have bought a {green}{1} {2}{default}."
-		"hu" "A következőt vetted: {green}{1} {2}{default}."
+		"#format"	"{1:s},{2:t}"
+		"en"		"You have bought a {green}{1} {2}{default}."
+		"hu"		"A következőt vetted: {green}{1} {2}{default}."
 	}
+
 	"Credit Invalid Amount"
 	{
-		"#format" "{1:s}"
-		"en" "Invalid amount of {1} entered."
+		"#format"	"{1:s}"
+		"en"		"Invalid amount of {1} entered."
 	}
-	
+
 	"Credit Not Enough"
 	{
-		"#format" "{1:s}"
-		"en" "You don't have enough {1} to buy this."
+		"#format"	"{1:s}"
+		"en"		"You don't have enough {1} to buy this."
 	}
 
 	"Credit Too Many Matches"
 	{
-		"en" "More than one client were found."
-		"hu" "Több mint egy játékos van ilyen névvel."
+		"en"		"More than one client were found."
+		"hu"		"Több mint egy játékos van ilyen névvel."
 	}
 
 	"Credit No Match"
 	{
-		"en" "No player was found."
-		"hu" "Nincs ilyen játékos."
+		"en"		"No player was found."
+		"hu"		"Nincs ilyen játékos."
 	}
 	
 	"Buy Item"
 	{
-		"#format" "{1:i}"
-		"en" "Buy Item ({1})"
+		"#format"	"{1:i}"
+		"en"		"Buy Item ({1})"
 	}
 
 	"Item Plan"
 	{
-		"#format" "{1:s}"
-		"en" "Choose a plan"
+		"#format"	"{1:s}"
+		"en"		"Choose a plan/abo"
 	}
 	
 	"Credits Given"
 	{
-		"#format" "{1:N},{2:i},{3:s}"
-		"en" "{1} has been given {2} {3}."
+		"#format"	"{1:N},{2:i},{3:s}"
+		"en"		"{1} has been given {2} {3}."
 	}
 
 	
 	"Preview Item"
 	{
-		"en" "Preview This Item"
+		"en"		"Preview This Item"
 	}
-	
+
 	"Confirm_Buy"
 	{
-		"#format" "{1:s},{2:t}"
-		"en" "Are you sure you want to buy {1} {2}?"
-		"hu" "Biztosan meg akarod venni a következőt: {1} {2}?"
+		"#format"	"{1:s},{2:t}"
+		"en"		"Are you sure you want to buy {1} {2}?"
+		"hu"		"Biztosan meg akarod venni a következőt: {1} {2}?"
 	}
-	
+
 	"Spawn Preview"
 	{
-		"en" "Spawned a preview in front of you."
+		"en"		"Spawned a preview in front of you."
 	}
 
 	"Play Preview"
 	{
-		"en" "Playing preview sound for you."
+		"en"		"Playing preview sound for you."
 	}
 
 	"Store Disabled"
 	{
-		"en" "The store is temporary disabled."
+		"en"		"The store is temporary disabled."
 	}
-
 
 	// Sell
 	"Item Sell"
 	{
-		"#format" "{1:i},{2:s}"
-		"en" "Sell for {1} {2}"
+		"#format"		"{1:i},{2:s}"
+		"en"		"Sell for {1} {2}"
 	}
 
 	"Chat Sold Item"
 	{
-		"#format" "{1:s},{2:t}"
-		"en" "You have sold a {green}{1} {2}{default}."
-		"hu" "A következőt adtad el: {green}{1} {2}{default}."
-	}
-	"Package Sell"
-	{
-		"#format" "{1:i},{2:s}"
-		"en" "Sell this package for {1} {2}"
-	}
-	
-	"Confirm_Sell"
-	{
-		"#format" "{1:s},{2:t},{3:i}"
-		"en" "Are you sure you want to sell {1} {2} for {3}?"
-		"hu" "Biztosan el akarod adni a következőt: {1} {2}?"
+		"#format"	"{1:s},{2:t}"
+		"en"		"You have sold a {green}{1} {2}{default}."
+		"hu"		"A következőt adtad el: {green}{1} {2}{default}."
 	}
 
+	"Package Sell"
+	{
+		"#format"		"{1:i},{2:s}"
+		"en"		"Sell this package for {1} {2}"
+	}
+
+	"Confirm_Sell"
+	{
+		"#format"		"{1:s},{2:t},{3:i}"
+		"en"		"Are you sure you want to sell {1} {2} for {3}?"
+		"hu"		"Biztosan el akarod adni a következőt: {1} {2}?"
+	}
 
 	// Drop
 	"Item Drop"
 	{
-		"en" "Drop as gift"
+		"en"		"Drop as gift"
 	}
 
 	"Package Drop"
 	{
-		"en" "Drop this package as gift"
+		"en"		"Drop this package as gift"
 	}
 	
 
 	"Confirm_Drop"
 	{
-		"#format" "{1:s},{2:t}"
-		"en" "Are you sure you want to drop {1} {2} as a gift?"
-		"hu" "Biztosan el akarod ajándékozni a következőt: {1} {2}?"
+		"#format"	"{1:s},{2:t}"
+		"en"		"Are you sure you want to drop {1} {2} as a gift?"
+		"hu"		"Biztosan el akarod ajándékozni a következőt: {1} {2}?"
 	}
 
 	"Gift Item Picked"
 	{
-		"#format" "{1:s},{2:t}"
-		"en" "You picked up a {green}{1} {2}{default}."
-		"hu" "A következőt vetted fel {green}{1} {2}{default}."
+		"#format"	"{1:s},{2:t}"
+		"en"		"You picked up a {green}{1} {2}{default}."
+		"hu"		"A következőt vetted fel {green}{1} {2}{default}."
 	}
 
 	"No pick up - back to you"
@@ -349,63 +398,62 @@
 	// Gift
 	"Item Gift"
 	{
-		"en" "Gift this item"
-		"hu" "Tárgy elajándékozása"
+		"en"		"Gift this item"
+		"hu"		"Tárgy elajándékozása"
 	}
 
 	"Package Gift"
 	{
-		"en" "Gift this package"
-		"hu" "Csomag elajándékozása"
+		"en"		"Gift this package"
+		"hu"		"Csomag elajándékozása"
 	}
 
 	"Title Gift"
 	{
-		"en" "Choose a player to send gift to"
-		"hu" "Játékos kiválasztása ajándékozáshoz"
+		"en"		"Choose a player to send gift to"
+		"hu"		"Játékos kiválasztása ajándékozáshoz"
 	}
-	
+
 	"Gift Player Left"
 	{
-		"en" "Selected player has already left the game."
-		"hu" "A kiválasztott játékos már elhagyta a játékot."
+		"en"		"Selected player has already left the game."
+		"hu"		"A kiválasztott játékos már elhagyta a játékot."
 	}
-	
+
 	"Gift No Players"
 	{
-		"en" "There's noone you can gift this item to."
-		"hu" "Nincs senki akinek odatudnád adni ezt a tárgyat."
+		"en"		"There's noone you can gift this item to."
+		"hu"		"Nincs senki akinek odatudnád adni ezt a tárgyat."
 	}
 
 	"Chat Gift Item Sent"
 	{
-		"#format" "{1:s},{2:s},{3:t}"
-		"en" "You have sent {green}{1}{default} a {green}{2} {3}{default} as a gift."
-		"hu" "A következőt küldted: {green}{2} {3}{default} neki: {green}{1}{default}."
+		"#format"	"{1:s},{2:s},{3:t}"
+		"en"		"You have sent {green}{1}{default} a {green}{2} {3}{default} as a gift."
+		"hu"		"A következőt küldted: {green}{2} {3}{default} neki: {green}{1}{default}."
 	}
-	
+
 	"Chat Gift Item Received"
 	{
-		"#format" "{1:s},{2:s},{3:t}"
-		"en" "{green}{1}{default} has sent you a {green}{2} {3}{default} as a gift."
-		"hu" "{green}{1}{default} a következőt küldte neked: {green}{2} {3}{default}."
+		"#format"		"{1:s},{2:s},{3:t}"
+		"en"		"{green}{1}{default} has sent you a {green}{2} {3}{default} as a gift."
+		"hu"		"{green}{1}{default} a következőt küldte neked: {green}{2} {3}{default}."
 	}
-	
+
 	"Credit Gift Disabled"
 	{
-		"en" "Credit gifting is disabled on this server."
-		"hu" "A szerveren a kreditek ajándékozása ki van kapcsolva."
+		"en"		"Credit gifting is disabled on this server."
+		"hu"		"A szerveren a kreditek ajándékozása ki van kapcsolva."
 	}
-	
+
 	"Confirm_Gift"
 	{
-		"#format" "{1:s},{2:t},{3:s}"
-		"en" "Are you sure you want to gift {1} {2} to {3}?"
-		"hu" "Biztosan el akarod ajándékozni a következőt: {1} {2} neki: {3}?"
+		"#format"		"{1:s},{2:t},{3:s}"
+		"en"		"Are you sure you want to gift {1} {2} to {3}?"
+		"hu"		"Biztosan el akarod ajándékozni a következőt: {1} {2} neki: {3}?"
 	}
-	//Discount
-	
 
+	//Discount
 	"Discount Started"
 	{
 		"#format"	"{1:s}"
@@ -423,10 +471,18 @@
 		"#format"	"{1:s}"
 		"en"		"Discount: '{1}' has ended."
 	}
-	
-	
+
+	"discount"
+	{
+		"en"		"% SALE %"
+	}
+
+	"nodiscount"
+	{
+		"en"		""
+	}
+
 	//Gamble
-	
 	"You get x Credits"
 	{
 		"#format"	"{1:i},{2:s}"
@@ -540,6 +596,11 @@
 		"en"		"Press to Start!"
 	}
 
+	"Bet on a Head/Tail"
+	{
+		"en"		"Bet on a Head/Tail"
+	}
+
 	"Bet on a color"
 	{
 		"en"		"Bet on a color and if this color is choosen you win!"
@@ -569,38 +630,38 @@
 
 	"TeamBet Won"
 	{
-		"#format" "{1:i},{2:s}"
-		"en" "Your bet was successful. You won {1} {2}."
+		"#format"	"{1:i},{2:s}"
+		"en"		"Your bet was successful. You won {1} {2}."
 	}
 
 	"TeamBet Lost"
 	{
-		"#format" "{1:i},{2:s}"
-		"en" "You lost {1} {2} on the bet."
+		"#format"	"{1:i},{2:s}"
+		"en"		"You lost {1} {2} on the bet."
 	}
 
 	"TeamBet Invalid Team"
 	{
-		"en" "Invalid team identifier specified."
-		"hu" "Helytelen csapat azonosító."
+		"en"		"Invalid team identifier specified."
+		"hu"		"Helytelen csapat azonosító."
 	}
 
 	"TeamBet Placed"
 	{
-		"#format" "{1:i},{2:s}"
-		"en" "You have successfully placed a bet of {1} {2}."
+		"#format"	"{1:i},{2:s}"
+		"en"		"You have successfully placed a bet of {1} {2}."
 	}
 
 	"TeamBet Already Placed"
 	{
-		"en" "You have already placed your bet for the round."
-		"hu" "Ebben a körben már fogadtál."
+		"en"		"You have already placed your bet for the round."
+		"hu"		"Ebben a körben már fogadtál."
 	}
 
 	"TeamBet Period Over"
 	{
-		"en" "The betting period is over for this round."
-		"hu" "Ebben a körben már nem fogadhatsz."
+		"en"		"The betting period is over for this round."
+		"hu"		"Ebben a körben már nem fogadhatsz."
 	}
 	"Jackpot paused"
 	{
@@ -617,7 +678,13 @@
 	{
 		"en"		"You can start a new Jacktop"
 	}
-	
+
+	"the prize will be drawn in"
+	{
+		"#format"	"{1:s}"
+		"en"		"the prize will be drawn in"
+	}
+
 	"Bet Minium"
 	{
 		"#format"	"{1:i}"
@@ -680,6 +747,51 @@
 		"en"		"Your bet: {1} {2}"
 	}
 
+	"Low #1-3"
+	{
+		"en"		"Low #1-3"
+	}
+
+	"High #4-6"
+	{
+		"en"		"High #4-6"
+	}
+
+	"You won with"
+	{
+		"en"		"You won with"
+	}
+
+	"Bet * Multi = Your Win"
+	{
+		"en"		"Bet * Multi = Your Win"
+	}
+
+	"Mutli = PotCT + PotT / PotWinningTeam"
+	{
+		"en"		"Mutli = PotCT + PotT / PotWinningTeam"
+	}
+
+	"Low #1-3' = "
+	{
+		"en"		"Low #1-3' = "
+	}
+
+	"High #4-6 = "
+	{
+		"en"		"High #4-6 = "
+	}
+
+	"Win = "
+	{
+		"en"		"Win = "
+	}
+
+	"Exact #x  = "
+	{
+		"en"		"Exact #x  = "
+	}
+
 	"No matching color"
 	{
 		"en"		"No matching color, use: r/red, b/black or g/green"
@@ -705,8 +817,8 @@
 
 	"You already cashed in"
 	{
-		"#format"	"{1:i},{2:s},{3:.2f},{4:i}"
-		"en"		"You already cashed {1} {2} into the jackpot. Current win chance: {3}% Jackpot: {4} {2}"
+		"#format"	"{1:i},{2:s},{3:.1f},{4:i},{5:s}"
+		"en"		"You already cashed {1} {2} into the jackpot. Current win chance: {3}%% Jackpot: {4} {5}"
 	}
 
 	"Noone else cashed in"
@@ -728,8 +840,9 @@
 	"All players disconnect"
 	{
 		"#format"	"{1:i},{2:s}"
-		"en"		"All players disconnect, nobody get his {2} back, lol. Jackpot was {1} {2}!"
+		"en"		"All participating players disconnect, nobody get his {2} back, lol. Jackpot was {1} {2}!"
 	}
+
 	"No active Jackpot"
 	{
 		"en"		"No active Jackpot"
@@ -812,6 +925,7 @@
 	{
 		"en"		"wasted"
 	}
+
 	"Type in chat !crowns"
 	{
 		"en"		"Type in chat !crowns <bet>"
@@ -826,6 +940,7 @@
 	{
 		"en"		"Head"
 	}
+
 	"Get three on a kind"
 	{
 		"en"		"Get three on a kind"
@@ -834,70 +949,58 @@
 	//items
 	"Jetpack Fuel"
 	{
-		"#format" "{1:.1f}"
-		"en" "[Jetpack] Fuel: {1}"
-		"hu" "[Jetpack] Üzemanyag: {1}"
+		"#format"		"{1:.1f}"
+		"en"		"[Jetpack] Fuel: {1}"
+		"hu"		"[Jetpack] Üzemanyag: {1}"
 	}
-	
+
 	"Jetpack Reloaded"
 	{
-		"en" "Jetpack is reloaded"
+		"en"		"Jetpack is reloaded"
 	}
 
 	"Jetpack Empty"
 	{
-		"en" "Jetpack is empty"
+		"en"		"Jetpack is empty"
 	}
 
 	"Jihad Failed"
 	{
-		"en" "Your bomb has failed to explode."
+		"en"		"Your bomb has failed to explode."
 	}
 
 	"Jihad Failed All"
 	{
-		"#format" "{1:N}"
-		"en" "{1} jihad bomb has failed to explode."
+		"#format"		"{1:N}"
+		"en"		"{1} jihad bomb has failed to explode."
 	}
 
 	"Recieve Spawn"
 	{
-		"#format" "{1:s}"
-		"en" "You'll recieve {1} on next spawn"
+		"#format"		"{1:s}"
+		"en"		"You'll recieve {1} on next spawn"
 	}
-
 
 	"PlayerModels Settings Changed"
 	{
-		"en" "Your new settings will be applied on next spawn."
-		"hu" "Az új beállításaid a következő élettől fognak működni."
+		"en"		"Your new settings will be applied on next spawn."
+		"hu"		"Az új beállításaid a következő élettől fognak működni."
 	}
-
-
 
 	// Item type names for chat messages
 	"package"
 	{
-		"en" "package"
-		"hu" "csomag"
+		"en"		"package"
 	}
-	
-	"hat"
-	{
-		"en" "hat"
-		"hu" "sapka"
-	}
-	
+
 	"tracer"
 	{
-		"en" "tracer"
-		"hu" "lézer"
+		"en"		"Bullet Tracer"
 	}
 
 	"playermodel"
 	{
-		"en" "player model"
-		"hu" "játékos model"
+		"en"		"Player model"
 	}
 
 	"infinityammo"
@@ -910,175 +1013,132 @@
 		"en"		"Flashlight"
 	}
 
-	"death_effect"
-	{
-		"en"		"Death Effect"
-	}
-
 	"dice"
 	{
-		"en"		"dice"
+		"en"		"Dice"
 	}
 
 	"trail"
 	{
-		"en" "trail"
-		"hu" "csík"
+		"en"		"Player trail"
 	}
 
 	"grenademodel"
 	{
-		"en" "grenade model"
-		"hu" "gránát model"
+		"en"		"Grenade model"
 	}
 
 	"grenadetrail"
 	{
-		"en" "grenade trail"
-		"hu" "gránát csík"
+		"en"		"Grenade trail"
 	}
 
 	"bullet_impact"
 	{
-		"en" "bullets"
-		"hu" "golyók"
-	}
-	
-	"watergun"
-	{
-		"en" "effect"
-		"hu" "effekt"
+		"en"		"Bullet impact"
 	}
 
 	"nametag"
 	{
-		"en" "name tag"
-		"hu" "név tag"
+		"en"		"Name tag"
+		"hu"		"név tag"
 	}
 
 	"namecolor"
 	{
-		"en" "name color"
-		"hu" "név szín"
+		"en"		"Name color"
+		"hu"		"név szín"
 	}
 
 	"msgcolor"
 	{
-		"en" "message color"
-		"hu" "üzenet szín"
+		"en"		"Message color"
 	}
 
 	"jetpack"
 	{
-		"en" "rocket"
-		"hu" "rakéta"
-	}
-
-	"bunnyhop"
-	{
-		"en" "skill"
-		"hu" "képesség"
+		"en"		"Jetpack"
 	}
 
 	"lasersight"
 	{
-		"en" "laser sight"
-		"hu" "lézer"
+		"en"		"Lasersight"
 	}
 
 	"health"
 	{
-		"en" "pack"
-		"hu" "csomag"
+		"en"		"Health"
 	}
-
 
 	"coinflip"
 	{
 		"en"		"Coinflip"
 	}
-	"invisibility"
-	{
-		"en" "ability"
-		"hu" "képesség"
-	}
 
 	"speed"
 	{
-		"en" "ability"
-		"hu" "képesség"
+		"en"		"Speed"
 	}
 
 	"gravity"
 	{
-		"en" "ability"
-		"hu" "képesség"
+		"en"		"Gravity"
 	}
 
 	"weapon"
 	{
-		"en" "weapon"
-		"hu" "fegyver"
+		"en"		"Weapon"
 	}
 
 	"hitsound"
 	{
-		"en" "hitsound"
+		"en"		"Hitsound"
 	}
 
 	"sound"
 	{
-		"en" "sound"
-		"hu" "hang"
+		"en"		"Sound"
 	}
 	
 	"command"
 	{
-		"en" ""
-		"hu" ""
+		"en"		"Player/Server Command"
 	}
 
 	"jihad"
 	{
-		"en" "bomb"
-		"hu" "bomba"
+		"en"		"Jihad"
 	}
 
 	"godmode"
 	{
-		"en" "godmode"
-		"hu" "örök élet"
+		"en"		"Godmode"
 	}
 
 	"knife"
 	{
-		"en" "knife"
-		"hu" "kés"
+		"en"		"Knife"
 	}
 
 	"pet"
 	{
-		"en" "pet"
-		"hu" "állat"
+		"en"		"Pet"
 	}
 
 	"spray"
 	{
-		"en" "spray"
-		"hu" "spray"
-	}
-
-	"glow"
-	{
-		"en" "glow"
-		"hu" "ragyogás"
+		"en"		"Spray"
 	}
 
 	"respawn"
 	{
-		"en" "respawn"
+		"en"		"Respawn"
 	}
 
+	"daily"
+	{
+		"en"		"Daily Bonus"
+	}
 
 	"teambet"
 	{
@@ -1092,152 +1152,197 @@
 
 	"admin"
 	{
-		"en" "admin"
+		"en"		"Admin"
 	}
 
 	"spawn"
 	{
-		"en" "Spawn xtra"
+		"en"		"Spawn xtra"
 	}
 
 	"roulette"
 	{
-		"en" "Roulette"
+		"en"		"Roulette"
 	}
 
 	"instabomb"
 	{
 		"en"		"Insta plant / defuse"
 	}
+
 	"jackpot"
 	{
-		"en" "Jackpot"
+		"en"		"Jackpot"
 	}
 
 	"weaponmodel"
 	{
-		"en" "model"
+		"en"		"Weapon Model"
 	}
 
 	"attachment"
 	{
-		"en" "attachment"
+		"en"		"Attachment"
 	}
 
 	"lootbox"
 	{
-		"en" "Loot box"
+		"en"		"Lootbox"
+	}
+
+	"crowns"
+	{
+		"en"		"Crowns Slot"
 	}
 
 	"light"
 	{
-		"en" "light"
+		"en"		"Light"
 	}
+
 	"parachute"
 	{
-		"en" "Parachute"
+		"en"		"Parachute"
 	}
+
 	"froggyjump"
 	{
-		"en" "froggyjump"
+		"en"		"Froggy Jump"
 	}
+
 	"bunnyhob"
 	{
-		"en" "bunnyhob"
+		"en"		"BunnyHob"
 	}
+
 	"mvp_sound"
 	{
-		"en" "MVP anthems"
+		"en"		"MVP anthems"
 	}
+
 	"hunterjump"
 	{
-		"en" "hunterjump"
+		"en"		"Hunter Jump"
 	}
-	"hunter"
-	{
-		"en" "hunterjump"
-	}
+
+
 	"laserpointer"
 	{
-		"en" "Laser Pointer"
+		"en"		"Laser Pointer"
 	}
+
 	"bulletsparks"
 	{
-		"en" "Bullet Sparks"
+		"en"		"Bullet Sparks"
 	}
+
 	"painter"
 	{
-		"en" "Painter"
+		"en"		"Painter"
 	}
 	"dmgtext"
 	{
-		"en" "Painter"
+		"en"		"Painter"
 	}
+
 	"noreload"
 	{
-		"en" "No Reload"
+		"en"		"No Reload"
 	}
+
 	"throwknife"
 	{
-		"en" "Throw Knife"
+		"en"		"Throw Knife"
 	}
+
 	"bombtweak"
 	{
-		"en" "Bomb Tweak"
+		"en"		"Bomb Tweak"
 	}
+
 	"nofalldamage"
 	{
-		"en" "No Fall Damage"
+		"en"		"No Fall Damage"
 	}
-	"discount"
-	{
-		"en" "% SALE %"
-	}
-	"nodiscount"
-	{
-		"en" ""
-	}
-	"crowns"
-	{
-		"en" "Crowns Slot"
-	}
+	
 	"particle"
 	{
-		"en" "Particles"
+		"en"		"Particles"
 	}
+
 	"noduckdelay"
 	{
-		"en" "No Duck delay"
+		"en"		"No Duck delay"
 	}
+
 	"nearest"
 	{
-		"en" "nearest"
+		"en"		"Nearest"
 	}
+
 	"direction"
 	{
-		"en" "direction"
+		"en"		"Direction"
 	}
+
 	"distance"
 	{
-		"en" "distance"
+		"en"		"distance"
 	}
+
 	"connect"
 	{
-		"en" "Connect Message"
+		"en"		"Connect Message"
 	}
+
 	"casino"
 	{
-		"en" "casino"
+		"en"		"Casino"
 	}
+	
 	"emote"
 	{
-		"en" "Emote"
+		"en"		"Emote"
 	}
 
 	// Vouchers
+	"Item Voucher"
+	{
+		"en"		"Make Voucher from item"
+	}
+
+	"Item Voucher in chat"
+	{
+		"#format"	"{1:s},{2:s},{3:s}"
+		"en"		"You have convert {green}{1} ({2}){default} to Voucher {purple}{3}{default}."
+	}
+
+	"Voucher in chat"
+	{
+		"#format"	"{1:s},{2:i},{3:s}"
+		"en"		"Created new voucher {purple}{1} with value {2} {3}"
+	}
+
+	"Voucher in console"
+	{
+		"#format"	"{1:s}"
+		"en"		"Voucher Code: {1}"
+	}
+
+	"Package Voucher"
+	{
+		"en"		"Make Voucher from package"
+	}
+
+	"Confirm_Voucher"
+	{
+		"#format"		"{1:s},{2:t}"
+		"en"		"Are you sure you want convert {1} ({2}) to coupon?"
+	}
+
 	"Vouchers"
 	{
-		"en"		"Vouchers"
+		"en"		"Voucher"
 	}
 
 	"Redeem Voucher"
@@ -1331,21 +1436,15 @@
 		"en"		"The voucher has the value of {1} {2}"
 	}
 
+	"Voucher item"
+	{
+		"#format"	"{1:s},{2:s}"
+		"en"		"The voucher includes {1} ({2})"
+	}
+
 	"Voucher in chat and console"
 	{
 		"en"		"You can find the voucher code also in chat and console"
-	}
-
-	"Voucher in chat"
-	{
-		"#format"	"{1:s},{2:i},{3:s}"
-		"en"		"Creating new voucher {1} with value {2} {3}"
-	}
-
-	"Voucher in console"
-	{
-		"#format"	"{1:s}"
-		"en"		"Voucher Code: {1}"
 	}
 
 	"Voucher expired"
@@ -1362,7 +1461,18 @@
 
 	"You already redeemed Voucher"
 	{
-		"en"		"You have already redeemed the entered voucher code"
+		"en"		"You already redeemed the entered voucher code"
+	}
+
+	"You already own Voucher item"
+	{
+		"en"		"You already own the entered voucher item"
+	}
+
+	"Creating voucher failed"
+	{
+		"#format"	"{1:i}"
+		"en"		"Creating voucher failed - Contact an admin with following timestamp: {1}"
 	}
 
 	"and is unlimited"
@@ -1424,6 +1534,12 @@
 		"en"		"You recieve {1} {2}."
 	}
 
+	"You get x item"
+	{
+		"#format"	"{1:s},{2:t}"
+		"en"		"You recieve a {1} ({2})."
+	}
+
 	// TopLists
 		"Top Credits"
 	{
@@ -1444,8 +1560,7 @@
 	{
 		"en"		"Top Credits + Inv Worth"
 	}
-	
-	
+
 	//Earnings
 	"You earned x Credits for"
 	{
@@ -1605,5 +1720,28 @@
 	"idle on the server"
 	{
 		"en"		"idle on the server"
+	}
+
+	//Lootbox
+	"Already own item from box. Get Credits back"
+	{
+		"#format"	"{1:s},{2:s},{3:i},{4:s}"
+		"en"		"You won, but already own {1} ({2}). Item was sold for {3} {4}"
+	}
+
+	"You won lootbox item"
+	{
+		"#format"	"{1:s},{2:t}"
+		"en"		"You won a {1} ({2})!"
+	}
+
+	"You haven't opend the box in given time"
+	{
+		"en"		"You haven't opend the box in given time. The lootbox is back in your inventory"
+	}
+
+	"Damage the crate to open"
+	{
+		"en"		"{darkred}Damage{default} the crate to {green}open!"
 	}
 }

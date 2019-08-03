@@ -1,4 +1,31 @@
-//Idea: https://github.com/Totenfluch/StoreParticleExtension
+/*
+ * MyStore - Particle item module
+ * by: shanapu
+ * https://github.com/shanapu/
+ * 
+ * Copyright (C) 2018-2019 Thomas Schmidt (shanapu)
+ * Credits: Totenfluch - https://github.com/Totenfluch/StoreParticleExtension
+ * Contributer:
+ *
+ * Original development by Zephyrus - https://github.com/dvarnai/store-plugin
+ *
+ * Love goes out to the sourcemod team and all other plugin developers!
+ * THANKS FOR MAKING FREE SOFTWARE!
+ *
+ * This file is part of the MyStore SourceMod Plugin.
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, version 3.0, as published by the
+ * Free Software Foundation.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #pragma semicolon 1
 
@@ -7,10 +34,10 @@
 #include <sdkhooks>
 #include <clientprefs>
 
-#include <mystore>
+#include <mystore> //https://raw.githubusercontent.com/shanapu/MyStore/master/scripting/include/mystore.inc
 
-#include <colors>
-#include <smartdm>
+#include <colors> //https://raw.githubusercontent.com/shanapu/MyStore/master/scripting/include/colors.inc
+#include <smartdm> //https://forums.alliedmods.net/attachment.php?attachmentid=136152&d=1406298576
 
 #define AURA 0
 #define TRAIL 1
@@ -82,12 +109,12 @@ public Action Command_Hide(int client, int args)
 	g_bHide[client] = !g_bHide[client];
 	if (g_bHide[client])
 	{
-		CPrintToChat(client, "%s Particles disabled", g_sChatPrefix); //todo translate
+		CPrintToChat(client, "%s%t", g_sChatPrefix, "Item hidden", "particle");
 		SetClientCookie(client, g_hHideCookie, "1");
 	}
 	else
 	{
-		CPrintToChat(client, "%s Particles enabled", g_sChatPrefix);
+		CPrintToChat(client, "%s%t", g_sChatPrefix, "Item visible", "particle");
 		SetClientCookie(client, g_hHideCookie, "0");
 	}
 

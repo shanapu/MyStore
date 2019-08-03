@@ -1,13 +1,42 @@
+/*
+ * MyStore - Jackpot gamble module
+ * by: shanapu
+ * https://github.com/shanapu/
+ * 
+ * Copyright (C) 2018-2019 Thomas Schmidt (shanapu)
+ * Credits:
+ * Contributer:
+ *
+ * Original development by Zephyrus - https://github.com/dvarnai/store-plugin
+ *
+ * Love goes out to the sourcemod team and all other plugin developers!
+ * THANKS FOR MAKING FREE SOFTWARE!
+ *
+ * This file is part of the MyStore SourceMod Plugin.
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, version 3.0, as published by the
+ * Free Software Foundation.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #pragma semicolon 1
 #pragma newdecls required
 
 #include <sourcemod>
 
-#include <mystore>
+#include <mystore> //https://raw.githubusercontent.com/shanapu/MyStore/master/scripting/include/mystore.inc
 
-#include <colors>
+#include <colors> //https://raw.githubusercontent.com/shanapu/MyStore/master/scripting/include/colors.inc
 
-#include <autoexecconfig>
+#include <autoexecconfig> //https://raw.githubusercontent.com/Impact123/AutoExecConfig/development/autoexecconfig.inc
 
 ConVar gc_bEnable;
 
@@ -38,7 +67,7 @@ public void OnPluginStart()
 
 	RegConsoleCmd("sm_jackpot", Command_JackPot, "Open the jackpot menu and/or set a bet");
 
-	AutoExecConfig_SetFile("gamble", "MyStore");
+	AutoExecConfig_SetFile("gamble", "sourcemod/MyStore");
 	AutoExecConfig_SetCreateFile(true);
 
 	gc_fTime = AutoExecConfig_CreateConVar("mystore_jackpot_time", "60", "how many seconds should the game run until we find a winner?", _, true, 10.0);
@@ -198,7 +227,7 @@ void SetBet(int client, int bet)
 		CPrintToChatAll("%s%t", g_sChatPrefix, "Player opened jackpot", client, bet, g_sCreditsName);
 		char sBuffer[64];
 		SecToTime(RoundFloat(gc_fTime.FloatValue), sBuffer, sizeof(sBuffer));
-		CPrintToChatAll("%s%s %s", g_sChatPrefix, "the prize will be drawn in", sBuffer);
+		CPrintToChatAll("%s%t", g_sChatPrefix, "the prize will be drawn in", sBuffer);
 	}
 	else
 	{
@@ -279,7 +308,7 @@ public Action Command_JackPot(int client, int args)
 
 	if (g_bUsed[client])
 	{
-		CReplyToCommand(client, "%s%t", g_sChatPrefix, "You already cashed in", g_iBet[client], g_sCreditsName, GetChance(client), g_hJackPot.Length);
+		CReplyToCommand(client, "%s%t", g_sChatPrefix, "You already cashed in", g_iBet[client], g_sCreditsName, GetChance(client), g_hJackPot.Length, g_sCreditsName);
 
 		return Plugin_Handled;
 	}
@@ -397,6 +426,15 @@ void PayOut_JackPot()
 
 	if (g_iPlayer < 2)
 	{
+		if (winner == -1)
+		{
+			CPrintToChatAll("%s%t", g_sChatPrefix, "All players disconnect", jackpot, g_sCreditsName);
+
+			Reset_JackPot();
+
+			return;
+		}
+
 		MyStore_SetClientCredits(winner, MyStore_GetClientCredits(winner) + jackpot, "JackPot Refund");
 
 		Reset_JackPot();
@@ -481,12 +519,12 @@ int SecToTime(int time, char[] buffer, int size)
 	int iMinutes = 0;
 	int iSeconds = time;
 
-	while(iSeconds > 3600)
+	while (iSeconds > 3600)
 	{
 		iHours++;
 		iSeconds -= 3600;
 	}
-	while(iSeconds > 60)
+	while (iSeconds > 60)
 	{
 		iMinutes++;
 		iSeconds -= 60;

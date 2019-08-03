@@ -1,13 +1,42 @@
+/*
+ * MyStore - Roulette gamble module
+ * by: shanapu
+ * https://github.com/shanapu/
+ * 
+ * Copyright (C) 2018-2019 Thomas Schmidt (shanapu)
+ * Credits:
+ * Contributer:
+ *
+ * Original development by Zephyrus - https://github.com/dvarnai/store-plugin
+ *
+ * Love goes out to the sourcemod team and all other plugin developers!
+ * THANKS FOR MAKING FREE SOFTWARE!
+ *
+ * This file is part of the MyStore SourceMod Plugin.
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, version 3.0, as published by the
+ * Free Software Foundation.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #pragma semicolon 1
 #pragma newdecls required
 
 #include <sourcemod>
 
-#include <mystore>
+#include <mystore> //https://raw.githubusercontent.com/shanapu/MyStore/master/scripting/include/mystore.inc
 
-#include <colors>
+#include <colors> //https://raw.githubusercontent.com/shanapu/MyStore/master/scripting/include/colors.inc
 
-#include <autoexecconfig>
+#include <autoexecconfig> //https://raw.githubusercontent.com/Impact123/AutoExecConfig/development/autoexecconfig.inc
 
 ConVar gc_bEnable;
 
@@ -38,7 +67,7 @@ public void OnPluginStart()
 
 	RegConsoleCmd("sm_roulette", Command_Roulette, "Open the Simple Roulette casino game");
 
-	AutoExecConfig_SetFile("gamble", "MyStore");
+	AutoExecConfig_SetFile("gamble", "sourcemod/MyStore");
 	AutoExecConfig_SetCreateFile(true);
 
 	gc_fSpeed = AutoExecConfig_CreateConVar("mystore_roulette_speed", "0.1", "Speed the wheel spin", _, true, 0.1, true, 0.80);
@@ -560,7 +589,7 @@ void Panel_RunAndWin(int client)
 			ReplaceString(shorti, sizeof(shorti), "#", "'▒▒▒▒' black", false);
 
 			// Build & draw won text - Panel line #12
-			Format(sBuffer, sizeof(sBuffer), "    You won with %s", shorti);
+			Format(sBuffer, sizeof(sBuffer), "    %t %s", "You won with", shorti);
 			panel.DrawText(sBuffer);
 
 			// Draw Spacer Line - Panel line #13

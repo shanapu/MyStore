@@ -1,19 +1,49 @@
+/*
+ * MyStore - earnings module
+ * by: shanapu
+ * https://github.com/shanapu/
+ * 
+ * Copyright (C) 2018-2019 Thomas Schmidt (shanapu)
+ * Credits:
+ * Contributer:
+ *
+ * Original development by Zephyrus - https://github.com/dvarnai/store-plugin
+ *
+ * Love goes out to the sourcemod team and all other plugin developers!
+ * THANKS FOR MAKING FREE SOFTWARE!
+ *
+ * This file is part of the MyStore SourceMod Plugin.
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, version 3.0, as published by the
+ * Free Software Foundation.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include <sourcemod>
 #include <sdktools>
 #include <sdkhooks>
 #include <cstrike>
 #include <clientprefs>
 
-#include <mystore>
+#include <mystore> //https://raw.githubusercontent.com/shanapu/MyStore/master/scripting/include/mystore.inc
 
-#include <colors>
-#include <autoexecconfig>
+#include <colors> //https://raw.githubusercontent.com/shanapu/MyStore/master/scripting/include/colors.inc
+#include <autoexecconfig> //https://raw.githubusercontent.com/Impact123/AutoExecConfig/development/autoexecconfig.inc
 
 #undef REQUIRE_EXTENSIONS
-#include <SteamWorks>
+#include <SteamWorks> //https://raw.githubusercontent.com/KyleSanderson/SteamWorks/master/Pawn/includes/SteamWorks.inc
 #define REQUIRE_EXTENSIONS
 
 #define MAX_OBJECTIVES 10
+#define DAY_IN_SECONDS 86400
 
 char g_szName[MAX_OBJECTIVES][32];
 int g_iFlagBits[MAX_OBJECTIVES];
@@ -54,6 +84,7 @@ int g_iVIPkill[MAX_OBJECTIVES];
 int g_iVIPescape[MAX_OBJECTIVES];
 
 int g_iSum[MAXPLAYERS + 1];
+float g_fClientMulti[MAXPLAYERS + 1];
 
 char g_sChatPrefix[128];
 char g_sCreditsName[64];
@@ -84,7 +115,7 @@ public void OnPluginStart()
 {
 	LoadTranslations("mystore.phrases");
 
-	AutoExecConfig_SetFile("earnings", "MyStore");
+	AutoExecConfig_SetFile("earnings", "sourcemod/MyStore");
 	AutoExecConfig_SetCreateFile(true);
 
 	AutoExecConfig_ExecuteFile();
@@ -107,11 +138,17 @@ public void OnPluginStart()
 	g_hSnipers.SetValue("scar20", 1);
 
 	RegConsoleCmd("sm_daily", Command_Daily, "Recieve your daily credits");
+	MyStore_RegisterHandler("daily", _, _, _, Daily_Equip, _, false, true);
 
-	g_cDate = RegClientCookie("mystore_date", "MyStore Daily", CookieAccess_Private);
-	g_cDay = RegClientCookie("mystore_day", "MyStore Daily", CookieAccess_Private);
+	g_cDate = RegClientCookie("mystore_date", "MyStore Daily Date", CookieAccess_Private);
+	g_cDay = RegClientCookie("mystore_day", "MyStore Daily Day", CookieAccess_Private);
 
 	LoadConfig();
+}
+
+public void Daily_Equip(int client, int itemid)
+{
+	Command_Daily(client, 0);
 }
 
 public Action Command_Daily(int client, int args)
@@ -129,14 +166,14 @@ public Action Command_Daily(int client, int args)
 	int iDay = StringToInt(sBuffer);
 	int iNow = GetTime();
 
-	if (86400 + iDate > iNow) //86400 seconds = one day
+	if (DAY_IN_SECONDS + iDate > iNow)
 	{
-		SecToTime(iDate + 86400 - iNow, sBuffer, sizeof(sBuffer));
+		SecToTime(iDate + DAY_IN_SECONDS - iNow, sBuffer, sizeof(sBuffer));
 		CPrintToChat(client, "%s%t", g_sChatPrefix, "Wait until next daily", sBuffer);
 	}
 	else
 	{
-		if (86400 * 2 + iDate < iNow || iDay < 1)
+		if (DAY_IN_SECONDS * 2 + iDate < iNow || iDay < 1)
 		{
 			iDay = 1;
 		}
@@ -211,6 +248,7 @@ public void OnClientPostAdminCheck(int client)
 	g_iClientCount++;
 	g_iActive[client] = 0;
 	g_iSum[client] = 0;
+	g_fClientMulti[client] = 1.0;
 
 	g_iTime[client][INACTIVE] = 0;
 	g_iTime[client][ACTIVE] = 0;
@@ -276,7 +314,7 @@ public Action OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
 	return Plugin_Continue;
 }
 
-public void SteamWorks_OnClientGroupStatus(int authid, int groupAccountID, bool isMember, bool isOfficer)
+public int SteamWorks_OnClientGroupStatus(int authid, int groupAccountID, bool isMember, bool isOfficer)
 {
 	int client = GetClientOfAuthID(authid);
 	if (client != -1 && isMember)
@@ -336,7 +374,7 @@ void GiveCredits(int client, int credits, char[] reason, any ...)
 		multi[2] = g_fGroup[g_iActive[client]];
 	}
 
-	credits = RoundToNearest(credits * multi[0] * multi[1] * multi[2]);
+	credits = RoundToNearest(credits * multi[0] * multi[1] * multi[2] * g_fClientMulti[client]);
 
 	VFormat(sBuffer, sizeof(sBuffer), reason, 4);
 	MyStore_SetClientCredits(client, MyStore_GetClientCredits(client) + credits, sBuffer);
@@ -917,12 +955,12 @@ int SecToTime(int time, char[] buffer, int size)
 	int iMinutes = 0;
 	int iSeconds = time;
 
-	while(iSeconds > 3600)
+	while (iSeconds > 3600)
 	{
 		iHours++;
 		iSeconds -= 3600;
 	}
-	while(iSeconds > 60)
+	while (iSeconds > 60)
 	{
 		iMinutes++;
 		iSeconds -= 60;
