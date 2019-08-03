@@ -158,6 +158,125 @@ enum Type_Handler
 	Function:fnRemove
 }
 
+
+
+
+/**
+ * Called when DisplayConfirmMenu return as comfirmed.
+ *
+ * @param &menu			INVALID_HANDLE / null when comfirmed.
+ * @param action		Optionally set which actions to receive.  Select, 
+ *						Cancel, and End will always be received regardless
+ *						of whether they are set or not.  They are also
+ *						the only default actions.
+ * @param client		Index of client who called DisplayConfirmMenu.
+ * @param data			values passed throught confirm menu.
+ * 
+ * @noreturn
+ */
+typedef StoreConfirmMenu = function void (Menu menu, MenuAction action, int client, int data);
+
+/**
+ * Called when stores OnMapStart() is fired.
+ * 
+ * @noreturn
+ */
+typedef StoreMapStart = function void ();
+
+/**
+ * Called before store (re)load the items configs.
+ * 
+ * @noreturn
+ */
+typedef StoreItemReset = function void ();
+
+/**
+ * Called when store go through the items configs to register items.
+ *
+ * @param &kv			KeyValues handle to read config file.
+ * @param itemid		ID of the actual item in the list.
+ * 
+ * @return 				True for success, otherwise false.
+ */
+typedef StoreItemConfig = function bool (KeyValues &kv, int itemid);
+
+/**
+ * Function types for item use.
+ */
+typeset StoreItemUse
+{
+	/**
+	 * Called when store item is selected to use/equip.
+	 *
+	 * @param client		Index of client to use/equip the item.
+	 * @param itemid		ID of the selected item.
+	 * 
+	 * @return 				True for success, otherwise false.
+	 */
+	function int (int client, int itemid);
+
+	/**
+	 * Called when selected store item is a raw item.
+	 *
+	 * @param client		Index of client to use the item.
+	 * @param itemid		ID of the selected item.
+	 * 
+	 * @noreturn
+	 */
+	function void (int client, int itemid);
+}
+
+/**
+ * Function types for remove/unequip item.
+ */
+typeset StoreItemRemove
+{
+	/**
+	 * Called when store item is selected to unequip.
+	 *
+	 * @param client		Index of client to unequip the item.
+	 * @param itemid		ID of the selected item.
+	 * 
+	 * @return 				Slot of the item, otherwise ITEM_EQUIP_REMOVE.
+	 */
+	function int (int client, int itemid);
+
+	/**
+	 * Called when store item is removed by native.
+	 *
+	 * @param client		Index of client to unequip the item.
+	 * @param itemid		ID of the selected item.
+	 * 
+	 * @noreturn
+	 */
+	function void (int client, int itemid);
+}
+
+/**
+ * Called before store item is displayed.
+ *
+ * @param &menu			Menu handle to insert menu items.
+ * @param client		Index of client to display menu.
+ * @param itemid		ID of the selected item.
+ * 
+ * @return 				True for success, otherwise false.
+ */
+typedef StoreItemMenu = function void (Menu &menu, int client, int itemid);
+
+/**
+ * Called when item handler is selected.
+ *
+ * @param &menu			Menu handle to insert menu items.
+ * @param client		Index of client to display menu.
+ * @param itemid		ID of the selected item.
+ * 
+ * @return 				True for success, otherwise false.
+ */
+typedef StoreItemMenuHandler = function bool (int client, char[] selection, int itemid);
+
+
+
+
 /**
  * Register a item type (plugin) to the core.
  *
@@ -604,119 +723,3 @@ forward void MyStore_OnConfigExecuted(ConVar enable, char[] name, char[] prefix,
  * @noreturn
  */
 forward void MyStore_OnPreviewItem(int client, char[] type, int index);
-
-
-
-
-/**
- * Called when DisplayConfirmMenu return as comfirmed.
- *
- * @param &menu			INVALID_HANDLE / null when comfirmed.
- * @param action		Optionally set which actions to receive.  Select, 
- *						Cancel, and End will always be received regardless
- *						of whether they are set or not.  They are also
- *						the only default actions.
- * @param client		Index of client who called DisplayConfirmMenu.
- * @param data			values passed throught confirm menu.
- * 
- * @noreturn
- */
-typedef StoreConfirmMenu = function void (Menu menu, MenuAction action, int client, int data);
-
-/**
- * Called when stores OnMapStart() is fired.
- * 
- * @noreturn
- */
-typedef StoreMapStart = function void ();
-
-/**
- * Called before store (re)load the items configs.
- * 
- * @noreturn
- */
-typedef StoreItemReset = function void ();
-
-/**
- * Called when store go through the items configs to register items.
- *
- * @param &kv			KeyValues handle to read config file.
- * @param itemid		ID of the actual item in the list.
- * 
- * @return 				True for success, otherwise false.
- */
-typedef StoreItemConfig = function bool (KeyValues &kv, int itemid);
-
-/**
- * Function types for item use.
- */
-typeset StoreItemUse
-{
-	/**
-	 * Called when store item is selected to use/equip.
-	 *
-	 * @param client		Index of client to use/equip the item.
-	 * @param itemid		ID of the selected item.
-	 * 
-	 * @return 				True for success, otherwise false.
-	 */
-	function int (int client, int itemid);
-
-	/**
-	 * Called when selected store item is a raw item.
-	 *
-	 * @param client		Index of client to use the item.
-	 * @param itemid		ID of the selected item.
-	 * 
-	 * @noreturn
-	 */
-	function void (int client, int itemid);
-}
-
-/**
- * Function types for remove/unequip item.
- */
-typeset StoreItemRemove
-{
-	/**
-	 * Called when store item is selected to unequip.
-	 *
-	 * @param client		Index of client to unequip the item.
-	 * @param itemid		ID of the selected item.
-	 * 
-	 * @return 				Slot of the item, otherwise ITEM_EQUIP_REMOVE.
-	 */
-	function int (int client, int itemid);
-
-	/**
-	 * Called when store item is removed by native.
-	 *
-	 * @param client		Index of client to unequip the item.
-	 * @param itemid		ID of the selected item.
-	 * 
-	 * @noreturn
-	 */
-	function void (int client, int itemid);
-}
-
-/**
- * Called before store item is displayed.
- *
- * @param &menu			Menu handle to insert menu items.
- * @param client		Index of client to display menu.
- * @param itemid		ID of the selected item.
- * 
- * @return 				True for success, otherwise false.
- */
-typedef StoreItemMenu = function void (Menu &menu, int client, int itemid);
-
-/**
- * Called when item handler is selected.
- *
- * @param &menu			Menu handle to insert menu items.
- * @param client		Index of client to display menu.
- * @param itemid		ID of the selected item.
- * 
- * @return 				True for success, otherwise false.
- */
-typedef StoreItemMenuHandler = function bool (int client, char[] selection, int itemid);

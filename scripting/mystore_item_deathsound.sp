@@ -4,7 +4,7 @@
  * https://github.com/shanapu/
  * 
  * Copyright (C) 2018-2019 Thomas Schmidt (shanapu)
- * Credits:
+ * Credits: Kxnrl - https://github.com/shanapu/StoreDeathsound/pull/2
  * Contributer:
  *
  * Original development by Zephyrus - https://github.com/dvarnai/store-plugin

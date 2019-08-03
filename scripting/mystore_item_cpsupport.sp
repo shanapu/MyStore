@@ -4,7 +4,7 @@
  * https://github.com/shanapu/
  * 
  * Copyright (C) 2018-2019 Thomas Schmidt (shanapu)
- * Credits:
+ * Credits: Drixevel - https://github.com/Drixevel/Chat-Processor
  * Contributer:
  *
  * Original development by Zephyrus - https://github.com/dvarnai/store-plugin

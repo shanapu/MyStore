@@ -155,7 +155,7 @@ public void OnPluginStart()
 
 	RegConsoleCmd("sm_credits", Command_Credits);
 
-	DirExistsEx("cfg/MyStore");
+	DirExistsEx("cfg/sourcemod/MyStore");
 	AutoExecConfig_SetFile("core", "sourcemod/MyStore");
 	AutoExecConfig_SetCreateFile(true);
 

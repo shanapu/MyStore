@@ -4,7 +4,7 @@
  * https://github.com/shanapu/
  * 
  * Copyright (C) 2018-2019 Thomas Schmidt (shanapu)
- * Credits: gubka & FrozDark - https://forums.alliedmods.net/showthread.php?p=2369671
+ * Credits:
  * Contributer:
  *
  * Original development by Zephyrus - https://github.com/dvarnai/store-plugin
