@@ -15,7 +15,7 @@ env:
 
 
 script:
-  - 'bash travisCI/test.sh $VERSION $TRAVIS_BRANCH; fi'
+  - 'if [[ $TRAVIS_BRANCH == "master" ]]; then bash travisCI/test.sh $VERSION $TRAVIS_BRANCH; fi'
 
 notifications:
     email: false
