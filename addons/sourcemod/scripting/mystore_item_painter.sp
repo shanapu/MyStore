@@ -211,7 +211,7 @@ public Action TraceEye(int client, float g_fPos[3])
 
 public bool TraceEntityFilterPlayer(int entity, int contentsMask)
 {
-	return (entity > GetMaxClients() || !entity);
+	return (entity > MaxClients || !entity);
 }
 
 public Action Print_Painter(Handle timer)
