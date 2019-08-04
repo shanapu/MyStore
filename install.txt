@@ -1,0 +1,18 @@
+Check https://github.com/shanapu/MyStore/wiki/Install for full installtion guide
+
+1. Open gameserver folder and upload the folders addons/, cfg/, materials/, models/, particles/ &  sound/ to your gameservers root csgo/ directory  
+2. Open fastDL folder and upload the folders materials/, models/, particles/ & sound/ in the fastDL/ directory* to your FastDownload server  
+3. Open on your server the file ./addons/sourcemod/configs/database.cfg in an editorand add following part:
+
+	"mystore"
+	{
+		"driver"			"mysql"
+		"host"				"<IP to your MySQL server>"
+		"database"			"<Your Database Name>"
+		"user"				"<Your Database User>"
+		"pass"				"<Your Database Password>"
+	}
+
+4. Fill your MySQL server credentials into the <placeholders> and save the file
+5. Re/Start your server
+6. Have fun! Give feedback!

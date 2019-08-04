@@ -58,13 +58,13 @@ mkdir build/gameserver
 mkdir build/fastDL
 
 echo "Move addons, materials and sound folder"
-mv addons cfg materials models sound particles build/gameserver
+echo mv addons cfg materials models sound particles build/gameserver
 
 echo "Move FastDL folder"
-mv fastDL/materials fastDL/models fastDL/sound fastDL/particles build/fastDL
+echo mv fastDL/materials fastDL/models fastDL/sound fastDL/particles build/fastDL
 
 echo "Move license to build"
-mv install.txt license.txt build/
+echo mv install.txt license.txt build/
 
 echo "Remove sourcemod folders"
 rm -r build/gameserver/addons/metamod
