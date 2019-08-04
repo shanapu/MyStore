@@ -1,12 +1,14 @@
 #!/bin/bash
 set -ev
 
+tz=Europe/Berlin
+
 HOST=$3
 USER=$4
 PASS=$5
 COMMIT=$6
 BUILD=$7
-DATE=`date +"%Y-%m-%d %H:%M:%S"`
+DATE=`tz=Europe/Berlin date +"%Y-%m-%d %H:%M:%S"`
 FILE=MyStory-$COMMIT.zip
 LATEST=MyStore-latest.zip
 
