@@ -7,7 +7,7 @@ PASS=$5
 COMMIT=$6
 BUILD=$7
 DATE=`date +"%y%m%d"`
-FILE=MyStory-$COMMIT-$DATE.zip
+FILE=MyStory-$DATE-$COMMIT.zip
 LATEST=MyStore-latest.zip
 
 
@@ -78,6 +78,7 @@ rm -r build/gameserver/addons/sourcemod/configs/*.cfg
 rm -r build/gameserver/addons/sourcemod/data
 rm -r build/gameserver/addons/sourcemod/extensions
 rm -r build/gameserver/addons/sourcemod/gamedata
+rm -r build/gameserver/addons/sourcemod/logs
 rm -r build/gameserver/addons/sourcemod/scripting
 rm -r build/gameserver/addons/sourcemod/translations
 rm build/gameserver/addons/sourcemod/*.txt

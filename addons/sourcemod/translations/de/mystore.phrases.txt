@@ -1,0 +1,41 @@
+// Exported from SourceMod Translator
+// Date: 2019-08-04 02:30:22 UTC
+// Language: German (de)
+// 
+// To view other translations for this plugin, please visit:
+// http://translator.mitchdempsey.com/sourcemod_plugins/322
+//
+"Phrases"
+{
+
+	"Bet on"
+	{
+		"de"		"Setze auf"
+	}
+
+	"Red"
+	{
+		"de"		"rot"
+	}
+
+	"Black"
+	{
+		"de"		"schwarz"
+	}
+
+	"Green"
+	{
+		"de"		"grün"
+	}
+
+	"wasted"
+	{
+		"de"		"verzockt!"
+	}
+
+	"bet x"
+	{
+		"de"		"Wetteinsatz mal"
+	}
+
+}
