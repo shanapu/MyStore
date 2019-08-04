@@ -80,7 +80,6 @@ rm -r build/gameserver/addons/sourcemod/extensions
 rm -r build/gameserver/addons/sourcemod/gamedata
 rm -r build/gameserver/addons/sourcemod/scripting
 rm -r build/gameserver/addons/sourcemod/translations
-rm -r build/gameserver/cfg/sourcemod
 rm build/gameserver/addons/sourcemod/*.txt
 
 echo "Download sourcefiles & create clean scripting folder"
