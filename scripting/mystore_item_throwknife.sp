@@ -49,6 +49,21 @@ Handle g_hThrownKnives;
 
 int g_iLimit[STORE_MAX_ITEMS];
 
+/*
+ * Build date: <DATE>
+ * Build number: <BUILD>
+ * Commit: https://github.com/shanapu/MyStore/commit/<COMMIT>
+ */
+
+public Plugin myinfo = 
+{
+	name = "MyStore - Throw knife item module",
+	author = "shanapu",
+	description = "",
+	version = "0.1.<BUILD>",
+	url = "github.com/shanapu/MyStore"
+};
+
 public void OnPluginStart()
 {
 	LoadTranslations("mystore.phrases");

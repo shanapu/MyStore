@@ -49,6 +49,20 @@ int g_iTimeOff[STORE_MAX_ITEMS];
 int g_iCooldown[STORE_MAX_ITEMS];
 int g_iLimit[STORE_MAX_ITEMS];
 
+/*
+ * Build date: <DATE>
+ * Build number: <BUILD>
+ * Commit: https://github.com/shanapu/MyStore/commit/<COMMIT>
+ */
+
+public Plugin myinfo = 
+{
+	name = "MyStore - Command item module",
+	author = "shanapu",
+	description = "",
+	version = "0.1.<BUILD>",
+	url = "github.com/shanapu/MyStore"
+};
 
 public void OnPluginStart()
 {

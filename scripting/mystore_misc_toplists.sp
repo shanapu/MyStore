@@ -1,5 +1,5 @@
 /*
- * MyStore - Toplist module
+ * MyStore - Toplists module
  * by: shanapu
  * https://github.com/shanapu/
  * 
@@ -27,6 +27,7 @@
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+ 
 #include <sourcemod>
 #include <sdktools>
 #include <sdkhooks>
@@ -62,6 +63,21 @@ int g_iUpdateTime;
 #define TL_INV_CREDITS 3
 // TODO? Equipt Worth?
 ArrayList g_aTopLists[4];
+
+/*
+ * Build date: <DATE>
+ * Build number: <BUILD>
+ * Commit: https://github.com/shanapu/MyStore/commit/<COMMIT>
+ */
+
+public Plugin myinfo = 
+{
+	name = "MyStore - Toplists module",
+	author = "shanapu",
+	description = "",
+	version = "0.1.<BUILD>",
+	url = "github.com/shanapu/MyStore"
+};
 
 public void OnPluginStart()
 {

@@ -50,6 +50,21 @@ ConVar gc_bEnable;
 
 int g_iJumped[MAXPLAYERS + 1] = {0, ...};
 
+/*
+ * Build date: <DATE>
+ * Build number: <BUILD>
+ * Commit: https://github.com/shanapu/MyStore/commit/<COMMIT>
+ */
+
+public Plugin myinfo = 
+{
+	name = "MyStore - Jumpstyles item module",
+	author = "shanapu",
+	description = "",
+	version = "0.1.<BUILD>",
+	url = "github.com/shanapu/MyStore"
+};
+
 public void OnPluginStart()
 {
 	MyStore_RegisterHandler("bunnyhob", _, _, Bunnyhop_Config, Bunnyhop_Equip, Bunnyhop_Remove, true);

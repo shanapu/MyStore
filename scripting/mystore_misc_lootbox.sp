@@ -27,6 +27,7 @@
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+
 #include <sourcemod>
 #include <sdktools>
 #include <sdkhooks>
@@ -76,6 +77,21 @@ int g_iBoxCount = 0;
 int g_iItemLevelCount[MAX_LOOTBOXES][LEVEL_AMOUNT];
 
 Handle gf_hPreviewItem;
+
+/*
+ * Build date: <DATE>
+ * Build number: <BUILD>
+ * Commit: https://github.com/shanapu/MyStore/commit/<COMMIT>
+ */
+
+public Plugin myinfo = 
+{
+	name = "MyStore - Lootbox module",
+	author = "shanapu",
+	description = "",
+	version = "0.1.<BUILD>",
+	url = "github.com/shanapu/MyStore"
+};
 
 public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max)
 {

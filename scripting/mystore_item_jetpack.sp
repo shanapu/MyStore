@@ -57,7 +57,6 @@ int g_iCount = 0;
 int g_iJumps[MAXPLAYERS + 1];
 int g_iParaEntRef[MAXPLAYERS + 1] = {INVALID_ENT_REFERENCE, ...};
 
-
 enum Jetpack
 {
 	String:szModel[PLATFORM_MAX_PATH],
@@ -69,6 +68,21 @@ enum Jetpack
 	bool:bEffect
 }
 any g_aJetpack[STORE_MAX_ITEMS][Jetpack];
+
+/*
+ * Build date: <DATE>
+ * Build number: <BUILD>
+ * Commit: https://github.com/shanapu/MyStore/commit/<COMMIT>
+ */
+
+public Plugin myinfo = 
+{
+	name = "MyStore - Jetpack item module",
+	author = "shanapu",
+	description = "",
+	version = "0.1.<BUILD>",
+	url = "github.com/shanapu/MyStore"
+};
 
 public void OnPluginStart()
 {

@@ -42,6 +42,21 @@ bool g_bEquipt[MAXPLAYERS + 1] = false;
 ConVar gc_bEnable;
 ConVar gc_bType;
 
+/*
+ * Build date: <DATE>
+ * Build number: <BUILD>
+ * Commit: https://github.com/shanapu/MyStore/commit/<COMMIT>
+ */
+
+public Plugin myinfo = 
+{
+	name = "MyStore - Infinity Ammo item module",
+	author = "shanapu",
+	description = "",
+	version = "0.1.<BUILD>",
+	url = "github.com/shanapu/MyStore"
+};
+
 public void OnPluginStart()
 {
 	AutoExecConfig_SetFile("items", "sourcemod/MyStore");

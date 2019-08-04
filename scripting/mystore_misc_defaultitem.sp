@@ -51,6 +51,21 @@ bool g_bRetry[MAXPLAYERS + 1];
 
 ConVar gc_bEnable;
 
+/*
+ * Build date: <DATE>
+ * Build number: <BUILD>
+ * Commit: https://github.com/shanapu/MyStore/commit/<COMMIT>
+ */
+
+public Plugin myinfo = 
+{
+	name = "MyStore - Default-item module",
+	author = "shanapu",
+	description = "",
+	version = "0.1.<BUILD>",
+	url = "github.com/shanapu/MyStore"
+};
+
 public void OnPluginStart()
 {
 	LoadTranslations("mystore.phrases");

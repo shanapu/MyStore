@@ -27,6 +27,7 @@
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+
 #include <sourcemod>
 #include <sdktools>
 
@@ -38,10 +39,6 @@
 #pragma semicolon 1
 #pragma newdecls required
 
-
-/******************************************************************************
-                   Variables
-******************************************************************************/
 
 #define REDEEM 1
 #define CHECK 2
@@ -78,6 +75,20 @@ int g_iCreateMax[MAXPLAYERS + 1] = {0, ...};
 int g_iLastQuery[MAXPLAYERS + 1] = {0, ...};
 int g_iSelectedItem[MAXPLAYERS + 1];
 
+/*
+ * Build date: <DATE>
+ * Build number: <BUILD>
+ * Commit: https://github.com/shanapu/MyStore/commit/<COMMIT>
+ */
+
+public Plugin myinfo = 
+{
+	name = "MyStore - Voucher module",
+	author = "shanapu",
+	description = "",
+	version = "0.1.<BUILD>",
+	url = "github.com/shanapu/MyStore"
+};
 
 public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max)
 {

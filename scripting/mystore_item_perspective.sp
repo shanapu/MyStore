@@ -42,6 +42,21 @@ ConVar gc_bEnable;
 ConVar mp_forcecamera;
 ConVar sv_allow_thirdperson;
 
+/*
+ * Build date: <DATE>
+ * Build number: <BUILD>
+ * Commit: https://github.com/shanapu/MyStore/commit/<COMMIT>
+ */
+
+public Plugin myinfo = 
+{
+	name = "MyStore - Perspective item module",
+	author = "shanapu",
+	description = "",
+	version = "0.1.<BUILD>",
+	url = "github.com/shanapu/MyStore"
+};
+
 public void OnPluginStart()
 {
 	MyStore_RegisterHandler("mirror", _, _, Mirror_Config, Mirror_Equip, Mirror_Remove, true);

@@ -126,13 +126,18 @@ TopMenu g_hTopMenu = null;
 
 TopMenuObject g_hTopMenuObject;
 
+/*
+ * Build date: <DATE>
+ * Build number: <BUILD>
+ * Commit: https://github.com/shanapu/MyStore/commit/<COMMIT>
+ */
 
 public Plugin myinfo = 
 {
 	name = "MyStore - MyResurrection of the Resurrection",
 	author = "shanapu, Zephyrus",
 	description = "A completely old Store system - completely rewritten.",
-	version = "0.1",
+	version = "0.1.<BUILD>",
 	url = "github.com/shanapu/MyStore"
 };
 

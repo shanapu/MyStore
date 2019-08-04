@@ -42,6 +42,21 @@ char g_sChatPrefix[128];
 int g_iRoundLimit[MAXPLAYERS + 1] = {0,...};
 int g_iLimit = 0;
 
+/*
+ * Build date: <DATE>
+ * Build number: <BUILD>
+ * Commit: https://github.com/shanapu/MyStore/commit/<COMMIT>
+ */
+
+public Plugin myinfo = 
+{
+	name = "MyStore - Respawn item module",
+	author = "shanapu",
+	description = "",
+	version = "0.1.<BUILD>",
+	url = "github.com/shanapu/MyStore"
+};
+
 public void OnPluginStart()
 {
 	LoadTranslations("mystore.phrases");

@@ -68,6 +68,21 @@ char g_sCreditsName[64];
 int g_iSelectedItem[MAXPLAYERS + 1];
 float g_fSellRatio;
 
+/*
+ * Build date: <DATE>
+ * Build number: <BUILD>
+ * Commit: https://github.com/shanapu/MyStore/commit/<COMMIT>
+ */
+
+public Plugin myinfo = 
+{
+	name = "MyStore - Drop-item module",
+	author = "shanapu",
+	description = "",
+	version = "0.1.<BUILD>",
+	url = "github.com/shanapu/MyStore"
+};
+
 
 public void OnPluginStart()
 {

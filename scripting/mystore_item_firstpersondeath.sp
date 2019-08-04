@@ -1,5 +1,5 @@
 /*
- * MyStore - Emote item module
+ * MyStore - Firstperson death item module
  * by: shanapu
  * https://github.com/shanapu/
  * 
@@ -27,6 +27,7 @@
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+
 #pragma semicolon 1
 #pragma newdecls required
 
@@ -43,7 +44,20 @@ ConVar gc_bEnable;
 bool g_bEquipt[MAXPLAYERS + 1] = false;
 int ClientCamera[MAXPLAYERS+1];
 
+/*
+ * Build date: <DATE>
+ * Build number: <BUILD>
+ * Commit: https://github.com/shanapu/MyStore/commit/<COMMIT>
+ */
 
+public Plugin myinfo = 
+{
+	name = "MyStore - Firstperson death item module",
+	author = "shanapu",
+	description = "",
+	version = "0.1.<BUILD>",
+	url = "github.com/shanapu/MyStore"
+};
 
 public void OnPluginStart()
 {

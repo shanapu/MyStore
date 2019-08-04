@@ -1,5 +1,5 @@
 /*
- * MyStore - earnings module
+ * MyStore - Earnings module
  * by: shanapu
  * https://github.com/shanapu/
  * 
@@ -110,6 +110,21 @@ StringMap g_hSum[MAXPLAYERS + 1];
 #define ACTIVE 0
 #define INACTIVE 1
 int g_iTime[MAXPLAYERS + 1][2];
+
+/*
+ * Build date: <DATE>
+ * Build number: <BUILD>
+ * Commit: https://github.com/shanapu/MyStore/commit/<COMMIT>
+ */
+
+public Plugin myinfo = 
+{
+	name = "MyStore - Earnings module",
+	author = "shanapu",
+	description = "",
+	version = "0.1.<BUILD>",
+	url = "github.com/shanapu/MyStore"
+};
 
 public void OnPluginStart()
 {

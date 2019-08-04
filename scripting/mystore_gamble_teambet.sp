@@ -59,8 +59,23 @@ int g_iTeamBetStart = 0;
 int g_iBet[MAXPLAYERS + 1];
 int g_iTeam[MAXPLAYERS + 1];
 
-	int g_iBetOnT = 0;
-	int g_iBetOnCT = 0;
+int g_iBetOnT = 0;
+int g_iBetOnCT = 0;
+
+/*
+ * Build date: <DATE>
+ * Build number: <BUILD>
+ * Commit: https://github.com/shanapu/MyStore/commit/<COMMIT>
+ */
+
+public Plugin myinfo = 
+{
+	name = "MyStore - Teambet gamble module",
+	author = "shanapu",
+	description = "",
+	version = "0.1.<BUILD>",
+	url = "github.com/shanapu/MyStore"
+};
 
 public void OnPluginStart()
 {
