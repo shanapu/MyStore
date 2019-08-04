@@ -15,7 +15,7 @@ env:
 
 script:
   - 'if [[ $TRAVIS_PULL_REQUEST != "false" ]]; then bash travisCI/test.sh $VERSION $TRAVIS_BRANCH; fi'
-  - 'if [[ $TRAVIS_PULL_REQUEST == "false" ]]; then bash travisCI/build.sh $VERSION $TRAVIS_BRANCH $FTP_HOST $FTP_USER $FTP_PASS ${TRAVIS_COMMIT::7} $TRAVIS_BUILD_NUMBER}; fi'
+  - 'if [[ $TRAVIS_PULL_REQUEST == "false" ]]; then bash travisCI/build.sh $VERSION $TRAVIS_BRANCH $FTP_HOST $FTP_USER $FTP_PASS ${TRAVIS_COMMIT::7} $TRAVIS_BUILD_NUMBER; fi'
 
 notifications:
     email: false
