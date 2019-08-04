@@ -6,8 +6,8 @@ USER=$4
 PASS=$5
 COMMIT=$6
 BUILD=$7
-DATE=`date +"%y%m%d"`
-FILE=MyStory-$DATE-$COMMIT.zip
+DATE=`date +"%y%m%d%H%i"`
+FILE=MyStore-$DATE-$COMMIT.zip
 LATEST=MyStore-latest.zip
 
 
