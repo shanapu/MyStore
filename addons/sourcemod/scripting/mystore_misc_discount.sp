@@ -90,7 +90,7 @@ public void OnPluginStart()
 {
 	LoadTranslations("mystore.phrases");
 
-	AutoExecConfig_SetFile("discount", "sourcemod/MyStore");
+	AutoExecConfig_SetFile("discount", "sourcemod/mystore");
 	AutoExecConfig_SetCreateFile(true);
 
 	gc_bAddDiscount = AutoExecConfig_CreateConVar("store_discount_add", "0", "0 - Only the highest discount is granted / 1 - add all active discounts together", _, true, 0.0, true, 1.0);

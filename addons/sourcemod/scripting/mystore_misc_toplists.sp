@@ -89,7 +89,7 @@ public void OnPluginStart()
 	RegConsoleCmd("sm_topworth", Command_InventarWorth);
 	RegConsoleCmd("sm_toptotal", Command_InventarAndCreditsWorth);
 
-	AutoExecConfig_SetFile("settings", "sourcemod/MyStore");
+	AutoExecConfig_SetFile("settings", "sourcemod/mystore");
 	AutoExecConfig_SetCreateFile(true);
 
 	gc_iMaxShown = AutoExecConfig_CreateConVar("mystore_toplist_max", "10", "", _, true, 1.0);

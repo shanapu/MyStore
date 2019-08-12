@@ -83,7 +83,7 @@ public void OnPluginStart()
 
 	RegConsoleCmd("sm_coinflip", Command_CoinFlip, "Open the CoinFlip casino game");
 
-	AutoExecConfig_SetFile("gamble", "sourcemod/MyStore");
+	AutoExecConfig_SetFile("gamble", "sourcemod/mystore");
 	AutoExecConfig_SetCreateFile(true);
 
 	gc_fSpeed = AutoExecConfig_CreateConVar("mystore_coinflip_speed", "0.1", "Speed the wheel spin", _, true, 0.1, true, 0.80);

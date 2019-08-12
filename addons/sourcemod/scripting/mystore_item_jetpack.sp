@@ -88,7 +88,7 @@ public void OnPluginStart()
 {
 	LoadTranslations("mystore.phrases");
 
-	AutoExecConfig_SetFile("items", "sourcemod/MyStore");
+	AutoExecConfig_SetFile("items", "sourcemod/mystore");
 	AutoExecConfig_SetCreateFile(true);
 
 	RegConsoleCmd("+jetpack", Command_JetpackON);

@@ -75,7 +75,7 @@ public Plugin myinfo =
 
 public void OnPluginStart()
 {
-	AutoExecConfig_SetFile("items", "sourcemod/MyStore");
+	AutoExecConfig_SetFile("items", "sourcemod/mystore");
 	AutoExecConfig_SetCreateFile(true);
 
 	gc_iTracerLife = AutoExecConfig_CreateConVar("mystore_tracer_life", "0.5", "Life of a tracer in seconds", _, true, 0.1);

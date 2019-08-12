@@ -88,7 +88,7 @@ public void OnPluginStart()
 {
 	LoadTranslations("mystore.phrases");
 
-	AutoExecConfig_SetFile("drop", "sourcemod/MyStore");
+	AutoExecConfig_SetFile("drop", "sourcemod/mystore");
 	AutoExecConfig_SetCreateFile(true);
 
 	gc_bDropEnabled = AutoExecConfig_CreateConVar("mystore_drop_enable", "1", "Enable/disable droping of already bought items.", _, true, 0.0, true, 1.0);

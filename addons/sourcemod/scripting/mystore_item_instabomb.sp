@@ -61,7 +61,7 @@ public void OnPluginStart()
 {
 	MyStore_RegisterHandler("instabomb", _, _, InstaBomb_Config, InstaBomb_Equip, InstaBomb_Remove, true);
 
-	AutoExecConfig_SetFile("items", "sourcemod/MyStore");
+	AutoExecConfig_SetFile("items", "sourcemod/mystore");
 	AutoExecConfig_SetCreateFile(true);
 
 	gc_iType = AutoExecConfig_CreateConVar("mystore_instabomb_type", "2", "1 - instadefuse only / 2 - instadefuse & instaplant / 3 - instaplant only", _, true, 1.0, true, 3.0);

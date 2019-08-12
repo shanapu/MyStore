@@ -78,7 +78,7 @@ public void OnPluginStart()
 
 	HookEvent("round_start", Event_RoundStart);
 
-	AutoExecConfig_SetFile("dosh", "sourcemod/MyStore");
+	AutoExecConfig_SetFile("dosh", "sourcemod/mystore");
 	AutoExecConfig_SetCreateFile(true);
 
 	gc_iAmount = AutoExecConfig_CreateConVar("mystore_dosh_amount", "100", "The amount of credits for one dosh.",  _, true, 1.0);

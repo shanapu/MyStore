@@ -81,7 +81,7 @@ public void OnPluginStart()
 {
 	LoadTranslations("mystore.phrases");
 
-	AutoExecConfig_SetFile("items", "sourcemod/MyStore");
+	AutoExecConfig_SetFile("items", "sourcemod/mystore");
 	AutoExecConfig_SetCreateFile(true);
 
 	gc_iMaxWeapons = AutoExecConfig_CreateConVar("mystore_weapons_max", "3", "how many weapons AT ALL can you buy in a round. To catch the roundlimit from all weapons buyed. 0 - only limited by items.txt", _, true, 0.0);

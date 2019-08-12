@@ -130,7 +130,7 @@ public void OnPluginStart()
 {
 	LoadTranslations("mystore.phrases");
 
-	AutoExecConfig_SetFile("earnings", "sourcemod/MyStore");
+	AutoExecConfig_SetFile("earnings", "sourcemod/mystore");
 	AutoExecConfig_SetCreateFile(true);
 
 	AutoExecConfig_ExecuteFile();

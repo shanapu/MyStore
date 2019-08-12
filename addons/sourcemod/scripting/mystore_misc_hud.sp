@@ -75,7 +75,7 @@ public void OnPluginStart()
 {
 	LoadTranslations("mystore.phrases");
 
-	AutoExecConfig_SetFile("hud", "sourcemod/MyStore");
+	AutoExecConfig_SetFile("hud", "sourcemod/mystore");
 	AutoExecConfig_SetCreateFile(true);
 
 	gc_bAlive = AutoExecConfig_CreateConVar("mystore_hud_alive", "1", "0 - show hud only to alive player, 1 - show hud to dead & alive player", _, true, 0.0, true, 1.0);

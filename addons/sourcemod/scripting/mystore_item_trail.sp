@@ -90,7 +90,7 @@ public void OnPluginStart()
 {
 	LoadTranslations("mystore.phrases");
 
-	AutoExecConfig_SetFile("items", "sourcemod/MyStore");
+	AutoExecConfig_SetFile("items", "sourcemod/mystore");
 	AutoExecConfig_SetCreateFile(true);
 
 	gc_iPadding = AutoExecConfig_CreateConVar("mystore_trails_padding", "30.0", "Space between two trails", _, true, 1.0);

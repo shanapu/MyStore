@@ -64,7 +64,7 @@ public void OnPluginStart()
 	AddCommandListener(Command_LAW, "+lookatweapon");
 	RegConsoleCmd("sm_flashlight", Command_FlashLight);
 
-	AutoExecConfig_SetFile("items", "sourcemod/MyStore");
+	AutoExecConfig_SetFile("items", "sourcemod/mystore");
 	AutoExecConfig_SetCreateFile(true);
 
 	bSnd = AutoExecConfig_CreateConVar("mystore_flashlight_sound", "1", "Enable sound when a player uses the flash light.", _, true, 0.0, true, 1.0);

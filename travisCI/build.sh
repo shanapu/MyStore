@@ -8,8 +8,8 @@ USER=$4
 PASS=$5
 COMMIT=$6
 BUILD=$7
-DATE=`tz=Europe/Berlin date +"%Y-%m-%d %H:%M:%S"`
-FILE=MyStory-$COMMIT.zip
+DATE=`tz=GMT+1 date "+%Y-%m-%d %H:%M:%S"`
+FILE=MyStore-0.1.$BUILD-$COMMIT.zip
 LATEST=MyStore-latest.zip
 
 
@@ -43,7 +43,7 @@ fi
 echo "Create clean plugins folder"
 mkdir addons/sourcemod/plugins
 
-echo "Move all MyJB binary files to plugins folder"
+echo "Move all MyStore binary files to plugins folder"
 for file in mystore_*.smx
 do
   mv $file addons/sourcemod/plugins

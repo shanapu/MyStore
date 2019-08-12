@@ -76,7 +76,7 @@ public void OnPluginStart()
 {
 	LoadTranslations("mystore.phrases");
 
-	AutoExecConfig_SetFile("items", "sourcemod/MyStore");
+	AutoExecConfig_SetFile("items", "sourcemod/mystore");
 	AutoExecConfig_SetCreateFile(true);
 
 	gc_iSprayDistance = AutoExecConfig_CreateConVar("mystore_spray_distance", "115", "Max distance from wall to spray", _, true, 1.0);

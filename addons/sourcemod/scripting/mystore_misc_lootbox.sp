@@ -104,7 +104,7 @@ public void OnPluginStart()
 {
 	LoadTranslations("mystore.phrases");
 
-	AutoExecConfig_SetFile("lootbox", "sourcemod/MyStore");
+	AutoExecConfig_SetFile("lootbox", "sourcemod/mystore");
 	AutoExecConfig_SetCreateFile(true);
 
 	gc_sPickUpSound = AutoExecConfig_CreateConVar("mystore_lootbox_sound_pickup", "ui/csgo_ui_crate_open.wav", "Path to the pickup sound");

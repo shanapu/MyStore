@@ -82,7 +82,7 @@ public void OnPluginStart()
 
 	RegConsoleCmd("sm_jackpot", Command_JackPot, "Open the jackpot menu and/or set a bet");
 
-	AutoExecConfig_SetFile("gamble", "sourcemod/MyStore");
+	AutoExecConfig_SetFile("gamble", "sourcemod/mystore");
 	AutoExecConfig_SetCreateFile(true);
 
 	gc_fTime = AutoExecConfig_CreateConVar("mystore_jackpot_time", "60", "how many seconds should the game run until we find a winner?", _, true, 10.0);

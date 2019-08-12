@@ -160,8 +160,8 @@ public void OnPluginStart()
 
 	RegConsoleCmd("sm_credits", Command_Credits);
 
-	DirExistsEx("cfg/sourcemod/MyStore");
-	AutoExecConfig_SetFile("core", "sourcemod/MyStore");
+	DirExistsEx("cfg/sourcemod/mystore");
+	AutoExecConfig_SetFile("core", "sourcemod/mystore");
 	AutoExecConfig_SetCreateFile(true);
 
 	// Register ConVars

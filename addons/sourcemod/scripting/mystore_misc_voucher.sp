@@ -105,7 +105,7 @@ public void OnPluginStart()
 	RegConsoleCmd("sm_voucher", Command_Voucher, "Open the Voucher main menu");
 	RegAdminCmd("sm_createvoucher", Command_CreateVoucherCode, ADMFLAG_ROOT);
 
-	AutoExecConfig_SetFile("vouchers", "sourcemod/MyStore");
+	AutoExecConfig_SetFile("vouchers", "sourcemod/mystore");
 	AutoExecConfig_SetCreateFile(true);
 
 	gc_bCreditVoucherEnabled = AutoExecConfig_CreateConVar("myc_voucher_credits", "1", "0 - disabled, 1 - enable credits to voucher", _, true, 0.0, true, 1.0);

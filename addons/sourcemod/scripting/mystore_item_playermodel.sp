@@ -77,7 +77,7 @@ public void OnPluginStart()
 {
 	LoadTranslations("mystore.phrases");
 
-	AutoExecConfig_SetFile("items", "sourcemod/MyStore");
+	AutoExecConfig_SetFile("items", "sourcemod/mystore");
 	AutoExecConfig_SetCreateFile(true);
 
 	MyStore_RegisterHandler("playermodel", PlayerModels_OnMapStart, PlayerModels_Reset, PlayerModels_Config, PlayerModels_Equip, PlayerModels_Remove, true);

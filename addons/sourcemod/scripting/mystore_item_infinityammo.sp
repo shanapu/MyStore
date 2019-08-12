@@ -59,7 +59,7 @@ public Plugin myinfo =
 
 public void OnPluginStart()
 {
-	AutoExecConfig_SetFile("items", "sourcemod/MyStore");
+	AutoExecConfig_SetFile("items", "sourcemod/mystore");
 	AutoExecConfig_SetCreateFile(true);
 
 	gc_bType = AutoExecConfig_CreateConVar("mystore_infinityammo_type", "1", "0 - infinityammo with reload clips, 1 - infinityammo without reload", _, true, 0.0, true, 1.0);

@@ -65,7 +65,7 @@ public void OnPluginStart()
 {
 	LoadTranslations("mystore.phrases");
 
-	AutoExecConfig_SetFile("sell", "sourcemod/MyStore");
+	AutoExecConfig_SetFile("sell", "sourcemod/mystore");
 	AutoExecConfig_SetCreateFile(true);
 
 	gc_bSellEnabled = AutoExecConfig_CreateConVar("mystore_enable_selling", "1", "Enable/disable selling of already bought items.", _, true, 0.0, true, 1.0);

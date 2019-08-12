@@ -63,7 +63,7 @@ public void OnPluginStart()
 {
 	LoadTranslations("mystore.phrases");
 
-	AutoExecConfig_SetFile("gift", "sourcemod/MyStore");
+	AutoExecConfig_SetFile("gift", "sourcemod/mystore");
 	AutoExecConfig_SetCreateFile(true);
 
 	gc_iGift = AutoExecConfig_CreateConVar("mystore_enable_gifting", "1", "Enable/disable gifting of already bought items. [1 = everyone, 2 = admins only]", _, true, 1.0, true, 2.0);

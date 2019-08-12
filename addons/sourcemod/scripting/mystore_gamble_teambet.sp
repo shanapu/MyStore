@@ -81,7 +81,7 @@ public void OnPluginStart()
 {
 	LoadTranslations("mystore.phrases");
 
-	AutoExecConfig_SetFile("gamble", "sourcemod/MyStore");
+	AutoExecConfig_SetFile("gamble", "sourcemod/mystore");
 	AutoExecConfig_SetCreateFile(true);
 
 	gc_iBetPeriod = AutoExecConfig_CreateConVar("mystore_teambet_period", "35", "How many seconds teambet should be enabled for after round start", _, true, 5.0);
