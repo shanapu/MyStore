@@ -55,9 +55,9 @@ int g_iSelectedItem[MAXPLAYERS + 1];
 public Plugin myinfo = 
 {
 	name = "MyStore - Sell module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
@@ -84,7 +84,10 @@ public void MyStore_OnConfigExecuted(ConVar enable, char[] name, char[] prefix, 
 
 public void OnAllPluginsLoaded()
 {
-	MyStore_RegisterItemHandler("sell", Store_OnMenu, Store_OnHandler);
+	if (MyStore_RegisterItemHandler("sell", Store_OnMenu, Store_OnHandler) == -1)
+	{
+		SetFailState("Can't Register module to core - Reached max item handlers(%i).", STORE_MAX_ITEM_HANDLERS);
+	}
 }
 
 public void Store_OnMenu(Menu &menu, int client, int itemid)

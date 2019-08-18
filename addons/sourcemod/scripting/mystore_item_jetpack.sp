@@ -78,30 +78,33 @@ any g_aJetpack[STORE_MAX_ITEMS][Jetpack];
 public Plugin myinfo = 
 {
 	name = "MyStore - Jetpack item module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
 public void OnPluginStart()
 {
-	LoadTranslations("mystore.phrases");
+	if (MyStore_RegisterHandler("jetpack", Jetpack_OnMapStart, Jetpack_Reset, Jetpack_Config, Jetpack_Equip, Jetpack_Remove, true) == -1)
+	{
+		SetFailState("Can't Register module to core - Reached max module types(%i).", STORE_MAX_TYPES);
+	}
 
-	AutoExecConfig_SetFile("items", "sourcemod/mystore");
-	AutoExecConfig_SetCreateFile(true);
+	LoadTranslations("mystore.phrases");
 
 	RegConsoleCmd("+jetpack", Command_JetpackON);
 	RegConsoleCmd("-jetpack", Command_JetpackOFF);
 
-	MyStore_RegisterHandler("jetpack", Jetpack_OnMapStart, Jetpack_Reset, Jetpack_Config, Jetpack_Equip, Jetpack_Remove, true);
+	HookEvent("player_death", OnPlayerDeath);
+
+	AutoExecConfig_SetFile("items", "sourcemod/mystore");
+	AutoExecConfig_SetCreateFile(true);
 
 	gc_bCommand = AutoExecConfig_CreateConVar("store_jetpack_cmd", "0", "0 - DUCK & JUMP, 1 - +/-jetpack", _, true, 0.0, true, 1.0);
 
 	AutoExecConfig_ExecuteFile();
 	AutoExecConfig_CleanFile();
-
-	HookEvent("player_death", OnPlayerDeath);
 }
 
 

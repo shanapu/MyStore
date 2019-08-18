@@ -69,9 +69,9 @@ int g_iPlayer = 0;
 public Plugin myinfo = 
 {
 	name = "MyStore - Jackpot gamble module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
@@ -95,8 +95,6 @@ public void OnPluginStart()
 	AutoExecConfig_CleanFile();
 
 	g_hJackPot = new ArrayList();
-
-	MyStore_RegisterHandler("jackpot", JackPot_OnMapStart, _, _, JackPot_Menu, _, false, true);
 }
 
 public void MyStore_OnConfigExecuted(ConVar enable, char[] name, char[] prefix, char[] credits)
@@ -108,14 +106,9 @@ public void MyStore_OnConfigExecuted(ConVar enable, char[] name, char[] prefix, 
 	ReadCoreCFG();
 }
 
-public void JackPot_OnMapStart()
+public void OnMapStart()
 {
 	g_hJackPot.Clear();
-}
-
-public void JackPot_Menu(int client, int itemid)
-{
-	Panel_JackPot(client);
 }
 
 void Panel_JackPot(int client)
@@ -187,7 +180,7 @@ void Panel_JackPot(int client)
 			if (client == i)
 				continue;
 
-			Format(sBuffer, sizeof(sBuffer), "%t", "Jackpot chances", i, GetChance(client), g_iBet[client], g_sCreditsName);
+			Format(sBuffer, sizeof(sBuffer), "%t", "Jackpot chances", i, GetChance(i), g_iBet[i], g_sCreditsName);
 			panel.DrawText(sBuffer);
 		}
 		panel.DrawText(" ");
@@ -216,7 +209,7 @@ void Panel_JackPot(int client)
 	Format(sBuffer, sizeof(sBuffer), "%t", "Exit");
 	panel.DrawItem(sBuffer, ITEMDRAW_DEFAULT);
 
-	panel.Send(client, PanelHandler_Info, MENU_TIME_FOREVER);
+	panel.Send(client, PanelHandler_Info, 5);
 }
 
 void SetBet(int client, int bet)
@@ -246,7 +239,7 @@ void SetBet(int client, int bet)
 	}
 	else
 	{
-		CPrintToChatAll("%s%t", g_sChatPrefix, "Player added to jackpot", client, bet, GetChance(client), g_hJackPot.Length, g_sCreditsName);
+		CPrintToChatAll("%s%t", g_sChatPrefix, "Player added to jackpot", client, bet, g_sCreditsName, GetChance(client), g_hJackPot.Length, g_sCreditsName);
 		for (int i = 0; i <= MaxClients; i++)
 		{
 			if (!IsValidClient(i, false, true) || !g_bUsed[i])
@@ -277,7 +270,6 @@ public int PanelHandler_Info(Handle menu, MenuAction action, int client, int par
 			case 7:
 			{
 				FakeClientCommand(client, "play sound/%s", g_sMenuExit);
-				MyStore_SetClientPreviousMenu(client, MENU_PARENT);
 				MyStore_DisplayPreviousMenu(client);
 			}
 			case 9: FakeClientCommand(client, "play sound/%s", g_sMenuExit);
@@ -314,7 +306,7 @@ public Action Command_JackPot(int client, int args)
 	{
 		char sBuffer[64];
 		SecToTime(g_iPause - GetTime(), sBuffer, sizeof(sBuffer));
-		CReplyToCommand(client, "%s%t %t", g_sChatPrefix, "Jackpot paused", "You can start a new Jackpot in", sBuffer);
+		PrintToChatAll("%s%t %t", g_sChatPrefix, "Jackpot paused", "You can start a new Jackpot in", sBuffer);
 
 		return Plugin_Handled;
 	}
@@ -363,7 +355,7 @@ public Action Command_JackPot(int client, int args)
 
 	if (iBet < gc_iMin.IntValue)
 	{
-		CReplyToCommand(client, "%s%t", g_sChatPrefix, "You have to spend at least x credits.", gc_iMin.IntValue, g_sCreditsName);
+		CReplyToCommand(client, "%s%t", g_sChatPrefix, "You have to spend at least x credits", gc_iMin.IntValue, g_sCreditsName);
 
 		return Plugin_Handled;
 	}
@@ -500,7 +492,7 @@ void PayOut_JackPot()
 	if (gc_iFee.IntValue != 0)
 	{
 		int fee = jackpot * gc_iFee.IntValue / 100;
-		CPrintToChat(winner, "%s%t", g_sChatPrefix, "You won the Jackpot - Fee", jackpot, g_sCreditsName, fee, gc_iFee.IntValue);
+		CPrintToChat(winner, "%s%t", g_sChatPrefix, "You won the Jackpot - Fee", jackpot, g_sCreditsName, fee, g_sCreditsName, gc_iFee.IntValue);
 		jackpot -= fee;
 	}
 	else

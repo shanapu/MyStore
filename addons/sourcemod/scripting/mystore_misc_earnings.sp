@@ -120,21 +120,22 @@ int g_iTime[MAXPLAYERS + 1][2];
 public Plugin myinfo = 
 {
 	name = "MyStore - Earnings module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
 public void OnPluginStart()
 {
+	if (MyStore_RegisterHandler("daily", _, _, _, Daily_Equip, _, false, true) == -1)
+	{
+		MyStore_LogMessage(_, LOG_ERROR, "Can't Register module to core - Reached max module types(%i).", STORE_MAX_TYPES);
+	}
+
 	LoadTranslations("mystore.phrases");
 
-	AutoExecConfig_SetFile("earnings", "sourcemod/mystore");
-	AutoExecConfig_SetCreateFile(true);
-
-	AutoExecConfig_ExecuteFile();
-	AutoExecConfig_CleanFile();
+	RegConsoleCmd("sm_daily", Command_Daily, "Recieve your daily credits");
 
 	HookEvent("round_end", Event_RoundEnd, EventHookMode_Post);
 	HookEvent("round_mvp", Event_MVP);
@@ -151,9 +152,6 @@ public void OnPluginStart()
 	g_hSnipers.SetValue("ssg08", 1);
 	g_hSnipers.SetValue("g3sg1", 1);
 	g_hSnipers.SetValue("scar20", 1);
-
-	RegConsoleCmd("sm_daily", Command_Daily, "Recieve your daily credits");
-	MyStore_RegisterHandler("daily", _, _, _, Daily_Equip, _, false, true);
 
 	g_cDate = RegClientCookie("mystore_date", "MyStore Daily Date", CookieAccess_Private);
 	g_cDay = RegClientCookie("mystore_day", "MyStore Daily Day", CookieAccess_Private);

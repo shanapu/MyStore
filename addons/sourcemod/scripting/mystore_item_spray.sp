@@ -66,15 +66,22 @@ Handle g_hHideCookie = INVALID_HANDLE;
 public Plugin myinfo = 
 {
 	name = "MyStore - Spray item module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
 public void OnPluginStart()
 {
+	if (MyStore_RegisterHandler("spray", Sprays_OnMapStart, Sprays_Reset, Sprays_Config, Sprays_Equip, Sprays_Remove, true) == -1)
+	{
+		SetFailState("Can't Register module to core - Reached max module types(%i).", STORE_MAX_TYPES);
+	}
+
 	LoadTranslations("mystore.phrases");
+
+	RegConsoleCmd("sm_hidesprays", Command_Hide, "Hide the Sprays");
 
 	AutoExecConfig_SetFile("items", "sourcemod/mystore");
 	AutoExecConfig_SetCreateFile(true);
@@ -84,8 +91,6 @@ public void OnPluginStart()
 	AutoExecConfig_ExecuteFile();
 	AutoExecConfig_CleanFile();
 
-	MyStore_RegisterHandler("spray", Sprays_OnMapStart, Sprays_Reset, Sprays_Config, Sprays_Equip, Sprays_Remove, true);
-
 	g_hHideCookie = RegClientCookie("Sprays_Hide_Cookie", "Cookie to check if Sprays are blocked", CookieAccess_Private);
 	for (int i = 1; i <= MaxClients; i++)
 	{
@@ -94,8 +99,6 @@ public void OnPluginStart()
 
 		OnClientCookiesCached(i);
 	}
-
-	RegConsoleCmd("sm_hidesprays", Command_Hide, "Hide the Sprays");
 }
 
 public void OnClientCookiesCached(int client)

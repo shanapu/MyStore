@@ -1,0 +1,9 @@
+"vertexlitgeneric"
+{
+    	// Original shader: BaseTimesLightmap
+	"$basetexture"  "models/parachute/parachute_ark"
+	"$bumpmap"	"models/parachute/parachute_ark_normal"
+	"$surfaceprop"  "concrete"
+	"$envmap"       "env_cubemap"
+	"$envmaptint" "[.2 .2 .2]"
+}

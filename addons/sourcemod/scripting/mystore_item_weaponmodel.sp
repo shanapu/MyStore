@@ -76,17 +76,20 @@ int g_iPreviewEntity[MAXPLAYERS + 1] = {INVALID_ENT_REFERENCE, ...};
 public Plugin myinfo = 
 {
 	name = "MyStore - Weapon model item module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
 public void OnPluginStart()
 {
-	LoadTranslations("mystore.phrases");
+	if (MyStore_RegisterHandler("weaponmodel", Models_OnMapStart, Models_Reset, Models_Config, Models_Equip, Models_Remove, true) == -1)
+	{
+		SetFailState("Can't Register module to core - Reached max module types(%i).", STORE_MAX_TYPES);
+	}
 
-	MyStore_RegisterHandler("weaponmodel", Models_OnMapStart, Models_Reset, Models_Config, Models_Equip, Models_Remove, true);
+	LoadTranslations("mystore.phrases");
 
 	HookEvent("player_death", Event_PlayerDeath);
 }
@@ -142,7 +145,7 @@ public bool Models_Config(KeyValues &kv, int itemid)
 	kv.GetString("worldmodel", g_sModelW[g_iCount], PLATFORM_MAX_PATH, "none");
 	kv.GetString("dropmodel", g_sModelD[g_iCount], PLATFORM_MAX_PATH, "none");
 	kv.GetString("weapon", g_sEntity[g_iCount], 32);
-	g_iSlot[g_iCount] = kv.GetNum("slot");
+	g_iSlot[g_iCount] = kv.GetNum("slot");  //todo need slot? since weapon paramenter?!?!
 
 	g_iCount++;
 

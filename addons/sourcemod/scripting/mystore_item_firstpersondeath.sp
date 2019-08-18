@@ -53,23 +53,20 @@ int ClientCamera[MAXPLAYERS+1];
 public Plugin myinfo = 
 {
 	name = "MyStore - Firstperson death item module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
 public void OnPluginStart()
 {
+	if (MyStore_RegisterHandler("death_effect", _, _, DeathEffect_Config, DeathEffect_Equip, _, true) == -1)
+	{
+		SetFailState("Can't Register module to core - Reached max module types(%i).", STORE_MAX_TYPES);
+	}
+
 	LoadTranslations("mystore.phrases");
-
-	AutoExecConfig_SetFile("items", "sourcemod/mystore");
-	AutoExecConfig_SetCreateFile(true);
-
-	AutoExecConfig_ExecuteFile();
-	AutoExecConfig_CleanFile();
-
-	MyStore_RegisterHandler("death_effect", _, _, DeathEffect_Config, DeathEffect_Equip, _, true);
 
 	HookEvent("player_death", Event_PlayerDeath, EventHookMode_Pre);
 }

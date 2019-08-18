@@ -71,9 +71,9 @@ int g_iRollStopped[MAXPLAYERS+1] = {-1, ...};
 public Plugin myinfo = 
 {
 	name = "MyStore - Crowns gamble module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
@@ -98,8 +98,6 @@ public void OnPluginStart()
 
 	AutoExecConfig_ExecuteFile();
 	AutoExecConfig_CleanFile();
-
-	MyStore_RegisterHandler("crowns", _, _, _, Crowns_Menu, _, false, true);
 }
 
 public void MyStore_OnConfigExecuted(ConVar enable, char[] name, char[] prefix, char[] credits)
@@ -128,11 +126,6 @@ public void OnClientDisconnect(int client)
 	delete g_hTimerRollStop[client];
 }
 
-public void Crowns_Menu(int client, int itemid)
-{
-	Panel_Crowns(client);
-}
-
 public Action Command_Crowns(int client, int args)
 {
 	// Command comes from console
@@ -141,8 +134,7 @@ public Action Command_Crowns(int client, int args)
 		CReplyToCommand(client, "%s%t", g_sChatPrefix, "Command is in-game only");
 
 		return Plugin_Handled;
-	}
-
+	}
 	if (!gc_bEnable.BoolValue)
 	{
 		CReplyToCommand(client, "%s%t", g_sChatPrefix, "Store Disabled");
@@ -365,7 +357,6 @@ public int Handler_Crowns(Menu panel, MenuAction action, int client, int itemNum
 			case 7:
 			{
 				FakeClientCommand(client, "play sound/%s", g_sMenuExit);
-				MyStore_SetClientPreviousMenu(client, MENU_PARENT);
 				MyStore_DisplayPreviousMenu(client);
 			}
 			case 8:

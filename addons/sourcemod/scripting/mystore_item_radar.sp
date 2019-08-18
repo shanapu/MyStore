@@ -53,18 +53,31 @@ ConVar gc_bFFA;
 public Plugin myinfo = 
 {
 	name = "MyStore - Radar item module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
 public void OnPluginStart()
 {
+	if (MyStore_RegisterHandler("distance", _, _, Distance_Config, Distance_Equip, Distance_Remove, true) == -1)
+	{
+		SetFailState("Can't Register module to core - Reached max module types(%i).", STORE_MAX_TYPES);
+	}
+
+	if (MyStore_RegisterHandler("direction", _, _, Direction_Config, Direction_Equip, Direction_Remove, true) == -1)
+	{
+		MyStore_LogMessage(_, LOG_ERROR, "Can't Register module to core - Reached max module types(%i).", STORE_MAX_TYPES);
+		return;
+	}
+
+	if (MyStore_RegisterHandler("nearest", _, _, Name_Config, Name_Equip, Name_Remove, true) == -1)
+	{
+		MyStore_LogMessage(_, LOG_ERROR, "Can't Register module to core - Reached max module types(%i).", STORE_MAX_TYPES);
+	}
+
 	gc_fTime = AutoExecConfig_CreateConVar("mystore_radar_time", "3.0", "Time between HUD refreshes");
-	MyStore_RegisterHandler("distance", _, _, Distance_Config, Distance_Equip, Distance_Remove, true);
-	MyStore_RegisterHandler("direction", _, _, Direction_Config, Direction_Equip, Direction_Remove, true);
-	MyStore_RegisterHandler("nearest", _, _, Name_Config, Name_Equip, Name_Remove, true);
 }
 
 public void MyStore_OnConfigExecuted(ConVar enable, char[] name, char[] prefix, char[] credits)

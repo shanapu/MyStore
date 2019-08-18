@@ -1,0 +1,7 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models\player\kuristaja\re6\helena\pl0100_25_acs_bm"
+	"$bumpmap" "models\player\kuristaja\re6\helena\pl0100_25_acs_normal"
+	$translucent 1
+
+}

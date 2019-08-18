@@ -78,17 +78,22 @@ Handle g_hHideCookie = INVALID_HANDLE;
 public Plugin myinfo = 
 {
 	name = "MyStore - Pet item module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
 public void OnPluginStart()
 {
+	if (MyStore_RegisterHandler("pet", Pets_OnMapStart, Pets_Reset, Pets_Config, Pets_Equip, Pets_Remove, true) == -1)
+	{
+		SetFailState("Can't Register module to core - Reached max module types(%i).", STORE_MAX_TYPES);
+	}
+
 	LoadTranslations("mystore.phrases");
 
-	MyStore_RegisterHandler("pet", Pets_OnMapStart, Pets_Reset, Pets_Config, Pets_Equip, Pets_Remove, true);
+	RegConsoleCmd("sm_hidepets", Command_Hide, "Hides the Pets");
 
 	HookEvent("player_spawn", Event_PlayerSpawn);
 	HookEvent("player_death", Event_PlayerDeath);
@@ -102,8 +107,6 @@ public void OnPluginStart()
 
 		OnClientCookiesCached(i);
 	}
-
-	RegConsoleCmd("sm_hidepets", Command_Hide, "Hides the Pets");
 }
 
 public void MyStore_OnConfigExecuted(ConVar enable, char[] name, char[] prefix, char[] credits)

@@ -1,0 +1,17 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models\player\kuristaja\re6\helena\pl0100_00eyelash_BM"
+  //      "$envmap" "env_cubemap"
+      	//"$envmapmask" "models\player\kuristaja\re6\helena\craner_ref"
+	//"$bumpmap" "models\player\kuristaja\re6\helena\pl0100_00eyelash_NM"
+
+	"$halflambert" 1
+	"$nodecal" "1"
+	"$model" "1"
+	"$translucent" "1"
+//	"$phong" "1"
+//	"$phongexponent" 40
+//	"$phongexponenttexture" "models/Alyx/alyx_head_exponent"
+//	"$phongboost"	"6"
+//	"$phongfresnelranges"	"[0.05 0.5 1]"
+}

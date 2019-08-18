@@ -1,0 +1,7 @@
+"vertexlitgeneric"
+{
+	"$baseTexture" "models/parachute/parachute_ark_backpack"
+	"$surfaceprop"  "concrete"
+    	"$envmap"       "env_cubemap"
+    	"$envmaptint" "[.2 .2 .2]"
+}

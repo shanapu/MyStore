@@ -70,9 +70,9 @@ int g_iDiceBet[MAXPLAYERS+1] = {-1, ...};
 public Plugin myinfo = 
 {
 	name = "MyStore - Dice gamble module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
@@ -91,12 +91,9 @@ public void OnPluginStart()
 	gc_bAlive = AutoExecConfig_CreateConVar("mystore_dice_alive", "1", "0 - Only dead player can start a game. 1 - Allow alive player to start a game.", _, true, 0.0);
 	gc_iMin = AutoExecConfig_CreateConVar("mystore_dice_min", "20", "Minium amount of credits to spend", _, true, 1.0);
 	gc_iMax = AutoExecConfig_CreateConVar("mystore_dice_max", "2000", "Maximum amount of credits to spend", _, true, 2.0);
-//	gc_bVersus = AutoExecConfig_CreateConVar("mystore_dice_versus", "1", "Allow player play against each other", _, true, 0.0, true, 1.0);
 
 	AutoExecConfig_ExecuteFile();
 	AutoExecConfig_CleanFile();
-
-	MyStore_RegisterHandler("dice", _, _, _, Dice_Menu, _, false, true);
 }
 
 public void MyStore_OnConfigExecuted(ConVar enable, char[] name, char[] prefix, char[] credits)
@@ -124,11 +121,6 @@ public void OnClientDisconnect(int client)
 	delete g_hTimerStopFlip[client];
 }
 
-public void Dice_Menu(int client, int itemid)
-{
-	Panel_PreDice(client);
-}
-
 public Action Command_Dice(int client, int args)
 {
 	// Command comes from console
@@ -138,7 +130,7 @@ public Action Command_Dice(int client, int args)
 
 		return Plugin_Handled;
 	}
-
+
 	if (!gc_bEnable.BoolValue)
 	{
 		CReplyToCommand(client, "%s%t", g_sChatPrefix, "Store Disabled");
@@ -369,7 +361,6 @@ public int Handler_Dice(Menu panel, MenuAction action, int client, int itemNum)
 			case 7:
 			{
 				FakeClientCommand(client, "play sound/%s", g_sMenuExit);
-				MyStore_SetClientPreviousMenu(client, MENU_PARENT);
 				MyStore_DisplayPreviousMenu(client);
 			}
 			case 8:

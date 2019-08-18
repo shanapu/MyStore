@@ -1,0 +1,13 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models\player\kuristaja\re6\helena\pl0100_00eye_BM"
+	"$bumpmap" "models\player\kuristaja\re6\helena\eye_normal"
+
+	"$phong" "1"
+	"$phongexponent" "90"
+	"$phongboost" ".4"
+	"$phongfresnelranges"	"[5 6 8]"
+	"$PhongAlbedoTint" "1"
+
+
+}

@@ -66,15 +66,20 @@ char g_sChatPrefix[128];
 public Plugin myinfo = 
 {
 	name = "MyStore - Grenade trail item module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
 public void OnPluginStart()
 {
-	MyStore_RegisterHandler("grenadetrail", GrenadeTrails_OnMapStart, GrenadeTrails_Reset, GrenadeTrails_Config, GrenadeTrails_Equip, GrenadeTrails_Remove, true);
+	if (MyStore_RegisterHandler("grenadetrail", GrenadeTrails_OnMapStart, GrenadeTrails_Reset, GrenadeTrails_Config, GrenadeTrails_Equip, GrenadeTrails_Remove, true) == -1)
+	{
+		SetFailState("Can't Register module to core - Reached max module types(%i).", STORE_MAX_TYPES);
+	}
+
+	RegConsoleCmd("sm_hidegrenadetrail", Command_Hide, "Hide the GrenadeTrails");
 
 	g_hHideCookie = RegClientCookie("GrenadeTrails_Hide_Cookie", "Cookie to check if GrenadeTrails are blocked", CookieAccess_Private);
 	for (int i = 1; i <= MaxClients; i++)
@@ -84,8 +89,6 @@ public void OnPluginStart()
 
 		OnClientCookiesCached(i);
 	}
-
-	RegConsoleCmd("sm_hidegrenadetrails", Command_Hide, "Hide the GrenadeTrails");
 }
 
 public void OnClientCookiesCached(int client)

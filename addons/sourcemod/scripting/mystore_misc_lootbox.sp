@@ -87,9 +87,9 @@ Handle gf_hPreviewItem;
 public Plugin myinfo = 
 {
 	name = "MyStore - Lootbox module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
@@ -102,21 +102,24 @@ public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max
 
 public void OnPluginStart()
 {
+	if (MyStore_RegisterHandler("lootbox", Lootbox_OnMapStart, Lootbox_Reset, Lootbox_Config, Lootbox_Equip, _, false) == -1)
+	{
+		SetFailState("Can't Register module to core - Reached max module types(%i).", STORE_MAX_TYPES);
+	}
+
 	LoadTranslations("mystore.phrases");
+
+	HookEvent("round_end", Event_RoundEnd);
 
 	AutoExecConfig_SetFile("lootbox", "sourcemod/mystore");
 	AutoExecConfig_SetCreateFile(true);
 
 	gc_sPickUpSound = AutoExecConfig_CreateConVar("mystore_lootbox_sound_pickup", "ui/csgo_ui_crate_open.wav", "Path to the pickup sound");
+	gc_sPickUpSound.AddChangeHook(OnSettingChanged);
 
 	AutoExecConfig_ExecuteFile();
 	AutoExecConfig_CleanFile();
 
-	gc_sPickUpSound.AddChangeHook(OnSettingChanged);
-
-	MyStore_RegisterHandler("lootbox", Lootbox_OnMapStart, Lootbox_Reset, Lootbox_Config, Lootbox_Equip, _, false);
-
-	HookEvent("round_end", Event_RoundEnd);
 }
 
 public void OnSettingChanged(ConVar convar, const char[] oldValue, const char[] newValue)

@@ -60,17 +60,21 @@ char g_sChatPrefix[128];
 public Plugin myinfo = 
 {
 	name = "MyStore - Jihad item module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
 public void OnPluginStart()
 {
+	if (MyStore_RegisterHandler("jihad", Jihad_OnMapStart, Jihad_Reset, Jihad_Config, Jihad_Equip, _, false) == -1)
+	{
+		SetFailState("Can't Register module to core - Reached max module types(%i).", STORE_MAX_TYPES);
+	}
+
 	LoadTranslations("mystore.phrases");
 
-	MyStore_RegisterHandler("jihad", Jihad_OnMapStart, Jihad_Reset, Jihad_Config, Jihad_Equip, INVALID_FUNCTION, false);
 }
 
 public void MyStore_OnConfigExecuted(ConVar enable, char[] name, char[] prefix, char[] credits)

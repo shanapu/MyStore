@@ -1,0 +1,9 @@
+UnlitGeneric
+{
+	"$basetexture" "emotes/hyperbruh"
+	"$nocull" 1
+   	"$translucent" "1"
+	"$spriteorientation" "oriented"
+	"$color"	"{150 150 150}"
+}
+

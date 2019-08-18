@@ -59,17 +59,23 @@ int g_iJumped[MAXPLAYERS + 1] = {0, ...};
 public Plugin myinfo = 
 {
 	name = "MyStore - Jumpstyles item module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
 public void OnPluginStart()
 {
-	MyStore_RegisterHandler("bunnyhob", _, _, Bunnyhop_Config, Bunnyhop_Equip, Bunnyhop_Remove, true);
-	MyStore_RegisterHandler("froggyjump", _, _, FroggyJump_Config, FroggyJump_Equip, FroggyJump_Remove, true);
-//	MyStore_RegisterHandler("hunterjump", _, _, HunterJump_Config, HunterJump_Equip, HunterJump_Remove, true); //todo
+	if (MyStore_RegisterHandler("bunnyhob", _, _, Bunnyhop_Config, Bunnyhop_Equip, Bunnyhop_Remove, true) == -1)
+	{
+		SetFailState("Can't Register module to core - Reached max module types(%i).", STORE_MAX_TYPES);
+	}
+
+	if (MyStore_RegisterHandler("froggyjump", _, _, FroggyJump_Config, FroggyJump_Equip, FroggyJump_Remove, true) == -1)
+	{
+		MyStore_LogMessage(_, LOG_ERROR, "Can't Register module to core - Reached max module types(%i).", STORE_MAX_TYPES);
+	}
 }
 
 public void MyStore_OnConfigExecuted(ConVar enable, char[] name, char[] prefix, char[] credits)

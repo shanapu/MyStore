@@ -66,15 +66,20 @@ Handle g_hHideCookie = INVALID_HANDLE;
 public Plugin myinfo = 
 {
 	name = "MyStore - Light item module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
 public void OnPluginStart()
 {
-	MyStore_RegisterHandler("light", _, Light_Reset, Light_Config, Light_Equip, Light_Remove, true);
+	if (MyStore_RegisterHandler("light", _, Light_Reset, Light_Config, Light_Equip, Light_Remove, true) == -1)
+	{
+		SetFailState("Can't Register module to core - Reached max module types(%i).", STORE_MAX_TYPES);
+	}
+
+	RegConsoleCmd("sm_hidelights", Command_Hide, "Hides the Lights");
 
 	HookEvent("player_spawn", Event_PlayerSpawn);
 	HookEvent("player_death", Event_PlayerDeath);
@@ -88,8 +93,6 @@ public void OnPluginStart()
 
 		OnClientCookiesCached(i);
 	}
-
-	RegConsoleCmd("sm_hidelights", Command_Hide, "Hides the Lights");
 }
 
 public void OnClientCookiesCached(int client)

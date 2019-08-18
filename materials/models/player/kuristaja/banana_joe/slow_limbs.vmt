@@ -1,0 +1,11 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/player/kuristaja//banana_joe/slow_limbs"
+	"$bumpmap"	"models/player/kuristaja//banana_joe/slow_limbs_bump"
+
+ 	"$phong" "1"
+	"$phongexponent" "10"
+	"$phongboost"	".05"
+	"$phongfresnelranges"	"[1 1 1]"
+}
+

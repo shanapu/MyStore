@@ -73,9 +73,9 @@ ArrayList g_aTopLists[4];
 public Plugin myinfo = 
 {
 	name = "MyStore - Toplists module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
@@ -104,8 +104,6 @@ public void OnPluginStart()
 	g_aTopLists[TL_ITEMS] = new ArrayList();
 
 	ReadCoreCFG();
-
-	MyStore_RegisterHandler("toplists", TopLists_OnMapStart, _, _, TopLists_Menu, _, false, true);
 }
 
 public void MyStore_OnConfigExecuted(ConVar enable, char[] name, char[] prefix, char[] credits)
@@ -114,11 +112,6 @@ public void MyStore_OnConfigExecuted(ConVar enable, char[] name, char[] prefix, 
 	strcopy(g_sChatPrefix, sizeof(g_sChatPrefix), prefix);
 	strcopy(g_sCreditsName, sizeof(g_sCreditsName), credits);
 	strcopy(g_sName, sizeof(g_sName), name);
-}
-
-public void TopLists_Menu(int client, int itemid)
-{
-	Menu_TopLists(client);
 }
 
 void Menu_TopLists(int client)
@@ -154,13 +147,12 @@ public int Handler_TopLists(Menu menu, MenuAction action, int client, int param2
 	{
 		if (param2 == MenuCancel_ExitBack)
 		{
-			MyStore_SetClientPreviousMenu(client, MENU_PARENT);
 			MyStore_DisplayPreviousMenu(client);
 		}
 	}
 	else if (action == MenuAction_End)
 	{
-		menu.Cancel();
+		delete menu;
 	}
 }
 

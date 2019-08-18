@@ -50,15 +50,18 @@ int g_iCount = 0;
 public Plugin myinfo = 
 {
 	name = "MyStore - Admin item module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
 public void OnPluginStart()
 {
-	MyStore_RegisterHandler("admin", _, AdminGroup_Reset, AdminGroup_Config, AdminGroup_Equip, _, true);
+	if (MyStore_RegisterHandler("admin", _, AdminGroup_Reset, AdminGroup_Config, AdminGroup_Equip, _, true) == -1)
+	{
+		SetFailState("Can't Register module to core - Reached max module types(%i).", STORE_MAX_TYPES);
+	}
 }
 
 public void AdminGroup_Reset()

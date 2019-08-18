@@ -8,6 +8,16 @@
 "Phrases"
 {
 
+	"Parachute Reloaded"
+	{
+		"en"		"Parachute Reloaded"
+	}
+
+	"Parachute Empty"
+	{
+		"en"		"Parachute Empty"
+	}
+
 	"You dont have permission"
 	{
 		"en"		"You don't have permission to access this."
@@ -211,12 +221,12 @@
 		"en"		"You don't have enough {1} to buy this."
 	}
 
-	"Credit Too Many Matches"
+	"Too Many Matches"
 	{
 		"en"		"More than one client were found."
 	}
 
-	"Credit No Match"
+	"No Match"
 	{
 		"en"		"No player was found."
 	}
@@ -414,6 +424,11 @@
 	"discount"
 	{
 		"en"		"% SALE %"
+	}
+
+	"nodiscount"
+	{
+		"en"		"  "
 	}
 
 	"You get x Credits"
@@ -782,7 +797,7 @@
 
 	"You can't spend that much credits"
 	{
-		"#format"	"{1:i}"
+		"#format"	"{1:i},{2:s}"
 		"en"		"You can't spend that much credits (Max: {1} {2})."
 	}
 
@@ -800,8 +815,8 @@
 
 	"You won the Jackpot - Fee"
 	{
-		"#format"	"{1:i},{2:s},{3:i},{4:i}"
-		"en"		"You won the Jackpot with {1} {2} minus the casino fee of {3} {2} ({4}%)."
+		"#format"	"{1:i},{2:s},{3:i},{4:s},{5:i}"
+		"en"		"You won the Jackpot with {1} {2} minus the casino fee of {3} {4} ({5}%)."
 	}
 
 	"Player opened jackpot"
@@ -812,8 +827,8 @@
 
 	"Player added to jackpot"
 	{
-		"#format"	"{1:N},{2:i},{3:s},{4:.2f},{5:i}"
-		"en"		"{1} has cashed {2} {3} into the jackpot, his current winning chance is:{4}% (Jackpot: {5} {3})"
+		"#format"	"{1:N},{2:i},{3:s},{4:.2f},{5:i},{6:s}"
+		"en"		"{1} has cashed {2} {3} into the jackpot, his current winning chance is:{4}% (Jackpot: {5} {6})"
 	}
 
 	"or use buttons below"
@@ -1167,6 +1182,21 @@
 	"nofalldamage"
 	{
 		"en"		"No Fall Damage"
+	}
+
+	"mirror"
+	{
+		"en"		"mirror"
+	}
+
+	"thirdperson"
+	{
+		"en"		"thirdperson"
+	}
+
+	"noselfdamage"
+	{
+		"en"		"No Self Damage"
 	}
 
 	"particle"

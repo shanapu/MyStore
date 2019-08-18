@@ -80,15 +80,25 @@ char g_sChatPrefix[128];
 public Plugin myinfo = 
 {
 	name = "MyStore - Trail item module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
 public void OnPluginStart()
 {
+	if (MyStore_RegisterHandler("trail", Trails_OnMapStart, Trails_Reset, Trails_Config, Trails_Equip, Trails_Remove, true) == -1)
+	{
+		SetFailState("Can't Register module to core - Reached max module types(%i).", STORE_MAX_TYPES);
+	}
+
 	LoadTranslations("mystore.phrases");
+
+	RegConsoleCmd("sm_hidetrail", Command_Hide, "Hides the Trails");
+
+	HookEvent("player_spawn", Trails_PlayerSpawn);
+	HookEvent("player_death", Trails_PlayerDeath);
 
 	AutoExecConfig_SetFile("items", "sourcemod/mystore");
 	AutoExecConfig_SetCreateFile(true);
@@ -100,11 +110,6 @@ public void OnPluginStart()
 	AutoExecConfig_ExecuteFile();
 	AutoExecConfig_CleanFile();
 
-	MyStore_RegisterHandler("trail", Trails_OnMapStart, Trails_Reset, Trails_Config, Trails_Equip, Trails_Remove, true);
-
-	HookEvent("player_spawn", Trails_PlayerSpawn);
-	HookEvent("player_death", Trails_PlayerDeath);
-
 	g_hHideCookie = RegClientCookie("Trails_Hide_Cookie", "Cookie to check if Trails are blocked", CookieAccess_Private);
 	for (int i = 1; i <= MaxClients; i++)
 	{
@@ -113,8 +118,6 @@ public void OnPluginStart()
 
 		OnClientCookiesCached(i);
 	}
-
-	RegConsoleCmd("sm_hidetrails", Command_Hide, "Hides the Trails");
 }
 
 public void MyStore_OnConfigExecuted(ConVar enable, char[] name, char[] prefix, char[] credits)

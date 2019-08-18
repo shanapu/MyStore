@@ -76,17 +76,22 @@ Handle g_hHideCookie = INVALID_HANDLE;
 public Plugin myinfo = 
 {
 	name = "MyStore - Parachute item module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
 public void OnPluginStart()
 {
+	if (MyStore_RegisterHandler("parachute", ParaChute_OnMapStart, ParaChute_Reset, ParaChute_Config, ParaChute_Equip, ParaChute_Remove, true) == -1)
+	{
+		SetFailState("Can't Register module to core - Reached max module types(%i).", STORE_MAX_TYPES);
+	}
+
 	LoadTranslations("mystore.phrases");
 
-	MyStore_RegisterHandler("parachute", ParaChute_OnMapStart, ParaChute_Reset, ParaChute_Config, ParaChute_Equip, ParaChute_Remove, true);
+	RegConsoleCmd("sm_hideparachute", Command_Hide, "Hide the Parachute");
 
 	g_iVelocity = FindSendPropInfo("CBasePlayer", "m_vecVelocity[0]");
 
@@ -98,8 +103,6 @@ public void OnPluginStart()
 
 		OnClientCookiesCached(i);
 	}
-
-	RegConsoleCmd("sm_hideparachute", Command_Hide, "Hide the Parachute");
 }
 
 public void OnClientCookiesCached(int client)
@@ -229,7 +232,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 		else
 		{
 			g_hTimerReload[client] = CreateTimer(COOLDOWN, Timer_Reload, GetClientUserId(client));
-			PrintCenterText(client, "%s", "Parachute Empty");
+			PrintCenterText(client, "%t", "Parachute Empty");
 			DisableParachute(client);
 			return Plugin_Continue;
 		}
@@ -355,7 +358,7 @@ public Action Timer_Reload(Handle timer, any userid)
 	if (g_hTimerReload[client] != null)
 	{
 		g_iJumps[client] = 0;
-		PrintCenterText(client, "Parachute Reloaded");
+		PrintCenterText(client, "%t", "Parachute Reloaded");
 		g_hTimerReload[client] = null;
 	}
 

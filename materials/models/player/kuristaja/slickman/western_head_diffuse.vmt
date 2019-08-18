@@ -1,0 +1,15 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models\player\kuristaja\slickman\western_head_diffuse"
+	"$bumpmap" "models\player\kuristaja\slickman\western_head_normal"
+
+	"$phong" "1"
+	"$phongboost" ".5"
+	"$phongexponent" "25"
+	"$phongfresnelranges" "[.5 2 8]"
+	"$PhongAlbedoTint" "1"
+
+	"$rimlight" "1"
+	"$rimlightexponent" "35"
+	"$rimlightboost" ".3"
+}

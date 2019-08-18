@@ -77,16 +77,23 @@ float g_fSellRatio;
 public Plugin myinfo = 
 {
 	name = "MyStore - Drop-item module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
 
 public void OnPluginStart()
 {
+	if (MyStore_RegisterItemHandler("drop", Store_OnMenu, Store_OnHandler) == -1)
+	{
+		SetFailState("Can't Register module to core - Reached max item handlers(%i).", STORE_MAX_ITEM_HANDLERS);
+	}
+
 	LoadTranslations("mystore.phrases");
+
+	HookEvent("round_end", Event_RoundEnd);
 
 	AutoExecConfig_SetFile("drop", "sourcemod/mystore");
 	AutoExecConfig_SetCreateFile(true);
@@ -113,10 +120,6 @@ public void OnPluginStart()
 	gc_sPickUpSound.AddChangeHook(OnSettingChanged);
 
 	g_pDrops = new StringMap();
-
-	HookEvent("round_end", Event_RoundEnd);
-
-	MyStore_RegisterItemHandler("drop", Store_OnMenu, Store_OnHandler);
 }
 
 public void OnSettingChanged(ConVar convar, const char[] oldValue, const char[] newValue)

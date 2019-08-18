@@ -60,17 +60,20 @@ int g_iCount;
 public Plugin myinfo = 
 {
 	name = "MyStore - Connect item module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
 public void OnPluginStart()
 {
-	LoadTranslations("mystore.phrases");
+	if (MyStore_RegisterHandler("connect", Connect_OnMapStart, Connect_Reset, Connect_Config, Connect_Equip, Connect_UnEquip, true) == -1)
+	{
+		SetFailState("Can't Register module to core - Reached max module types(%i).", STORE_MAX_TYPES);
+	}
 
-	MyStore_RegisterHandler("connect", Connect_OnMapStart, Connect_Reset, Connect_Config, Connect_Equip, Connect_UnEquip, true);
+	LoadTranslations("mystore.phrases");
 }
 
 public void MyStore_OnConfigExecuted(ConVar enable, char[] name, char[] prefix, char[] credits)

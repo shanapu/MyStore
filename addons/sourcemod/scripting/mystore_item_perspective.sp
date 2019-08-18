@@ -51,16 +51,23 @@ ConVar sv_allow_thirdperson;
 public Plugin myinfo = 
 {
 	name = "MyStore - Perspective item module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
 public void OnPluginStart()
 {
-	MyStore_RegisterHandler("mirror", _, _, Mirror_Config, Mirror_Equip, Mirror_Remove, true);
-	MyStore_RegisterHandler("thirdperson", _, _, ThirdPerson_Config, ThirdPerson_Equip, ThirdPerson_Remove, true);
+	if (MyStore_RegisterHandler("mirror", _, _, Mirror_Config, Mirror_Equip, Mirror_Remove, true) == -1)
+	{
+		SetFailState("Can't Register module to core - Reached max module types(%i).", STORE_MAX_TYPES);
+	}
+
+	if (MyStore_RegisterHandler("thirdperson", _, _, ThirdPerson_Config, ThirdPerson_Equip, ThirdPerson_Remove, true) == -1)
+	{
+		MyStore_LogMessage(_, LOG_ERROR, "Can't Register module to core - Reached max module types(%i).", STORE_MAX_TYPES);
+	}
 
 	mp_forcecamera = FindConVar("mp_forcecamera");
 

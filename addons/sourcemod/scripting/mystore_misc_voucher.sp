@@ -53,7 +53,6 @@ ConVar gc_bEnable;
 ConVar gc_bItemVoucherEnabled;
 ConVar gc_bCreditVoucherEnabled;
 ConVar gc_bCheckAdmin;
-
 int g_iChatType[MAXPLAYERS + 1] = {-1, ...};
 
 char g_sChatPrefix[32];
@@ -84,9 +83,9 @@ int g_iSelectedItem[MAXPLAYERS + 1];
 public Plugin myinfo = 
 {
 	name = "MyStore - Voucher module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
@@ -126,12 +125,10 @@ public void OnAllPluginsLoaded()
 {
 	if (gc_bItemVoucherEnabled.BoolValue)
 	{
-		MyStore_RegisterItemHandler("Voucher", Store_OnMenu, Store_OnHandler);
-	}
-
-	if (gc_bCreditVoucherEnabled.BoolValue)
-	{
-		MyStore_RegisterHandler("vouchers", _, _, _, ShowMenu_Voucher, _, false, true);
+		if (MyStore_RegisterItemHandler("Voucher", Store_OnMenu, Store_OnHandler) == -1)
+		{
+			MyStore_LogMessage(_, LOG_ERROR, "Can't Register module to core - Reached max item handlers(%i).", STORE_MAX_ITEM_HANDLERS);
+		}
 	}
 }
 
@@ -181,11 +178,6 @@ public Action Command_Voucher(int client, int args)
 	Menu_Voucher(client);
 
 	return Plugin_Handled;
-}
-
-public void ShowMenu_Voucher(int client, int itemid)
-{
-	Menu_Voucher(client);
 }
 
 public Action Command_CreateVoucherCode(int client, int args)
@@ -1040,7 +1032,7 @@ public void SQLCallback_Fetch(Database db, DBResultSet results, const char[] err
 					}
 					else
 					{
-						MyStore_GiveItem(client, itemid, _, _, item[iPrice]); //Todo resale value
+						MyStore_GiveItem(client, itemid, _, _, item[iPrice]);
 						any handler[Type_Handler];
 
 						if (item[bPreview])
@@ -1366,7 +1358,6 @@ public bool Store_OnHandler(int client, char[] selection, int itemid)
 		else
 		{
 			VoucherItem(client, itemid);
-			MyStore_SetClientPreviousMenu(client, MENU_PARENT);
 			MyStore_DisplayPreviousMenu(client);
 		}
 

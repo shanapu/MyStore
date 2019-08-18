@@ -1,0 +1,19 @@
+"VertexlitGeneric"
+{
+	"$basetexture" 	"models/player/kuristaja/shepard/body"
+	"$bumpmap"	"models/player/kuristaja/shepard/body_bump"
+
+	"$selfillum" 	1
+	"$selfillumtint"	"[255 0 0]"
+
+	"$phong" "1"
+	"$phongexponent" "30"
+	"$phongboost" "0.1"
+	"$phongfresnelranges" "[5 6 8]"
+	"$PhongAlbedoTint" "1"
+
+
+	"$rimlight"		"1"
+	"$rimlightexponent"		"20"
+	"$rimlightboost"		".5"
+}

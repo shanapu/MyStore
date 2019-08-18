@@ -51,15 +51,21 @@ ConVar gc_iType;
 public Plugin myinfo = 
 {
 	name = "MyStore - Instand plant/defuse bomb item module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
 public void OnPluginStart()
 {
-	MyStore_RegisterHandler("instabomb", _, _, InstaBomb_Config, InstaBomb_Equip, InstaBomb_Remove, true);
+	if (MyStore_RegisterHandler("instabomb", _, _, InstaBomb_Config, InstaBomb_Equip, InstaBomb_Remove, true) == -1)
+	{
+		SetFailState("Can't Register module to core - Reached max module types(%i).", STORE_MAX_TYPES);
+	}
+
+	HookEvent("bomb_begindefuse", Event_Defuse);
+	HookEvent("bomb_beginplant", Event_Plant);
 
 	AutoExecConfig_SetFile("items", "sourcemod/mystore");
 	AutoExecConfig_SetCreateFile(true);
@@ -68,9 +74,6 @@ public void OnPluginStart()
 
 	AutoExecConfig_ExecuteFile();
 	AutoExecConfig_CleanFile();
-
-	HookEvent("bomb_begindefuse", Event_Defuse);
-	HookEvent("bomb_beginplant", Event_Plant);
 }
 
 public void MyStore_OnConfigExecuted(ConVar enable, char[] name, char[] prefix, char[] credits)

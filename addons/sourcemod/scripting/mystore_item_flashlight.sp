@@ -51,18 +51,24 @@ bool g_bEquipt[MAXPLAYERS + 1] = false;
 public Plugin myinfo = 
 {
 	name = "MyStore - Flashlight item module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
 public void OnPluginStart()
 {
+	if (MyStore_RegisterHandler("flashlight", Flashlight_OnMapStart, _, Flashlight_Config, Flashlight_Equip, _, true) == -1)
+	{
+		SetFailState("Can't Register module to core - Reached max module types(%i).", STORE_MAX_TYPES);
+	}
+
 	LoadTranslations("mystore.phrases");
 
-	AddCommandListener(Command_LAW, "+lookatweapon");
 	RegConsoleCmd("sm_flashlight", Command_FlashLight);
+
+	AddCommandListener(Command_LAW, "+lookatweapon");
 
 	AutoExecConfig_SetFile("items", "sourcemod/mystore");
 	AutoExecConfig_SetCreateFile(true);
@@ -71,8 +77,6 @@ public void OnPluginStart()
 
 	AutoExecConfig_ExecuteFile();
 	AutoExecConfig_CleanFile();
-
-	MyStore_RegisterHandler("flashlight", Flashlight_OnMapStart, _, Flashlight_Config, Flashlight_Equip, _, true);
 }
 
 public void Flashlight_OnMapStart()

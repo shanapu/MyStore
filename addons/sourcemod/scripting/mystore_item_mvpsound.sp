@@ -56,17 +56,20 @@ int g_iCount = 0;
 public Plugin myinfo = 
 {
 	name = "MyStore - MVP sound item module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
 public void OnPluginStart()
 {
-	LoadTranslations("mystore.phrases");
+	if (MyStore_RegisterHandler("mvp_sound", MVPSounds_OnMapStart, MVPSounds_Reset, MVPSounds_Config, MVPSounds_Equip, MVPSounds_Remove) == -1)
+	{
+		SetFailState("Can't Register module to core - Reached max module types(%i).", STORE_MAX_TYPES);
+	}
 
-	MyStore_RegisterHandler("mvp_sound", MVPSounds_OnMapStart, MVPSounds_Reset, MVPSounds_Config, MVPSounds_Equip, MVPSounds_Remove);
+	LoadTranslations("mystore.phrases");
 
 	HookEvent("round_mvp", Event_RoundMVP);
 }

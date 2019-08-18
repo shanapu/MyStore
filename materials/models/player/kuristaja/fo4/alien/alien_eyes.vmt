@@ -1,0 +1,11 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/player/kuristaja/fo4/alien/alien_body_d"
+	"$bumpmap" "models/player/kuristaja/fo4/alien/alien_body_normal"
+
+	"$phong" "1"
+	"$phongexponent" "60"
+	"$phongboost" "0.1"
+	"$phongfresnelranges" "[5 6 8]"
+	"$PhongAlbedoTint" "1"
+}

@@ -140,12 +140,6 @@ new Handle:g_hCachedFiles = INVALID_HANDLE;
 new Handle:g_hCachedNums = INVALID_HANDLE;
 stock Downloader_AddFileToDownloadsTable(char[] filename)
 {
-	int len = strlen(filename);
-	ReplaceString(filename, len, "\\", "/");
-	for(int ch=0; ch<len; ch++){
-		filename[ch] = CharToLower(filename[ch]);
-	}
-	
 	if(!FileExists2(filename))
 		return 0;
 

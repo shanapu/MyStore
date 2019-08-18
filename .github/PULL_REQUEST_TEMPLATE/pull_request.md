@@ -5,7 +5,7 @@ assignees: 'shanapu'
 
 ---
 
-# Thank you for contribute to the MyStore project! :heart:
+# Thank you for contribute to the MyStore project!
 **Please just one feature/plugin change per pull request, splitt many changes to different pull requests. Thanks**
 
   - [ ] I have checked that my PR [doesn't exist yet](https://github.com/shanapu/MyStore/pulls).

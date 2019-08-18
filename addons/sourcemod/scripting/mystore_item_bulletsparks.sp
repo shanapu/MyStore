@@ -48,15 +48,18 @@ ConVar gc_bEnable;
 public Plugin myinfo = 
 {
 	name = "MyStore - Bulletsparks item module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
 public void OnPluginStart()
 {
-	MyStore_RegisterHandler("bulletsparks", _, _, BulletSparks_Config, BulletSparks_Equip, BulletSparks_Remove, true);
+	if (MyStore_RegisterHandler("bulletsparks", _, _, BulletSparks_Config, BulletSparks_Equip, BulletSparks_Remove, true) == -1)
+	{
+		SetFailState("Can't Register module to core - Reached max module types(%i).", STORE_MAX_TYPES);
+	}
 
 	HookEvent("bullet_impact", Event_BulletImpact);
 }

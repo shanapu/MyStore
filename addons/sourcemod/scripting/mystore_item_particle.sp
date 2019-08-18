@@ -72,17 +72,22 @@ int g_iIndexType[STORE_MAX_ITEMS];
 public Plugin myinfo = 
 {
 	name = "MyStore - Particle item module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
 public void OnPluginStart()
 {
+	if (MyStore_RegisterHandler("particle", OnMapStart_Particle, Reset_Particle, Config_Particle, Equip_Particle, UnEquip_Particle) == -1)
+	{
+		SetFailState("Can't Register module to core - Reached max module types(%i).", STORE_MAX_TYPES);
+	}
+
 	LoadTranslations("mystore.phrases");
 
-	MyStore_RegisterHandler("particle", OnMapStart_Particle, Reset_Particle, Config_Particle, Equip_Particle, UnEquip_Particle);
+	RegConsoleCmd("sm_hideparticle", Command_Hide, "Hides the Particles");
 
 	HookEvent("round_end", Event_RoundEnd);
 	HookEvent("player_death", Event_PlayerDeath);
@@ -102,8 +107,6 @@ public void OnPluginStart()
 
 		OnClientCookiesCached(i);
 	}
-
-	RegConsoleCmd("sm_hideparticles", Command_Hide, "Hides the Particles");
 }
 
 public void MyStore_OnConfigExecuted(ConVar enable, char[] name, char[] prefix, char[] credits)

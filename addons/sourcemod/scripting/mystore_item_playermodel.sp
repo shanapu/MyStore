@@ -67,28 +67,31 @@ int g_iPreviewEntity[MAXPLAYERS + 1] = {INVALID_ENT_REFERENCE, ...};
 public Plugin myinfo = 
 {
 	name = "MyStore - Player model item module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
 public void OnPluginStart()
 {
+	if (MyStore_RegisterHandler("playermodel", PlayerModels_OnMapStart, PlayerModels_Reset, PlayerModels_Config, PlayerModels_Equip, PlayerModels_Remove, true) == -1)
+	{
+		SetFailState("Can't Register module to core - Reached max module types(%i).", STORE_MAX_TYPES);
+	}
+
 	LoadTranslations("mystore.phrases");
+
+	HookEvent("player_spawn", Event_PlayerSpawn);
 
 	AutoExecConfig_SetFile("items", "sourcemod/mystore");
 	AutoExecConfig_SetCreateFile(true);
-
-	MyStore_RegisterHandler("playermodel", PlayerModels_OnMapStart, PlayerModels_Reset, PlayerModels_Config, PlayerModels_Equip, PlayerModels_Remove, true);
 
 	gc_bChangeInstant = AutoExecConfig_CreateConVar("mystore_playermodel_instant", "1", "Defines whether the skin should be changed instantly or on next spawn.", _, true, 0.0, true, 1.0);
 	gc_fDelay = AutoExecConfig_CreateConVar("mystore_playermodel_delay", "0.5", "Delay after spawn before applying the skin. -1 means no delay", _, true, -1.0, true, 1.0);
 
 	AutoExecConfig_ExecuteFile();
 	AutoExecConfig_CleanFile();
-
-	HookEvent("player_spawn", Event_PlayerSpawn);
 }
 
 public void MyStore_OnConfigExecuted(ConVar enable, char[] name, char[] prefix, char[] credits)

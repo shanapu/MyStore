@@ -4,7 +4,7 @@
  * https://github.com/shanapu/
  * 
  * Copyright (C) 2018-2019 Thomas Schmidt (shanapu)
- * Credits:
+ * Credits: https://github.com/Kxnrl/Store/blob/master/store/modules/hats.sp
  * Contributer:
  *
  * Original development by Zephyrus - https://github.com/dvarnai/store-plugin
@@ -53,7 +53,7 @@ Handle g_hTimerPreview[MAXPLAYERS + 1];
 int g_iClientAttachments[MAXPLAYERS + 1][STORE_MAX_SLOTS];
 int g_iCount = 0;
 int g_iSpecTarget[MAXPLAYERS + 1];
-int g_iCountOwners[2048];
+int g_iHatsOwners[2048];
 
 bool g_bHide[MAXPLAYERS + 1];
 Handle g_hHideCookie = INVALID_HANDLE;
@@ -69,17 +69,22 @@ int g_iPreviewEntity[MAXPLAYERS + 1] = {INVALID_ENT_REFERENCE, ...};
 public Plugin myinfo = 
 {
 	name = "MyStore - Attachment item module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
 public void OnPluginStart()
 {
+	if (MyStore_RegisterHandler("attachment", Attachments_OnMapStart, Attachments_Reset, Attachments_Config, Attachments_Equip, Attachments_Remove, true) == -1)
+	{
+		SetFailState("Can't Register module to core - Reached max module types(%i).", STORE_MAX_TYPES);
+	}
+
 	LoadTranslations("mystore.phrases");
 
-	MyStore_RegisterHandler("attachment", Attachments_OnMapStart, Attachments_Reset, Attachments_Config, Attachments_Equip, Attachments_Remove, true);
+	RegConsoleCmd("sm_hideattachment", Command_Hide, "Hides the Attachments");
 
 	HookEvent("player_spawn", Event_PlayerSpawn_Pre, EventHookMode_Pre);
 	HookEvent("player_death", Event_PlayerDeath_Pre, EventHookMode_Pre);
@@ -93,8 +98,6 @@ public void OnPluginStart()
 
 		OnClientCookiesCached(i);
 	}
-
-	RegConsoleCmd("sm_hideattachments", Command_Hide, "Hides the Attachments");
 }
 
 public void OnClientCookiesCached(int client)
@@ -304,7 +307,7 @@ void CreateAttachment(int client, int itemid = -1, int slot = 0)
 	DispatchKeyValue(iEntity, "solid", "0");
 	SetEntPropEnt(iEntity, Prop_Send, "m_hOwnerEntity", client);
 
-	g_iCountOwners[iEntity] = client;
+	g_iHatsOwners[iEntity] = client;
 
 	DispatchSpawn(iEntity);
 	AcceptEntityInput(iEntity, "TurnOn", iEntity, iEntity, 0);
@@ -358,7 +361,7 @@ public void OnEntityDestroyed(int entity)
 	if (entity > 2048 || entity < MaxClients)
 		return;
 
-	g_iCountOwners[entity] = -1;
+	g_iHatsOwners[entity] = -1;
 }
 
 public void OnClientDisconnect(int client)

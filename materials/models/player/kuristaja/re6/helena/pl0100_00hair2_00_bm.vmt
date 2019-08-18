@@ -1,0 +1,19 @@
+"VertexLitGeneric"
+{
+	// TRANSLUCENT
+
+	"$baseTexture" "models\player\kuristaja\re6\helena\pl0100_00hair_00_bm"
+	"$bumpmap" "models\player\kuristaja\re6\helena\pl0100_00hair_00_normal"
+
+	"$halflambert" 1
+	"$nodecal" "1"
+
+	"$translucent" "1"
+	$nocull 1
+
+	"$phong" "1"
+	"$phongexponent" "30"
+	"$phongboost" ".02"
+	"$phongfresnelranges"	"[5 6 8]"
+	"$PhongAlbedoTint" "1"
+}

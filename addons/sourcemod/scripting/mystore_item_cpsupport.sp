@@ -57,17 +57,29 @@ int g_iMessageColors = 0;
 public Plugin myinfo = 
 {
 	name = "MyStore - Chat Processor item module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
 public void OnPluginStart()
 {
-	MyStore_RegisterHandler("nametag", _, CPSupport_Reset, NameTags_Config, CPSupport_Equip, CPSupport_Remove, true);
-	MyStore_RegisterHandler("namecolor", _, CPSupport_Reset, NameColors_Config, CPSupport_Equip, CPSupport_Remove, true);
-	MyStore_RegisterHandler("msgcolor", _, CPSupport_Reset, MsgColors_Config, CPSupport_Equip, CPSupport_Remove, true);
+	if (MyStore_RegisterHandler("nametag", _, CPSupport_Reset, NameTags_Config, CPSupport_Equip, CPSupport_Remove, true) == -1)
+	{
+		SetFailState("Can't Register module to core - Reached max module types(%i).", STORE_MAX_TYPES);
+	}
+
+	if (MyStore_RegisterHandler("namecolor", _, CPSupport_Reset, NameColors_Config, CPSupport_Equip, CPSupport_Remove, true) == -1)
+	{
+		MyStore_LogMessage(_, LOG_ERROR, "Can't Register module to core - Reached max module types(%i).", STORE_MAX_TYPES);
+		return;
+	}
+
+	if (MyStore_RegisterHandler("msgcolor", _, CPSupport_Reset, MsgColors_Config, CPSupport_Equip, CPSupport_Remove, true) == -1)
+	{
+		MyStore_LogMessage(_, LOG_ERROR, "Can't Register module to core - Reached max module types(%i).", STORE_MAX_TYPES);
+	}
 }
 
 public void MyStore_OnConfigExecuted(ConVar enable, char[] name, char[] prefix, char[] credits)

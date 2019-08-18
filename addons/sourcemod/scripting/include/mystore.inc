@@ -79,6 +79,7 @@ public void __pl_mystore_SetNTVOptional()
 	MarkNativeAsOptional("MyStore_SellClientItem");
 	MarkNativeAsOptional("MyStore_HasClientItem");
 	MarkNativeAsOptional("MyStore_IterateEquippedItems");
+	MarkNativeAsOptional("MyStore_LogMessage");
 	MarkNativeAsOptional("MyStore_SQLEscape");
 	MarkNativeAsOptional("MyStore_SQLQuery");
 	MarkNativeAsOptional("MyStore_SQLTransaction");

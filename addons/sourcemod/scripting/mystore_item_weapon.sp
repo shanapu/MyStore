@@ -71,15 +71,23 @@ int g_iPreviewEntity[MAXPLAYERS + 1] = {INVALID_ENT_REFERENCE, ...};
 public Plugin myinfo = 
 {
 	name = "MyStore - Weapon item module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
 public void OnPluginStart()
 {
+	if (MyStore_RegisterHandler("weapon", _, Weapons_Reset, Weapons_Config, Weapons_Equip, _, false) == -1)
+	{
+		SetFailState("Can't Register module to core - Reached max module types(%i).", STORE_MAX_TYPES);
+	}
+
 	LoadTranslations("mystore.phrases");
+
+	HookEvent("player_spawn", Events_OnPlayerSpawn);
+	HookEvent("player_say", Event_PlayerSay);
 
 	AutoExecConfig_SetFile("items", "sourcemod/mystore");
 	AutoExecConfig_SetCreateFile(true);
@@ -88,11 +96,6 @@ public void OnPluginStart()
 
 	AutoExecConfig_ExecuteFile();
 	AutoExecConfig_CleanFile();
-
-	HookEvent("player_spawn", Events_OnPlayerSpawn);
-	HookEvent("player_say", Event_PlayerSay);
-
-	MyStore_RegisterHandler("weapon", _, Weapons_Reset, Weapons_Config, Weapons_Equip, _, false);
 }
 
 public void MyStore_OnConfigExecuted(ConVar enable, char[] name, char[] prefix, char[] credits)

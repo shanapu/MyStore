@@ -1,0 +1,19 @@
+"VertexLitGeneric"
+{
+	"$basetexture"			"models/player/kuristaja/deadpool/deadpool_body_color"
+	"$bumpmap"			"models/player/kuristaja/deadpool/deadpool_body_norm"
+
+	"$phong"				"1"
+	"$phongboost"			"1.5"
+	"$phongexponent"		"15"
+	"$phongfresnelranges"	"[0.1 0.75 4]"
+
+	"$detail" "models/player/kuristaja/deadpool/deadpool_detail"
+	"$detailscale" 20
+	"$detailblendfactor" 1
+	"$detailblendmode" 0
+
+	"$rimlight"		"1"
+	"$rimlightexponent"		"8"
+	"$rimlightboost"		"1"
+}

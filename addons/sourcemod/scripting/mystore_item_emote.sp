@@ -77,15 +77,24 @@ Handle g_hHideCookie = INVALID_HANDLE;
 public Plugin myinfo = 
 {
 	name = "MyStore - Emote item module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
 public void OnPluginStart()
 {
+	if (MyStore_RegisterHandler("emote", Emotes_OnMapStart, Emotes_Reset, Emotes_Config, Emotes_Equip, _, false) == -1)
+	{
+		SetFailState("Can't Register module to core - Reached max module types(%i).", STORE_MAX_TYPES);
+	}
+
 	LoadTranslations("mystore.phrases");
+
+	RegConsoleCmd("sm_hideemote", Command_Hide, "Hides the Emotes");
+
+	HookEvent("player_say", Event_PlayerSay);
 
 	AutoExecConfig_SetFile("items", "sourcemod/mystore");
 	AutoExecConfig_SetCreateFile(true);
@@ -95,10 +104,6 @@ public void OnPluginStart()
 	AutoExecConfig_ExecuteFile();
 	AutoExecConfig_CleanFile();
 
-	MyStore_RegisterHandler("emote", Emotes_OnMapStart, Emotes_Reset, Emotes_Config, Emotes_Equip, _, false);
-
-	HookEvent("player_say", Event_PlayerSay);
-
 	g_hHideCookie = RegClientCookie("Emotes_Hide_Cookie", "Cookie to check if Emotes are blocked", CookieAccess_Private);
 	for (int i = 1; i <= MaxClients; i++)
 	{
@@ -107,8 +112,6 @@ public void OnPluginStart()
 
 		OnClientCookiesCached(i);
 	}
-
-	RegConsoleCmd("sm_hideemotes", Command_Hide, "Hides the Emotes");
 }
 
 public void OnClientCookiesCached(int client)

@@ -71,9 +71,9 @@ int g_iBetOnCT = 0;
 public Plugin myinfo = 
 {
 	name = "MyStore - Teambet gamble module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
@@ -97,8 +97,6 @@ public void OnPluginStart()
 	HookEvent("round_end", TeamBet_RoundEnd);
 
 	RegConsoleCmd("sm_bet", Command_Bet);
-
-	MyStore_RegisterHandler("teambet", _, _, _, TeamBet_Menu, _, false, true);
 }
 
 public void MyStore_OnConfigExecuted(ConVar enable, char[] name, char[] prefix, char[] credits)
@@ -116,11 +114,6 @@ public void OnClientPutInServer(int client)
 		return;
 
 	g_iClientCount++;
-}
-
-public void TeamBet_Menu(int client, int itemid)
-{
-	Panel_TeamBet(client);
 }
 
 public void OnClientDisconnect(int client)
@@ -432,7 +425,6 @@ public int Handler_TeamBet(Menu panel, MenuAction action, int client, int itemNu
 			case 7:
 			{
 				FakeClientCommand(client, "play sound/%s", g_sMenuExit);
-				MyStore_SetClientPreviousMenu(client, MENU_PARENT);
 				MyStore_DisplayPreviousMenu(client);
 			}
 			case 8:

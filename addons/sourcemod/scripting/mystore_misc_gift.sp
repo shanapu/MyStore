@@ -53,9 +53,9 @@ int g_iSelectedItem[MAXPLAYERS + 1];
 public Plugin myinfo = 
 {
 	name = "MyStore - Gift module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
@@ -81,7 +81,10 @@ public void MyStore_OnConfigExecuted(ConVar enable, char[] name, char[] prefix, 
 
 public void OnAllPluginsLoaded()
 {
-	MyStore_RegisterItemHandler("gift", Store_OnMenu, Store_OnHandler);
+	if (MyStore_RegisterItemHandler("gift", Store_OnMenu, Store_OnHandler) == -1)
+	{
+		SetFailState("Can't Register module to core - Reached max item handlers(%i).", STORE_MAX_ITEM_HANDLERS);
+	}
 }
 
 public void Store_OnMenu(Menu &menu, int client, int itemid)
@@ -158,7 +161,7 @@ public bool Store_OnHandler(int client, char[] selection, int itemid)
 
 		if (iCount == 0)
 		{
-			menu.Cancel();
+			delete menu;
 			MyStore_SetClientPreviousMenu(client, MENU_ITEM);
 			MyStore_DisplayPreviousMenu(client);
 			CPrintToChat(client, "%s%t", g_sChatPrefix, "Gift No Players");
@@ -178,7 +181,7 @@ public int MenuHandler_Gift(Menu menu, MenuAction action, int client, int param2
 {
 	if (action == MenuAction_End)
 	{
-		menu.Cancel();
+		delete menu;
 	}
 	else if (action == MenuAction_Select)
 	{

@@ -65,15 +65,17 @@ Handle g_hHideCookie = INVALID_HANDLE;
 public Plugin myinfo = 
 {
 	name = "MyStore - HUD module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
 public void OnPluginStart()
 {
 	LoadTranslations("mystore.phrases");
+
+	RegConsoleCmd("sm_hidehud", Command_Hide, "Hides the HUD");
 
 	AutoExecConfig_SetFile("hud", "sourcemod/mystore");
 	AutoExecConfig_SetCreateFile(true);
@@ -99,8 +101,6 @@ public void OnPluginStart()
 
 		OnClientCookiesCached(i);
 	}
-
-	RegConsoleCmd("sm_hidehud", Command_Hide, "Hides the HUD");
 }
 
 public void OnClientCookiesCached(int client)

@@ -60,16 +60,21 @@ char g_sChatPrefix[64];
 public Plugin myinfo = 
 {
 	name = "MyStore - Deathsound item module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
 public void OnPluginStart()
 {
+	if (MyStore_RegisterHandler("death_sound", DeathSound_OnMapStart, DeathSound_Reset, DeathSound_Config, DeathSound_Equip, DeathSound_Remove, true) == -1)
+	{
+		SetFailState("Can't Register module to core - Reached max module types(%i).", STORE_MAX_TYPES);
+	}
+
 	LoadTranslations("mystore.phrases");
-	MyStore_RegisterHandler("death_sound", DeathSound_OnMapStart, DeathSound_Reset, DeathSound_Config, DeathSound_Equip, DeathSound_Remove, true);
+
 	HookEvent("player_death", Event_PlayerDeath);
 	AddNormalSoundHook(Hook_NormalSound);
 }

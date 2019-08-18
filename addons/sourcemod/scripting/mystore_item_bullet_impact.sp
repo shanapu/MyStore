@@ -45,7 +45,6 @@ char g_sPaintballDecals[STORE_MAX_ITEMS][32][PLATFORM_MAX_PATH];
 
 ConVar gc_bEnable;
 
-int g_iType[STORE_MAX_ITEMS];
 int g_iPaintballDecalIDs[STORE_MAX_ITEMS][32];
 int g_iPaintballDecals[STORE_MAX_ITEMS] = {0, ...};
 int g_iCount = 0;
@@ -64,15 +63,20 @@ char g_sChatPrefix[128];
 public Plugin myinfo = 
 {
 	name = "MyStore - Bullet impact item module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
 public void OnPluginStart()
 {
-	MyStore_RegisterHandler("paintball", Paintball_OnMapStart, Paintball_Reset, Paintball_Config, Paintball_Equip, Paintball_Remove, true);
+	if (MyStore_RegisterHandler("paintball", Paintball_OnMapStart, Paintball_Reset, Paintball_Config, Paintball_Equip, Paintball_Remove, true) == -1)
+	{
+		SetFailState("Can't Register module to core - Reached max module types(%i).", STORE_MAX_TYPES);
+	}
+
+	RegConsoleCmd("sm_hidepaintball", Command_Hide, "Hide the Paintball");
 
 	HookEvent("bullet_impact", Event_BulletImpact);
 
@@ -84,8 +88,6 @@ public void OnPluginStart()
 
 		OnClientCookiesCached(i);
 	}
-
-	RegConsoleCmd("sm_hidepaintball", Command_Hide, "Hide the Paintball");
 }
 
 public void OnClientCookiesCached(int client)
@@ -146,8 +148,6 @@ public void Paintball_Reset()
 public bool Paintball_Config(KeyValues &kv, int itemid)
 {
 	MyStore_SetDataIndex(itemid, g_iCount);
-
-	g_iType[g_iCount] = kv.GetNum("effect", 0);
 
 	kv.JumpToKey("Decals");
 	kv.GotoFirstSubKey();

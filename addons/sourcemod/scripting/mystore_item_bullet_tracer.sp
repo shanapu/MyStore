@@ -67,14 +67,23 @@ char g_sChatPrefix[128];
 public Plugin myinfo = 
 {
 	name = "MyStore - Bullet tracer item module",
-	author = "shanapu",
+	author = "shanapu", // If you should change the code, even for your private use, please PLEASE add your name to the author here
 	description = "",
-	version = "0.1.<BUILD>",
+	version = "0.1.<BUILD>", // If you should change the code, even for your private use, please PLEASE make a mark here at the version number
 	url = "github.com/shanapu/MyStore"
 };
 
 public void OnPluginStart()
 {
+	if (MyStore_RegisterHandler("tracer", Tracers_OnMapStart, Tracers_Reset, Tracers_Config, Tracers_Equip, Tracers_Remove, true) == -1)
+	{
+		SetFailState("Can't Register module to core - Reached max module types(%i).", STORE_MAX_TYPES);
+	}
+
+	RegConsoleCmd("sm_hidegrenadetracer", Command_Hide, "Hide the Tracer");
+
+	HookEvent("bullet_impact", Event_BulletImpact);
+
 	AutoExecConfig_SetFile("items", "sourcemod/mystore");
 	AutoExecConfig_SetCreateFile(true);
 
@@ -84,10 +93,6 @@ public void OnPluginStart()
 	AutoExecConfig_ExecuteFile();
 	AutoExecConfig_CleanFile();
 
-	MyStore_RegisterHandler("tracer", Tracers_OnMapStart, Tracers_Reset, Tracers_Config, Tracers_Equip, Tracers_Remove, true);
-
-	HookEvent("bullet_impact", Event_BulletImpact);
-
 	g_hHideCookie = RegClientCookie("Tracer_Hide_Cookie", "Cookie to check if Tracer are blocked", CookieAccess_Private);
 	for (int i = 1; i <= MaxClients; i++)
 	{
@@ -96,8 +101,6 @@ public void OnPluginStart()
 
 		OnClientCookiesCached(i);
 	}
-
-	RegConsoleCmd("sm_hidegrenadetracer", Command_Hide, "Hide the Tracer");
 }
 
 public void OnClientCookiesCached(int client)

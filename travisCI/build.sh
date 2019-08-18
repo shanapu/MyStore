@@ -6,12 +6,12 @@ tz=Europe/Berlin
 HOST=$3
 USER=$4
 PASS=$5
+
 COMMIT=$6
 BUILD=$7
 DATE=`tz=GMT+1 date "+%Y-%m-%d %H:%M:%S"`
-FILE=MyStore-0.1.$BUILD-$COMMIT.zip
-LATEST=MyStore-latest.zip
 
+FILE=MyStore-0.1.$BUILD-$COMMIT.zip
 
 echo "Download und extract sourcemod"
 wget "http://www.sourcemod.net/latest.php?version=$1&os=linux" -O sourcemod.tar.gz
@@ -48,6 +48,11 @@ for file in mystore_*.smx
 do
   mv $file addons/sourcemod/plugins
 done
+
+echo "Download chat-processor, compile & move to plugins folder"
+wget -q -O addons/sourcemod/scripting/chat-processor.sp https://raw.githubusercontent.com/Drixevel/Chat-Processor/master/scripting/chat-processor.sp
+  addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/chat-processor.sp
+  mv addons/sourcemod/scripting/chat-processor.smx addons/sourcemod/plugins
 
 echo "Remove build folder if exists"
 if [ -d "build" ]; then
@@ -88,6 +93,7 @@ rm build/gameserver/addons/sourcemod/*.txt
 echo "Download sourcefiles & create clean scripting folder"
 git clone --depth=50 --branch=$2 https://github.com/shanapu/MyStore.git source/MyStore
 mv source/MyStore/addons/sourcemod/scripting build/gameserver/addons/sourcemod
+wget -q -O build/gameserver/addons/sourcemod/scripting/chat-processor.sp https://raw.githubusercontent.com/Drixevel/Chat-Processor/master/scripting/chat-processor.sp
 
 echo "Set plugins version"
 for file in build/gameserver/addons/sourcemod/scripting/mystore_*.sp
@@ -116,11 +122,5 @@ zip -9rq $FILE gameserver fastDL install.txt license.txt
 
 echo "Upload file"
 lftp -c "set ftp:ssl-allow no; set ssl:verify-certificate no; open -u $USER,$PASS $HOST; put -O MyStore/downloads/SM$1/$2/ $FILE"
-
-echo "Add latest build"
-mv $FILE $LATEST
-
-echo "Upload latest build"
-lftp -c "set ftp:ssl-allow no; set ssl:verify-certificate no; open -u $USER,$PASS $HOST; put -O MyStore/downloads/SM$1/ $LATEST"
 
 echo "Build done"
