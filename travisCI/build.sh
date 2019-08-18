@@ -51,6 +51,7 @@ done
 
 echo "Download chat-processor, compile & move to plugins folder"
 wget -q -O addons/sourcemod/scripting/chat-processor.sp https://raw.githubusercontent.com/Drixevel/Chat-Processor/master/scripting/chat-processor.sp
+wget -q -O addons/sourcemod/scripting/include/colorvariables.inc https://raw.githubusercontent.com/Drixevel/Chat-Processor/master/scripting/include/colorvariables.inc
   addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/chat-processor.sp
   mv addons/sourcemod/scripting/chat-processor.smx addons/sourcemod/plugins
 
@@ -94,6 +95,7 @@ echo "Download sourcefiles & create clean scripting folder"
 git clone --depth=50 --branch=$2 https://github.com/shanapu/MyStore.git source/MyStore
 mv source/MyStore/addons/sourcemod/scripting build/gameserver/addons/sourcemod
 wget -q -O build/gameserver/addons/sourcemod/scripting/chat-processor.sp https://raw.githubusercontent.com/Drixevel/Chat-Processor/master/scripting/chat-processor.sp
+wget -q -O build/gameserver/addons/sourcemod/scripting/include/colorvariables.inc https://raw.githubusercontent.com/Drixevel/Chat-Processor/master/scripting/include/colorvariables.inc
 
 echo "Set plugins version"
 for file in build/gameserver/addons/sourcemod/scripting/mystore_*.sp
