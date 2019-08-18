@@ -63,16 +63,16 @@ fi
 echo "Create clean build & sub folder"
 mkdir build
 mkdir build/gameserver
+mkdir build/fastDL
 
 echo "Move addons, materials and sound folder"
-mv addons build/gameserver
-echo mv addons materials models sound particles build/gameserver
+mv mv addons materials models sound particles build/gameserver
 
 echo "Move FastDL folder"
-echo mv FastDL build
+mv FastDL/materials FastDL/models FastDL/sound fastDL/particles build/fastDL
 
 echo "Move license to build"
-echo mv install.txt license.txt build
+mv install.txt license.txt build/
 
 echo "Remove sourcemod folders"
 rm -r build/gameserver/addons/metamod
