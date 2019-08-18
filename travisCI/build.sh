@@ -53,7 +53,7 @@ echo "Download chat-processor, compile & move to plugins folder"
 wget -q -O addons/sourcemod/scripting/chat-processor.sp https://raw.githubusercontent.com/Drixevel/Chat-Processor/master/scripting/chat-processor.sp
 wget -q -O addons/sourcemod/scripting/include/colorvariables.inc https://raw.githubusercontent.com/Drixevel/Chat-Processor/master/scripting/include/colorvariables.inc
   addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/chat-processor.sp
-  mv addons/sourcemod/scripting/chat-processor.smx addons/sourcemod/plugins
+  mv chat-processor.smx addons/sourcemod/plugins
 
 echo "Remove build folder if exists"
 if [ -d "build" ]; then
