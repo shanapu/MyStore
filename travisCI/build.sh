@@ -69,7 +69,7 @@ echo "Move addons, materials and sound folder"
 mv addons materials models sound particles build/gameserver
 
 echo "Move FastDL folder"
-mv FastDL/materials FastDL/models FastDL/sound fastDL/particles build/fastDL
+mv FastDL/materials FastDL/models FastDL/sound FastDL/particles build/fastDL
 
 echo "Move license to build"
 mv install.txt license.txt build/
@@ -119,7 +119,7 @@ echo "Go to build folder"
 cd build
 
 echo "Compress directories and files"
-zip -9rq $FILE gameserver FastDL install.txt license.txt
+zip -9rq $FILE gameserver fastDL install.txt license.txt
 
 echo "Upload file"
 lftp -c "set ftp:ssl-allow no; set ssl:verify-certificate no; open -u $USER,$PASS $HOST; put -O MyStore/downloads/SM$1/$2/ $FILE"
