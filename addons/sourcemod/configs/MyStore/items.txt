@@ -821,7 +821,7 @@
 						"type"				"trail"
 						"unique_id"			"uid_trail_rainbow"
 					}
-					"Sug Leaf"
+					"Smug Leaf"
 					{
 						"material"			"materials/sprites/store/trails/smugleaf.vmt"
 						"preview"			"1"
@@ -870,16 +870,6 @@
 						"color"				"255 255 255 255"
 						"type"				"trail"
 						"unique_id"			"uid_trail_yingyang"
-					}
-					"Sug Leaf"
-					{
-						"material"			"materials/sprites/store/trails/smugleaf.vmt"
-						"preview"			"1"
-						"price"				"100"
-						"width"				"15.000000"
-						"color"				"255 255 255 255"
-						"type"				"trail"
-						"unique_id"			"uid_trail_sug_leaf"
 					}
 				}
 			}
@@ -2735,7 +2725,6 @@
 			"Beacon me"
 			{
 				"command"					"sm_beacon {name}"
-				"command_off"				"sm_beacon {name}"
 				"time"						"20"
 				"cooldown"					"100"
 				"limit"						"4"

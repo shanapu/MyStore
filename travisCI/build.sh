@@ -63,17 +63,16 @@ fi
 echo "Create clean build & sub folder"
 mkdir build
 mkdir build/gameserver
-mkdir build/fastDL
 
 echo "Move addons, materials and sound folder"
 mv addons build/gameserver
-echo mv addons cfg materials models sound particles build/gameserver
+echo mv addons materials models sound particles build/gameserver
 
 echo "Move FastDL folder"
-echo mv fastDL/materials fastDL/models fastDL/sound fastDL/particles build/fastDL
+echo mv FastDL build
 
 echo "Move license to build"
-echo mv install.txt license.txt build/
+echo mv install.txt license.txt build
 
 echo "Remove sourcemod folders"
 rm -r build/gameserver/addons/metamod
@@ -120,7 +119,7 @@ echo "Go to build folder"
 cd build
 
 echo "Compress directories and files"
-zip -9rq $FILE gameserver fastDL install.txt license.txt
+zip -9rq $FILE gameserver FastDL install.txt license.txt
 
 echo "Upload file"
 lftp -c "set ftp:ssl-allow no; set ssl:verify-certificate no; open -u $USER,$PASS $HOST; put -O MyStore/downloads/SM$1/$2/ $FILE"
