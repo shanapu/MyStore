@@ -66,7 +66,7 @@ mkdir build/gameserver
 mkdir build/fastDL
 
 echo "Move addons, materials and sound folder"
-mv mv addons materials models sound particles build/gameserver
+mv addons materials models sound particles build/gameserver
 
 echo "Move FastDL folder"
 mv FastDL/materials FastDL/models FastDL/sound fastDL/particles build/fastDL
