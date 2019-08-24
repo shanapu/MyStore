@@ -69,6 +69,13 @@ public void OnPluginStart()
 	AutoExecConfig_SetCreateFile(true);
 
 	gc_bSellEnabled = AutoExecConfig_CreateConVar("mystore_enable_selling", "1", "Enable/disable selling of already bought items.", _, true, 0.0, true, 1.0);
+
+	AutoExecConfig_ExecuteFile();
+	AutoExecConfig_CleanFile();
+
+	AutoExecConfig_SetFile("core", "sourcemod/mystore");
+	AutoExecConfig_SetCreateFile(true);
+
 	gc_fSellRatio = AutoExecConfig_CreateConVar("mystore_sell_ratio", "0.60", "Ratio of the original price to get for selling an item.", _, true, 0.0, true, 1.0);
 
 	AutoExecConfig_ExecuteFile();
