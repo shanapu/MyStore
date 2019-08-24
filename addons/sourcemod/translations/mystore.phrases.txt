@@ -331,6 +331,12 @@
 		"en"		"No one pick up your dropped item. The item was removed."
 	}
 
+	"No pick up - sold"
+	{
+		"#format"	"{1:i},{2:s}"
+		"en"		"No one pick up your dropped item. The item was sold for {1} {2}."
+	}
+
 	"You picked up"
 	{
 		"#format"	"{1:s},{2:N}"
@@ -347,6 +353,12 @@
 	{
 		"#format"	"{1:s}"
 		"en"		"You cannnot pickup '{1}' - you already own it."
+	}
+
+	"Pickup sold"
+	{
+		"#format"	"{1:s},{2:i},{3:s}"
+		"en"		"You already own '{1}'. The item was sold for {2} {3}."
 	}
 
 	"Dropped an item"

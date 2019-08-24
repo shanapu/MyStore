@@ -455,8 +455,8 @@ public Action Timer_KillDrop(Handle timer, int entRef)
 		case 2:
 		{
 			MyStore_GiveItem(dropper, itemid, purchase, expiration, price);
-			CPrintToChat(dropper, "%s%t", g_sChatPrefix, "No pick up - back to you");
-			
+			CPrintToChat(dropper, "%s%t", g_sChatPrefix, "No pick up - sold", price*g_fSellRatio, g_sCreditsName);
+			MyStore_SellClientItem(dropper, itemid, g_fSellRatio);
 		}
 	}
 
@@ -500,7 +500,7 @@ public void Event_RoundEnd(Event event, char[] name, bool dontBroadcast)
 				case 2:
 				{
 					MyStore_GiveItem(dropper, itemid, purchase, expiration, price);
-					CPrintToChat(dropper, "%s%t", g_sChatPrefix, "No pick up - back to you");
+					CPrintToChat(dropper, "%s%t", g_sChatPrefix, "No pick up - sold", price*g_fSellRatio, g_sCreditsName);
 					MyStore_SellClientItem(dropper, itemid, g_fSellRatio);
 				}
 			}
@@ -549,6 +549,7 @@ public void Hook_StartTouch(int entity, int client)
 	{
 		MyStore_GiveItem(client, itemid, purchase, expiration, price);
 		MyStore_SellClientItem(client, itemid, g_fSellRatio);
+		CPrintToChat(dropper, "%s%t", g_sChatPrefix, "No pick up - sold", price*g_fSellRatio, g_sCreditsName);
 	}
 	else
 	{
