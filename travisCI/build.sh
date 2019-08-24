@@ -93,8 +93,11 @@ rm build/gameserver/addons/sourcemod/*.txt
 echo "Download sourcefiles & create clean scripting folder"
 git clone --depth=50 --branch=$2 https://github.com/shanapu/MyStore.git source/MyStore
 mv source/MyStore/addons/sourcemod/scripting build/gameserver/addons/sourcemod
+
+echo "Download chat-processor source & config file"
 wget -q -O build/gameserver/addons/sourcemod/scripting/chat-processor.sp https://raw.githubusercontent.com/Drixevel/Chat-Processor/master/scripting/chat-processor.sp
 wget -q -O build/gameserver/addons/sourcemod/scripting/include/colorvariables.inc https://raw.githubusercontent.com/Drixevel/Chat-Processor/master/scripting/include/colorvariables.inc
+wget -q -O build/gameserver/addons/sourcemod/configs/chat_processor.cfg https://raw.githubusercontent.com/Drixevel/Chat-Processor/master/configs/chat_processor.cfg
 
 echo "Set plugins version"
 for file in build/gameserver/addons/sourcemod/scripting/mystore_*.sp
