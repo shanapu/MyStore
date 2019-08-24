@@ -155,7 +155,7 @@ public void Event_PlayerDeath_Pre(Event event, const char[] name, bool dontBroad
 	if (IsFakeClient(client))
 		return;
 
-	for (int i = 1; i < STORE_MAX_SLOTS; i++)
+	for (int i = 0; i < STORE_MAX_SLOTS; i++)
 	{
 		RemoveClientAttachments(client, i);
 	}
@@ -169,7 +169,7 @@ public void Event_PlayerTeam_Pre(Event event, const char[] name, bool dontBroadc
 
 	if (oldteam > 1 && team <= 1)
 	{
-		for (int i = 1; i < STORE_MAX_SLOTS; i++)
+		for (int i = 0; i < STORE_MAX_SLOTS; i++)
 		{
 			RemoveClientAttachments(client, i);
 		}
@@ -201,7 +201,7 @@ public void Attachments_OnMapStart()
 {
 	for (int a = 1; a <= MaxClients; a++)
 	{
-		for (int b = 1; b < STORE_MAX_SLOTS; b++)
+		for (int b = 0; b < STORE_MAX_SLOTS; b++)
 		{
 			g_iClientAttachments[a][b] = INVALID_ENT_REFERENCE;
 		}
@@ -262,7 +262,7 @@ public int Attachments_Remove(int client, int itemid)
 
 void SetClientAttachment(int client)
 {
-	for (int i = 1; i < STORE_MAX_SLOTS; i++)
+	for (int i = 0; i < STORE_MAX_SLOTS; i++)
 	{
 		RemoveClientAttachments(client, i);
 		CreateAttachment(client, -1, i);
@@ -348,7 +348,7 @@ void RemoveClientAttachments(int client, int slot)
 		return;
 
 	int entity = EntRefToEntIndex(g_iClientAttachments[client][slot]);
-	if (IsValidEdict(entity))
+	if (entity > 0 && IsValidEdict(entity))
 	{
 		SDKUnhook(entity, SDKHook_SetTransmit, Hook_SetTransmit);
 		AcceptEntityInput(entity, "Kill");
@@ -466,7 +466,7 @@ public Action Timer_KillPreview(Handle timer, int client)
 	{
 		int entity = EntRefToEntIndex(g_iPreviewEntity[client]);
 
-		if (IsValidEdict(entity))
+		if (entity > 0 && IsValidEdict(entity))
 		{
 			SDKUnhook(entity, SDKHook_SetTransmit, Hook_SetTransmit_Preview);
 			AcceptEntityInput(entity, "Kill");

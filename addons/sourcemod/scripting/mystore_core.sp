@@ -748,7 +748,6 @@ public void OnMapStart()
 			continue;
 
 		Call_StartFunction(g_aTypeHandlers[i][hPlugin], g_aTypeHandlers[i][fnMapStart]);
-		Call_PushString(g_sChatPrefix);
 		Call_Finish();
 	}
 }

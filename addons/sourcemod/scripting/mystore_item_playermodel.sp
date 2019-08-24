@@ -405,7 +405,7 @@ public Action Timer_KillPreview(Handle timer, int client)
 	{
 		int entity = EntRefToEntIndex(g_iPreviewEntity[client]);
 
-		if (IsValidEdict(entity))
+		if (entity > 0 && IsValidEdict(entity))
 		{
 			SDKUnhook(entity, SDKHook_SetTransmit, Hook_SetTransmit_Preview);
 			AcceptEntityInput(entity, "Kill");

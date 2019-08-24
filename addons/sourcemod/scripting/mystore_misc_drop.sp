@@ -416,7 +416,7 @@ public Action Timer_KillDrop(Handle timer, int entRef)
 	if (entity == INVALID_ENT_REFERENCE || !IsValidEntity(entity))
 		return Plugin_Stop;
 
-	if (IsValidEdict(entity))
+	if (entity > 0 && IsValidEdict(entity))
 	{
 		AcceptEntityInput(entity, "Kill");
 	}
@@ -505,7 +505,7 @@ public void Event_RoundEnd(Event event, char[] name, bool dontBroadcast)
 				}
 			}
 
-			if (IsValidEdict(entity))
+			if (entity > 0 && IsValidEdict(entity))
 			{
 				AcceptEntityInput(entity, "Kill");
 			}
@@ -562,11 +562,11 @@ public void Hook_StartTouch(int entity, int client)
 	g_pDrops.Remove(sBuffer);
 	delete pack;
 
-	if (IsValidEdict(entity_model))
+	if (entity_model > 0 && IsValidEdict(entity_model))
 	{
 		AcceptEntityInput(entity_model, "Kill");
 	}
-	if (IsValidEdict(entity))
+	if (entity > 0 && IsValidEdict(entity))
 	{
 		AcceptEntityInput(entity, "Kill");
 	}

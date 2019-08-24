@@ -717,7 +717,7 @@ public Action Timer_DeleteBox(Handle timer, int client)
 	{
 		int entity = EntRefToEntIndex(g_iLootboxEntity[client]);
 
-		if (IsValidEdict(entity))
+		if (entity > 0 && IsValidEdict(entity))
 		{
 			SDKUnhook(entity, SDKHook_SetTransmit, Hook_SetTransmit_Preview);
 			AcceptEntityInput(entity, "Kill");

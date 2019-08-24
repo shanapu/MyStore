@@ -181,7 +181,7 @@
 						"type"				"attachment"
 						"preview"			"1"
 						"price"				"100"
-						"slot"				"0" // 0 - Hat, Hair, Top slot
+						"slot"				"0" 
 						"unique_id"			"uid_attachment_afro"
 					}
 					"Asian Hat"
@@ -192,7 +192,7 @@
 						"type"				"attachment"
 						"preview"			"1"
 						"price"				"100"
-						"slot"				"0" // 0 - Hat, Hair, Top slot
+						"slot"				"0"
 						"unique_id"			"uid_attachment_asian"
 					}
 					"Colonial Tricorn"
@@ -203,7 +203,7 @@
 						"type"				"attachment"
 						"preview"			"1"
 						"price"				"100"
-						"slot"				"0" // 0 - Hat, Hair, Top slot
+						"slot"				"0"
 						"unique_id"			"uid_attachment_tricorn"
 					}
 					"Fedora Hat"
@@ -214,7 +214,7 @@
 						"type"				"attachment"
 						"preview"			"1"
 						"price"				"100"
-						"slot"				"0" // 0 - Hat, Hair, Top slot
+						"slot"				"0"
 						"unique_id"			"uid_attachment_fedora"
 					}
 					"KFC bukket"
@@ -225,7 +225,7 @@
 						"type"				"attachment"
 						"preview"			"1"
 						"price"				"100"
-						"slot"				"0" // 0 - Hat, Hair, Top slot
+						"slot"				"0"
 						"unique_id"			"uid_attachment_kfcbukket"
 					}
 					"Uncle Sam"
@@ -236,7 +236,7 @@
 						"type"				"attachment"
 						"preview"			"1"
 						"price"				"100"
-						"slot"				"0" // 0 - Hat, Hair, Top slot
+						"slot"				"0"
 						"unique_id"			"uid_attachment_uncle_sam_hat"
 					}
 					"Witch Hat"
@@ -247,7 +247,7 @@
 						"type"				"attachment"
 						"preview"			"1"
 						"price"				"100"
-						"slot"				"0" // 0 - Hat, Hair, Top slot
+						"slot"				"0"
 						"unique_id"			"uid_attachment_witch_hat"
 					}
 					"Seuss hat"
@@ -258,7 +258,7 @@
 						"type"				"attachment"
 						"preview"			"1"
 						"price"				"100"
-						"slot"				"0" // 0 - Hat, Hair, Top slot
+						"slot"				"0"
 						"unique_id"			"uid_attachment_seusshat"
 					}
 					"Links hat"
@@ -269,7 +269,7 @@
 						"type"				"attachment"
 						"preview"			"1"
 						"price"				"100"
-						"slot"				"0" // 0 - Hat, Hair, Top slot
+						"slot"				"0"
 						"unique_id"			"uid_attachment_seusshat"
 					}
 					"Daft Punk"
@@ -297,7 +297,7 @@
 								"time"		"2678400‬" // 2678400‬ = one month
 							}
 						}
-						"slot"				"0" // 0 - Hat, Hair, Top slot
+						"slot"				"0"
 						"unique_id"			"uid_attachment_daft_punk"
 					}
 				}
@@ -311,7 +311,7 @@
 						"type"				"attachment"
 						"preview"			"1"
 						"price"				"100"
-						"slot"				"1" // 0 - Mask, Face slot
+						"slot"				"1"
 						"unique_id"			"uid_attachment_androssmask"
 					}
 					"Deku Scrub mask"
@@ -322,7 +322,7 @@
 						"type"				"attachment"
 						"preview"			"1"
 						"price"				"100"
-						"slot"				"1" // 0 - Mask, Face slot
+						"slot"				"1"
 						"unique_id"			"uid_attachment_deku_scrub_mask"
 					}
 					"Gumby mask"
@@ -333,7 +333,7 @@
 						"type"				"attachment"
 						"preview"			"1"
 						"price"				"100"
-						"slot"				"1" // 0 - Mask, Face slot
+						"slot"				"1"
 						"unique_id"			"uid_attachment_gumby_mask"
 					}
 					"Zora mask"
@@ -344,7 +344,7 @@
 						"type"				"attachment"
 						"preview"			"1"
 						"price"				"100"
-						"slot"				"1" // 0 - Mask, Face slot
+						"slot"				"1"
 						"unique_id"			"uid_attachment_zora_mask"
 					}
 					"Goron Mask"
@@ -372,7 +372,7 @@
 								"time"		"2678400‬" // 2678400‬ = one month
 							}
 						}
-						"slot"				"1" // 0 - Mask, Face slot
+						"slot"				"1"
 						"unique_id"			"uid_attachment_goron_mask"
 					}
 				}
@@ -386,7 +386,7 @@
 						"type"				"attachment"
 						"preview"			"1"
 						"price"				"100"
-						"slot"				"3" // 0 - Eyes slot
+						"slot"				"2"
 						"unique_id"			"uid_attachment_3dglasses"
 					}
 					"Star glasses"
@@ -397,7 +397,7 @@
 						"type"				"attachment"
 						"preview"			"1"
 						"price"				"100"
-						"slot"				"3" // 0 - Eyes slot
+						"slot"				"2"
 						"unique_id"			"uid_attachment_deku_starglasses"
 					}
 				}
