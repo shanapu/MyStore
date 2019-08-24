@@ -1,0 +1,16 @@
+VertexLitGeneric
+{
+$phongdisablehalflambert 1
+	"$baseTexture" "maoling/weapon/neptunia/awp/neptune/scope_awp"
+
+$bumpMap "maoling/weapon/neptunia/awp/neptune/scope_awp_normal"
+$phong 1
+$phongBoost 1
+$phongExponent 1000
+$phongTint "[ .0 .5 .2]"
+$phongFresnelRanges "[.2 .2 1]"
+$envmap env_cubemap
+
+
+$envmaptint "[.01 .02 .03]"
+}

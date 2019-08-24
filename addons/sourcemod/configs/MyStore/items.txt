@@ -219,7 +219,7 @@
 					}
 					"KFC bukket"
 					{
-						"model"				"models/store/hats/kfcbukket.mdl"
+						"model"				"models/store/hats/kfcbucket.mdl"
 						"position"			"0.000000 -4.000000 6.000000"
 						"angles"			"0.000000 0.000000 0.000000"
 						"type"				"attachment"
@@ -930,31 +930,17 @@
 		{
 			"Weaponmodels"
 			{
-				"Knifes"
+				"Overwatch Genji"
 				{
-					"Volcano Fragment"
-					{
-						"model"				"models/weapons/eminem/sharpened_volcano_fragment/v_sharpened_volcano_fragment.mdl"
-						"worldmodel"		"models/weapons/eminem/sharpened_volcano_fragment/w_sharpened_volcano_fragment.mdl"
-						"dropmodel"			"models/weapons/eminem/sharpened_volcano_fragment/w_sharpened_volcano_fragment_dropped.mdl"
-						"weapon"			"weapon_knife"
-						"price"				"388"
-						"preview"			"1"
-						"type"				"weaponmodel"
-						"slot"				"2"
-						"unique_id"			"uid_weaponmodel_volcano_fragment"
-					}
-					"Overwatch Genji"
-					{
-						"model"				"models/maoling/weapon/overwatch/knife/genji/katana_v.mdl"
-						"worldmodel"		"models/maoling/weapon/overwatch/knife/genji/katana_w.mdl"
-						"weapon"			"weapon_knife"
-						"unique_id"			"uid_genji_sword"
-						"price"				"388"
-						"preview"			"1"
-						"type"				"weaponmodel"
-						"slot"				"2"
-					}
+					"description"			"    Knife"
+					"model"					"models/maoling/weapon/overwatch/knife/genji/katana_v.mdl"
+					"worldmodel"			"models/maoling/weapon/overwatch/knife/genji/katana_w.mdl"
+					"weapon"				"weapon_knife"
+					"unique_id"				"uid_genji_sword"
+					"price"					"388"
+					"preview"				"1"
+					"type"					"weaponmodel"
+					"slot"					"2"
 				}
 				"Elite Banana"
 				{

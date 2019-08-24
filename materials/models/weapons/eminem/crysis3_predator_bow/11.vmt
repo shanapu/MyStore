@@ -1,0 +1,7 @@
+"Vertexlitgeneric"
+{
+	"$baseTexture" "models\weapons\eminem\crysis3_predator_bow\11"
+         $translucent 1
+         $selfillum 1
+         $additive 1
+}
