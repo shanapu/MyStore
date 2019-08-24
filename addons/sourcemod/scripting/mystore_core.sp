@@ -96,7 +96,7 @@ ConVar gc_bGenerateUId;
 
 Database g_hDatabase = null;
 
-File g_hLogFile = null;
+Handle g_hLogFile = null;
 
 Handle gf_hOnItemEquipt;
 Handle gf_hPreviewItem;
@@ -340,8 +340,8 @@ public void OnConfigsExecuted()
 		return;
 
 	char sPath[PLATFORM_MAX_PATH];
-	BuildPath(Path_SM, sPath, sizeof(sPath), "logs/mystore.log");
-	g_hLogFile = OpenFile(sPath, "at");
+	BuildPath(Path_SM, sPath, sizeof(sPath), "logs/mystore.txt");
+	g_hLogFile = OpenFile(sPath, "w+");
 }
 
 public void OnPluginEnd()
@@ -357,6 +357,8 @@ public void OnPluginEnd()
 
 		OnClientDisconnect(i);
 	}
+
+	delete g_hLogFile;
 }
 
 /******************************************************************************
