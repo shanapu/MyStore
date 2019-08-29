@@ -93,6 +93,7 @@ ConVar gc_sName;
 ConVar gc_sCustomCommand;
 ConVar gc_sCreditsName;
 ConVar gc_bGenerateUId;
+ConVar gc_iDescription;
 
 Database g_hDatabase = null;
 
@@ -167,7 +168,7 @@ public void OnPluginStart()
 	// Register ConVars
 	gc_bEnable = AutoExecConfig_CreateConVar("mystore_enable", "1", "Enable/disable plugin", _, true, 0.0, true, 1.0);
 	gc_iDBRetries = AutoExecConfig_CreateConVar("mystore_database_retries", "4", "Number of retries if the connection fails to estabilish with timeout", _, true, 0.0, true, 10.0);
-	gc_iDBTimeout = AutoExecConfig_CreateConVar("mystore_database_timeout", "10", "Timeout in seconds to wait for database connection before retry", _, true, 0.0, true, 6.0);
+	gc_iDBTimeout = AutoExecConfig_CreateConVar("mystore_database_timeout", "10", "Timeout in seconds to wait for database connection before retry", _, true, 0.0, true, 10.0);
 	gc_iCreditsStart = AutoExecConfig_CreateConVar("mystore_startcredits", "0", "Number of credits a client starts with", _, true, 0.0);
 	gc_sMinFlags = AutoExecConfig_CreateConVar("mystore_access_flag", "", "Flag to access the !store menu. Leave blank to disable.");
 	gc_sVIPFlags = AutoExecConfig_CreateConVar("mystore_vip_flag", "", "Flag for VIP access (all items unlocked). Leave blank to disable.");
@@ -183,6 +184,7 @@ public void OnPluginStart()
 	gc_sCustomCommand = AutoExecConfig_CreateConVar("mystore_cmds", "shop, item, mystore", "Set your custom chat commands for the store(!store (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)");
 	gc_sCreditsName = AutoExecConfig_CreateConVar("mystore_credits_name", "Credits", "Set your credits name");
 	gc_bGenerateUId = AutoExecConfig_CreateConVar("mystore_generate_uids", "0", "Enable to generate unique_id for items. Beware can really fuck up your item.txt on bad formating");
+	gc_iDescription = AutoExecConfig_CreateConVar("mystore_description", "2", "Show item description 1 - only in menu page under item name / 2 - both menu and item page / 3 - only in item page in title");
 
 	AutoExecConfig_ExecuteFile();
 	AutoExecConfig_CleanFile();
@@ -1100,7 +1102,14 @@ void DisplayStoreMenu(int client, int parent = -1, int last = -1)
 		menu.ExitBackButton = true;
 		if (client == target)
 		{
-			menu.SetTitle("%s\n%s\n%t", g_aItems[parent][szName], g_aItems[parent][szDescription], "Title Credits", g_sCreditsName, g_iCredits[target]);
+			if (gc_iDescription.IntValue > 1)
+			{
+				menu.SetTitle("%s\n%s\n%t", g_aItems[parent][szName], g_aItems[parent][szDescription], "Title Credits", g_sCreditsName, g_iCredits[target]);
+			}
+			else
+			{
+				menu.SetTitle("%s\n%t", g_aItems[parent][szName], "Title Credits", g_sCreditsName, g_iCredits[target]);
+			}
 		}
 		else
 		{
@@ -1154,7 +1163,16 @@ void DisplayStoreMenu(int client, int parent = -1, int last = -1)
 				// Player already own the package or the package is free
 				if (g_aItems[i][iPrice] == -1 || HasClientItem(target, i))
 				{
-					Format(sBuffer, sizeof(sBuffer), "%s\n%s", g_aItems[i][szName], g_aItems[i][szDescription]);
+
+					if (gc_iDescription.IntValue < 3)
+					{
+						Format(sBuffer, sizeof(sBuffer), "%s\n%s", g_aItems[i][szName], g_aItems[i][szDescription]);
+					}
+					else
+					{
+						Format(sBuffer, sizeof(sBuffer), "%s", g_aItems[i][szName]);
+					}
+
 					if (PackageHasClientItem(target, i, false))
 					{
 						if (menu.ItemCount == iPosition)
@@ -1174,7 +1192,16 @@ void DisplayStoreMenu(int client, int parent = -1, int last = -1)
 				// Player can buy the package as normal trade in
 				else if (!g_bInvMode[client] && g_aItems[i][iPlans] == 0 && g_aItems[i][bBuyable])
 				{
-					Format(sBuffer, sizeof(sBuffer), "%t\n%s", "Item Available", g_aItems[i][szName], g_aItems[i][iPrice], g_aItems[i][szDescription]);
+					if (gc_iDescription.IntValue < 3)
+					{
+						Format(sBuffer, sizeof(sBuffer), "%t\n%s", "Item Available", g_aItems[i][szName], g_aItems[i][iPrice], g_aItems[i][szDescription]);
+					}
+					else
+					{
+						Format(sBuffer, sizeof(sBuffer), "%t", "Item Available", g_aItems[i][szName], g_aItems[i][iPrice]);
+					}
+
+					
 					if (menu.ItemCount == iPosition)
 					{
 						menu.AddItem(sId, sBuffer, iStyle);
@@ -1187,7 +1214,15 @@ void DisplayStoreMenu(int client, int parent = -1, int last = -1)
 				// Player can buy the package in a plan
 				else if (!g_bInvMode[client])
 				{
-					Format(sBuffer, sizeof(sBuffer), "%t\n%s", "Item Plan Available", g_aItems[i][szName], g_aItems[i][szDescription]);
+					if (gc_iDescription.IntValue < 3)
+					{
+						Format(sBuffer, sizeof(sBuffer), "%t\n%s", "Item Plan Available", g_aItems[i][szName], g_aItems[i][szDescription]);
+					}
+					else
+					{
+						Format(sBuffer, sizeof(sBuffer), "%t", "Item Plan Available", g_aItems[i][szName]);
+					}
+
 					if (menu.ItemCount == iPosition)
 					{
 						menu.AddItem(sId, sBuffer, (costs <= g_iCredits[target] ? ITEMDRAW_DEFAULT : ITEMDRAW_DISABLED));
@@ -1210,7 +1245,15 @@ void DisplayStoreMenu(int client, int parent = -1, int last = -1)
 					// Player has item equipt
 					if (IsEquipped(target, i))
 					{
-						Format(sBuffer, sizeof(sBuffer), "%t\n%s", "Item Equipped", g_aItems[i][szName], g_aItems[i][szDescription]);
+						if (gc_iDescription.IntValue < 3)
+						{
+							Format(sBuffer, sizeof(sBuffer), "%t\n%s", "Item Equipped", g_aItems[i][szName], g_aItems[i][szDescription]);
+						}
+						else
+						{
+							Format(sBuffer, sizeof(sBuffer), "%t", "Item Equipped", g_aItems[i][szName]);
+						}
+
 						if (menu.ItemCount == iPosition)
 						{
 							menu.AddItem(sId, sBuffer, ITEMDRAW_DEFAULT);
@@ -1223,7 +1266,15 @@ void DisplayStoreMenu(int client, int parent = -1, int last = -1)
 					// Item is not equipt
 					else
 					{
-						Format(sBuffer, sizeof(sBuffer), "%t\n%s", "Item Bought", g_aItems[i][szName], g_aItems[i][szDescription]);
+						if (gc_iDescription.IntValue < 3)
+						{
+							Format(sBuffer, sizeof(sBuffer), "%t\n%s", "Item Bought", g_aItems[i][szName], g_aItems[i][szDescription]);
+						}
+						else
+						{
+							Format(sBuffer, sizeof(sBuffer), "%t", "Item Bought", g_aItems[i][szName]);
+						}
+
 						if (menu.ItemCount == iPosition)
 						{
 							menu.AddItem(sId, sBuffer, ITEMDRAW_DEFAULT);
@@ -1246,13 +1297,29 @@ void DisplayStoreMenu(int client, int parent = -1, int last = -1)
 					// Player can buy the item as normal trade in
 					if (g_aItems[i][iPlans] == 0)
 					{
-						Format(sBuffer, sizeof(sBuffer), "%t %t\n%s", "Item Available", g_aItems[i][szName], costs, reduced ? "discount" : "nodiscount", g_aItems[i][szDescription]);
+						if (gc_iDescription.IntValue < 3)
+						{
+							Format(sBuffer, sizeof(sBuffer), "%t %t\n%s", "Item Available", g_aItems[i][szName], costs, reduced ? "discount" : "nodiscount", g_aItems[i][szDescription]);
+						}
+						else
+						{
+							Format(sBuffer, sizeof(sBuffer), "%t %t", "Item Available", g_aItems[i][szName], costs, reduced ? "discount" : "nodiscount");
+						}
+
 						menu.AddItem(sId, sBuffer, iStyle);
 					}
 					// Player can buy the item in a plan
 					else
 					{
-						Format(sBuffer, sizeof(sBuffer), "%t %t\n%s", "Item Plan Available", g_aItems[i][szName], reduced ? "discount" : "nodiscount", g_aItems[i][szDescription]);
+						if (gc_iDescription.IntValue < 3)
+						{
+							Format(sBuffer, sizeof(sBuffer), "%t %t\n%s", "Item Plan Available", g_aItems[i][szName], reduced ? "discount" : "nodiscount", g_aItems[i][szDescription]);
+						}
+						else
+						{
+							Format(sBuffer, sizeof(sBuffer), "%t %t", "Item Plan Available", g_aItems[i][szName], reduced ? "discount" : "nodiscount");
+						}
+
 						menu.AddItem(sId, sBuffer, iStyle);
 					}
 				}
@@ -1453,11 +1520,25 @@ public void DisplayItemMenu(int client, int itemid)
 	int iIndex = 0;
 	if (bEquipped)
 	{
-		iIndex = Format(sTitle, sizeof(sTitle), "%t\n%s\n%t", "Item Equipped", g_aItems[itemid][szName], g_aItems[itemid][szDescription], "Title Credits", g_sCreditsName, g_iCredits[target]);
+		if (gc_iDescription.IntValue > 1)
+		{
+			iIndex = Format(sTitle, sizeof(sTitle), "%t\n%s\n%t", "Item Equipped", g_aItems[itemid][szName], g_aItems[itemid][szDescription], "Title Credits", g_sCreditsName, g_iCredits[target]);
+		}
+		else
+		{
+			iIndex = Format(sTitle, sizeof(sTitle), "%t\n%t", "Item Equipped", g_aItems[itemid][szName], "Title Credits", g_sCreditsName, g_iCredits[target]);
+		}
 	}
 	else
 	{
-		iIndex = Format(sTitle, sizeof(sTitle), "%s\n%s\n%t", g_aItems[itemid][szName], g_aItems[itemid][szDescription], "Title Credits", g_sCreditsName, g_iCredits[target]);
+		if (gc_iDescription.IntValue > 1)
+		{
+			iIndex = Format(sTitle, sizeof(sTitle), "%s\n%s\n%t", g_aItems[itemid][szName], g_aItems[itemid][szDescription], "Title Credits", g_sCreditsName, g_iCredits[target]);
+		}
+		else
+		{
+			iIndex = Format(sTitle, sizeof(sTitle), "%s\n%t", g_aItems[itemid][szName], "Title Credits", g_sCreditsName, g_iCredits[target]);
+		}
 	}
 
 	int iExpiration = GetExpiration(target, itemid);
@@ -1525,7 +1606,14 @@ public void DisplayPreviewMenu(int client, int itemid)
 	Menu menu = new Menu(MenuHandler_Preview);
 	menu.ExitBackButton = true;
 
-	menu.SetTitle("%s\n%s\n%t", g_aItems[itemid][szName], g_aItems[itemid][szDescription], "Title Credits", g_sCreditsName, g_iCredits[target]);
+	if (gc_iDescription.IntValue > 1)
+	{
+		menu.SetTitle("%s\n%s\n%t", g_aItems[itemid][szName], g_aItems[itemid][szDescription], "Title Credits", g_sCreditsName, g_iCredits[target]);
+	}
+	else
+	{
+		menu.SetTitle("%s\n%t", g_aItems[itemid][szName], "Title Credits", g_sCreditsName, g_iCredits[target]);
+	}
 
 	char sBuffer[128];
 	bool reduced = false;
@@ -1728,7 +1816,14 @@ public void DisplayPlanMenu(int client, int itemid)
 	Menu menu = new Menu(MenuHandler_Plan);
 	menu.ExitBackButton = true;
 
-	menu.SetTitle("%s\n%s\n%t", g_aItems[itemid][szName], g_aItems[itemid][szDescription], "Title Credits", g_sCreditsName, g_iCredits[target]);
+	if (gc_iDescription.IntValue > 1)
+	{
+		menu.SetTitle("%s\n%s\n%t", g_aItems[itemid][szName], g_aItems[itemid][szDescription], "Title Credits", g_sCreditsName, g_iCredits[target]);
+	}
+	else
+	{
+		menu.SetTitle("%s\n%t", g_aItems[itemid][szName], "Title Credits", g_sCreditsName, g_iCredits[target]);
+	}
 
 	char sBuffer[64];
 	if (g_aItems[itemid][bPreview])
