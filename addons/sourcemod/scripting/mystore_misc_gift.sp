@@ -162,7 +162,6 @@ public bool Store_OnHandler(int client, char[] selection, int itemid)
 		if (iCount == 0)
 		{
 			delete menu;
-			MyStore_SetClientPreviousMenu(client, MENU_ITEM);
 			MyStore_DisplayPreviousMenu(client);
 			CPrintToChat(client, "%s%t", g_sChatPrefix, "Gift No Players");
 		}

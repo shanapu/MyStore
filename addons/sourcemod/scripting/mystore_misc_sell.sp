@@ -157,7 +157,6 @@ public bool Store_OnHandler(int client, char[] selection, int itemid)
 		else
 		{
 			SellItem(client, itemid);
-			MyStore_SetClientPreviousMenu(client, MENU_PARENT);
 			MyStore_DisplayPreviousMenu(client);
 		}
 

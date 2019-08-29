@@ -128,11 +128,6 @@ public Plugin myinfo =
 
 public void OnPluginStart()
 {
-	if (MyStore_RegisterHandler("daily", _, _, _, Daily_Equip, _, false, true) == -1)
-	{
-		MyStore_LogMessage(_, LOG_ERROR, "Can't Register module to core - Reached max module types(%i).", STORE_MAX_TYPES);
-	}
-
 	LoadTranslations("mystore.phrases");
 
 	RegConsoleCmd("sm_daily", Command_Daily, "Recieve your daily credits");
@@ -157,11 +152,6 @@ public void OnPluginStart()
 	g_cDay = RegClientCookie("mystore_day", "MyStore Daily Day", CookieAccess_Private);
 
 	LoadConfig();
-}
-
-public void Daily_Equip(int client, int itemid)
-{
-	Command_Daily(client, 0);
 }
 
 public Action Command_Daily(int client, int args)
