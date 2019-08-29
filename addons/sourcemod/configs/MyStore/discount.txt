@@ -1,4 +1,4 @@
-// "time" "* ** ** ** **"
+// "time" "* ** ** ** **" - The time determines when the discount should be active.
 //         ^ ^  ^  ^  ^
 //         ¦ ¦  ¦  ¦  ¦
 //         ¦ ¦  ¦  ¦  +----------- Weekday (1-7, Sunday is 7)  only one digit!
@@ -17,9 +17,9 @@
 // "item" "<unique_id>" - only this item will be reduced - same unique_id as in configs/MyStore/items.txt - if NOT exist create one.
 //
 //
-// discount" "<value>%" - with %, you get a percentage discount
-// discount" "<value>" - without %, this amount will be subtracted (discounted)
-// discount" "-<value>" - add a '-' minus in front of the value to increase the price
+// "discount" "<value>%" - with %, you get a percentage discount
+// "discount" "<value>" - without %, this amount will be subtracted (discounted)
+// "discount" "-<value>" - add a '-' minus in front of the value to increase the price
 //
 //
 // "flags" "" - all clients recieve this discount
@@ -60,7 +60,7 @@
 	}
 	"VIP Happy Hour"                      // a Happy Hour for VIPs
 	{
-		"time" "* 18-18 * * 5-6"          // active at saturday & sunday at 6.pm
+		"time" "* 18-18 * * 5-6"          // active at friday & saturday at 6.pm
 		"item" "all"                      // all items are discounted - same as "type" "all"
 		"discount" "33%"                  // price will be 33% reduced
 		"nomsg" "0"                       // this discount will be announced - default: 0
