@@ -118,6 +118,9 @@ public void OnClientPutInServer(int client)
 
 public void OnClientDisconnect(int client)
 {
+	if (IsFakeClient(client))
+		return;
+
 	g_iClientCount--;
 
 	if (g_iBet[client] < 1)

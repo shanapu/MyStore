@@ -272,9 +272,6 @@ public void OnClientPostAdminCheck(int client)
 
 	delete g_hSum[client];
 	g_hSum[client] = new StringMap();
-
-//	delete g_hTimer[client];
-//	g_hTimer[client] = CreateTimer(g_fTimer[g_iActive[client]], Timer_CreditTimer, GetClientUserId(client), TIMER_REPEAT);
 }
 
 public Action OnTakeDamage(int victim, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], const float damagePosition[3])
@@ -348,11 +345,12 @@ int GetClientOfAuthID(int authid)
 
 public void OnClientDisconnect(int client)
 {
+	if (IsFakeClient(client))
+		return;
+
 	g_bGroupMember[client] = false;
 
 	g_iClientCount--;
-
-//	delete g_hTimer[client];
 }
 
 void GiveCredits(int client, int credits, char[] reason, any ...)
@@ -440,41 +438,6 @@ public Action Timer_Timer(Handle timer)
 
 	return Plugin_Continue;
 }
-
-/*
-public Action Timer_CreditTimer(Handle timer, int userid)
-{
-	if (!gc_bEnable.BoolValue)
-		return Plugin_Continue;
-
-	int client = GetClientOfUserId(userid);
-	if (!client || !IsClientInGame(client))
-		return Plugin_Continue;
-
-	if (!MyStore_HasClientAccess(client))
-		return Plugin_Continue;
-
-	if (g_iClientCount < g_iMinPlayer[g_iActive[client]])
-		return Plugin_Continue;
-
-	int iCredit;
-	if (CS_TEAM_T <= GetClientTeam(client) <= CS_TEAM_CT)
-	{
-		iCredit = g_iPlay[g_iActive[client]];
-	}
-	else
-	{
-		iCredit = g_iInactive[g_iActive[client]];
-	}
-
-	if (!iCredit)
-		return Plugin_Continue;
-
-	GiveCredits(client, iCredit, "playing on the server");
-
-	return Plugin_Continue;
-}
-*/
 
 public void Event_PlayerDeath(Event event, char[] name, bool dontBroadcast)
 {
@@ -823,19 +786,6 @@ void LoadConfig()
 	GoThroughConfig(kv);
 	delete kv;
 }
-/*
-void Menu_ShowEarnings(int client)
-{
-	char sBuffer[128];
-	int iCredits = MyStore_GetClientCredits(client); // Get credits
-	Menu menu = CreateMenu(Handler_Createunlimited);
-
-	Format(sBuffer, sizeof(sBuffer), "%t\n%t", "Title Store", g_sName, "Title Credits", g_sCreditsName, iCredits);
-	menu.SetTitle(sBuffer);
-
-	Format(sBuffer, sizeof(sBuffer), "%s", "Limited");
-	menu.AddItem("limited", sBuffer);
-}*/
 
 void GoThroughConfig(KeyValues &kv)
 {
