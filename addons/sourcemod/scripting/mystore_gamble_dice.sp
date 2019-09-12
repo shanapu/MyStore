@@ -895,7 +895,7 @@ public Action Timer_Run(Handle tmr, int userid)
 	int client = GetClientOfUserId(userid);
 
 	// When client disconnected end timer
-	if (!IsClientInGame(client) || !IsClientConnected(client))
+	if (!client || !IsClientInGame(client) || !IsClientConnected(client))
 	{
 		g_hTimerRun[client] = null;
 
@@ -923,7 +923,7 @@ public Action Timer_StopDice(Handle tmr, int userid)
 	int client = GetClientOfUserId(userid);
 
 	// When client disconnected end timer
-	if (!IsClientInGame(client) || !IsClientConnected(client))
+	if (!client || !IsClientInGame(client) || !IsClientConnected(client))
 	{
 		g_hTimerStopFlip[client] = null;
 

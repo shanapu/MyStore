@@ -97,7 +97,6 @@ int g_iClientCount;
 ConVar gc_bEnable;
 ConVar gc_bFFA;
 
-//Handle g_hTimer[MAXPLAYERS + 1];
 Handle g_cDate;
 Handle g_cDay;
 
@@ -195,6 +194,7 @@ public Action Command_Daily(int client, int args)
 			}
 			default: CPrintToChat(client, "%s%t", g_sChatPrefix, "You earned x Credits for", g_iDaily[g_iActive[client]][0], g_sCreditsName, "start daily challange");
 		}
+
 		CPrintToChat(client, "%s%t", g_sChatPrefix, "You'll earn x Credits tomorrow", g_iDaily[g_iActive[client]][iDay], g_sCreditsName);
 
 		IntToString(iDay + 1, sBuffer, sizeof(sBuffer));
@@ -365,7 +365,7 @@ void GiveCredits(int client, int credits, char[] reason, any ...)
 	}
 
 	CS_GetClientClanTag(client, sBuffer, sizeof(sBuffer));
-	if (StrEqual(sBuffer, g_szTag[g_iActive[client]]))
+	if (StrEqual(sBuffer, g_szTag[g_iActive[client]]) && g_szTag[g_iActive[client]][0]))
 	{
 		multi[1] = g_fTag[g_iActive[client]];
 	}

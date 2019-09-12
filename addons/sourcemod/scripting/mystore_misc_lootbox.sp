@@ -341,6 +341,8 @@ bool DropLootbox(int client, int index)
 	g_hTimerColor[client] = CreateTimer(0.2, Timer_Color, pack, TIMER_REPEAT);
 
 	SDKHook(iLootbox, SDKHook_SetTransmit, Hook_SetTransmit_Preview);
+	SDKHook(iLight, SDKHook_SetTransmit, Hook_SetTransmit_Preview);
+	SDKHook(iTrigger, SDKHook_SetTransmit, Hook_SetTransmit_Preview);
 
 	return true;
 }
@@ -489,6 +491,7 @@ public void Hook_OnBreak(const char[] output, int ent, int client, float delay)
 	ActivateEntity(iEfx);
 	TeleportEntity(iEfx, fOri, NULL_VECTOR, NULL_VECTOR);
 	AcceptEntityInput(iEfx, "Start");
+	SDKHook(iEfx, SDKHook_SetTransmit, Hook_SetTransmit_Preview);
 	CreateTimer(1.2, Timer_RemoveEfx, EntIndexToEntRef(iEfx));
 }
 
@@ -583,6 +586,7 @@ public Action Timer_Color(Handle timer, DataPack pack)
 		SetEntProp(trigger, Prop_Data, "m_iHealth", 70);
 		SetEntProp(trigger, Prop_Data, "m_takedamage", 2);
 		HookSingleEntityOutput(trigger, "OnBreak", Hook_OnBreak, true);
+	//	SDKHook(trigger, SDKHook_OnTakeDamage, Hook_OnTakeDamage);
 
 		CPrintToChat(client, "%s%t", g_sChatPrefix, "Damage the crate to open");
 

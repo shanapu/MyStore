@@ -230,7 +230,7 @@ public Action Timer_Fly(Handle tmr, int userid)
 	if (!gc_bEnable.BoolValue)
 		return Plugin_Continue;
 
-	if (!IsClientConnected(client) || g_bDelay[client])
+	if (!client || !IsClientConnected(client) || g_bDelay[client])
 		return Plugin_Handled;
 
 	if ((GetClientTeam(client) != CS_TEAM_T && g_aJetpack[g_iCount][iTeam] == 1) || (GetClientTeam(client) != CS_TEAM_CT && g_aJetpack[g_iCount][iTeam] == 2) || !IsPlayerAlive(client))

@@ -53,6 +53,7 @@ ConVar gc_bEnable;
 ConVar gc_bItemVoucherEnabled;
 ConVar gc_bCreditVoucherEnabled;
 ConVar gc_bCheckAdmin;
+ConVar gc_bMaxUsage;
 int g_iChatType[MAXPLAYERS + 1] = {-1, ...};
 
 char g_sChatPrefix[32];
@@ -112,6 +113,7 @@ public void OnPluginStart()
 	gc_bCheckAdmin = AutoExecConfig_CreateConVar("myc_voucher_check", "1", "0 - admins only, 1 - all player can check vouchers", _, true, 0.0, true, 1.0);
 	gc_iMySQLCooldown = AutoExecConfig_CreateConVar("myc_mysql_cooldown", "20", "Seconds cooldown between client start database querys (redeem, check & purchase vouchers)", _, true, 5.0);
 	gc_iExpireTime = AutoExecConfig_CreateConVar("myc_voucher_expire", "336", "0 - disabled, hours until a voucher expire after creation. 168 = one week", _, true, 1.0);
+	gc_bMaxUsage = AutoExecConfig_CreateConVar("myc_voucher_max_use", "1", "0 - admins only, 1 - all player can check vouchers", _, true, 0.0, true, 1.0);
 
 	AutoExecConfig_ExecuteFile();
 	AutoExecConfig_CleanFile();
@@ -143,17 +145,15 @@ public void MyStore_OnConfigExecuted(ConVar enable, char[] name, char[] prefix, 
 	g_fInputTime = 12.0; //todo? = time.FloatValue;
 
 	ReadCoreCFG();
-
+    // rework use ids not steam new table for redemd
 	MyStore_SQLQuery("CREATE TABLE if NOT EXISTS mystore_voucher (\
 					  voucher varchar(64) NOT NULL PRIMARY KEY default '',\
-					  name_of_create varchar(64) NOT NULL default '',\
-					  steam_of_create varchar(64) NOT NULL default '',\
+					  id int(11) NOT NULL ,\
 					  credits INT NOT NULL default 0,\
 					  item varchar(64) NOT NULL default '',\
 					  date_of_create INT NOT NULL default 0,\
 					  date_of_redeem INT NOT NULL default 0,\
-					  name_of_redeem varchar(64) NOT NULL default '',\
-					  steam_of_redeem TEXT NOT NULL,\
+					  steam_of_redeem MEDIUMTEXT NOT NULL,\
 					  unlimited TINYINT NOT NULL default 0,\
 					  date_of_expiration INT NOT NULL default 0);",
 					  SQLCallback_Void, 0);
@@ -812,6 +812,8 @@ public int Handler_NullCancelVoucher(Handle menu, MenuAction action, int client,
 public Action Timer_Input2Late(Handle tmr, int userid)
 {
 	int client = GetClientOfUserId(userid);
+	if (!client)
+		return Plugin_Stop;
 
 	g_iChatType[client] = -1;
 
@@ -839,19 +841,15 @@ public void SQLTXNCallback_Error(Database db, float time, int numQueries, const 
 void SQL_WriteVoucher(int client, char[] voucher, int credits = 0, bool unlimited = false, char[] uniqueID = "")
 {
 	// steam id
-	char steamid[24];
+	char steamid[32];
 	GetClientAuthId(client, AuthId_Steam2, steamid, sizeof(steamid));
 
-	// player name
-	char name[64];
-	GetClientName(client, name, sizeof(name));
-	MyStore_SQLEscape(name);
 	MyStore_SQLEscape(voucher);
 
 	int time = GetTime();
 
 	char sQuery[1024];
-	Format(sQuery, sizeof(sQuery), "INSERT IGNORE INTO mystore_voucher (voucher, name_of_create, steam_of_create, credits, item, date_of_create, unlimited, date_of_expiration) VALUES ('%s', '%s', '%s', '%i', '%s', '%i', '%i', '%i')", voucher, name, steamid, credits, uniqueID, time, view_as<int>(unlimited), gc_iExpireTime.IntValue == 0 ? 0 : GetTime() + gc_iExpireTime.IntValue*60*60);
+	Format(sQuery, sizeof(sQuery), "INSERT IGNORE INTO mystore_voucher (player_id, voucher, credits, item, date_of_create, unlimited, date_of_expiration) SELECT id, '%s', '%i', '%s', '%i', '%i', '%i', FROM mystore_player WHERE authid = '%s';", steamid[8], voucher, credits, uniqueID, time, view_as<int>(unlimited), gc_iExpireTime.IntValue == 0 ? 0 : GetTime() + gc_iExpireTime.IntValue*60*60);
 
 	DataPack pack = new DataPack();
 	pack.WriteCell(time);
@@ -1008,6 +1006,7 @@ public void SQLCallback_Fetch(Database db, DBResultSet results, const char[] err
 				MyStore_SQLEscape(name);
 
 				char szBuffer[64];
+				char sQuery[1024];
 
 				if (!credits)
 				{
@@ -1059,10 +1058,21 @@ public void SQLCallback_Fetch(Database db, DBResultSet results, const char[] err
 					CPrintToChat(client, "%s%t", g_sChatPrefix, "You get x Credits", credits, g_sCreditsName);
 				}
 
-				if (unlimited && (strlen(sRedeems) > 0))
+				if (unlimited && (strlen(sRedeems) > 0))  //todo rework this.
 				{
 					if (strlen(sRedeems) > 21845 - 22)  // ~1985 player steam ids minus ~2 steam ids
 					{
+/*						if (gc_bMaxUsage.BoolValue)
+						{
+							Format(sQuery, sizeof(sQuery), "UPDATE mystore_voucher SET name_of_redeem = '%s', steam_of_redeem = '%s', date_of_redeem = '%i', unlimited = '0' WHERE voucher = '%s'", name, sRedeems, GetTime(), voucher);
+
+							MyStore_SQLQuery(sQuery, SQLCallback_Void, 0);
+
+							MyStore_LogMessage(client, LOG_EVENT, "Voucher %s redeemed last time and set to limited.", voucher);
+
+							return;
+						}
+*/
 						int iBreak = BreakString(sRedeems, ",", 1);
 						strcopy(sRedeems, sizeof(sRedeems), sRedeems[iBreak]);  // remove first redeem :/  not best i know
 					}
@@ -1073,7 +1083,6 @@ public void SQLCallback_Fetch(Database db, DBResultSet results, const char[] err
 					Format(sRedeems, sizeof(sRedeems), "%s", steamid[8]);
 				}
 
-				char sQuery[1024];
 				Format(sQuery, sizeof(sQuery), "UPDATE mystore_voucher SET name_of_redeem = '%s', steam_of_redeem = '%s', date_of_redeem = '%i' WHERE voucher = '%s'", name, sRedeems, GetTime(), voucher);
 
 				MyStore_SQLQuery(sQuery, SQLCallback_Void, 0);

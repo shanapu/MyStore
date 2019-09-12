@@ -15,7 +15,7 @@ assignees: 'shanapu'
   - [ ] I have tried my absolute best read and understand the error, it is related to MyStore.
   - [ ] I can always reproduce the issue with the provided description below.
 
-# The Error
+# The Error `.csgo/addons/sourcemod/logs/errors_XXXXXXX.log`
 Use ``` to wrap code in codeblocks
 
 ```

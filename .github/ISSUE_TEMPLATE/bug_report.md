@@ -24,7 +24,7 @@ Steps to reproduce the behavior:
 2. Left click on '...'
 3. Crash
 
-# Logs
+# Logs `.csgo/addons/sourcemod/logs/errors_XXXXXXX.log`
 Provide here any logs, such as error logs, console logs or any other log that could be useful.
 Use ``` to wrap code in codeblocks
 
