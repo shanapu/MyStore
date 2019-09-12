@@ -365,7 +365,7 @@ void GiveCredits(int client, int credits, char[] reason, any ...)
 	}
 
 	CS_GetClientClanTag(client, sBuffer, sizeof(sBuffer));
-	if (StrEqual(sBuffer, g_szTag[g_iActive[client]]) && g_szTag[g_iActive[client]][0]))
+	if (StrEqual(sBuffer, g_szTag[g_iActive[client]]) && g_szTag[g_iActive[client]][0])
 	{
 		multi[1] = g_fTag[g_iActive[client]];
 	}
