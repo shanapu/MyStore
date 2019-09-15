@@ -55,6 +55,7 @@ int g_iFlagBits[STORE_MAX_ITEMS];
 
 char g_sChatPrefix[128];
 char g_sCreditsName[64];
+char g_sSteam[64];
 
 ConVar gc_bEnable;
 ConVar gc_fHeight;
@@ -195,6 +196,8 @@ public bool Emotes_Config(KeyValues &kv, int itemid)
 	kv.GetString("flag", sBuffer, sizeof(sBuffer));
 	g_iFlagBits[g_iCount] = ReadFlagString(sBuffer);
 
+	kv.GetString("steam", g_sSteam[g_iCount], 64);
+
 	if (g_iCooldown[g_iCount] < 10)
 	{
 		g_iCooldown[g_iCount] = 10;
@@ -314,14 +317,14 @@ public void Event_PlayerSay(Event event, char[] name, bool dontBroadcast)
 	{
 		if (strcmp(sBuffer, g_sTrigger[i]) == 0)
 		{
-			if (!CheckFlagBits(client, g_iFlagBits[i]) || !MyStore_HasClientAccess(client))
-				return;
-
 			if (g_iSpam[client] > GetTime())
 			{
 				CPrintToChat(client, "%s%t", g_sChatPrefix, "Spam Cooldown", g_iSpam[client] - GetTime());
 				return;
 			}
+
+			if (!CheckFlagBits(client, g_iFlagBits[i]) || !MyStore_HasClientAccess(client) || !CheckSteamAuth(client, g_sSteam[i]))
+				return;
 
 			int credits = MyStore_GetClientCredits(client);
 			if (credits >= g_unPrice[i] || MyStore_HasClientItem(client, g_iItemId[i]) || MyStore_IsItemInBoughtPackage(client,g_iItemId[i]))
@@ -454,4 +457,19 @@ bool CheckFlagBits(int client, int flagsNeed, int flags = -1)
 	}
 
 	return false;
+}
+
+bool CheckSteamAuth(int client, char[] steam)
+{
+	if (!steam[0])
+		return true;
+
+	char sSteam[32];
+	if (!GetClientAuthId(client, AuthId_Steam2, sSteam, 32))
+		return false;
+
+	if (StrContains(steam, sSteam) == -1)
+		return false;
+
+	return true;
 }

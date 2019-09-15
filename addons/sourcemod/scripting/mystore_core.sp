@@ -387,6 +387,9 @@ public Action Command_Say(int client, char [] command, int args)
 			//Have we found a shortcut?
 			if (strcmp(g_aItems[i][szShortcut], sArg[1]) == 0 && g_aItems[i][szShortcut][0] != 0)
 			{
+				if (!CheckFlagBits(client, g_aItems[i][iFlagBits]) || !MyStore_HasClientAccess(client) || !CheckSteamAuth(client, g_aItems[i][szSteam]))
+					return Plugin_Continue;
+
 				g_bInvMode[client] = false;
 				g_iMenuClient[client] = client;
 				g_iSelectedItem[client] = i;
