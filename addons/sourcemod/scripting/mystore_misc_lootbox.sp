@@ -50,22 +50,20 @@
 #define LEVEL_PINK 4
 #define LEVEL_AMOUNT 5
 
-ConVar gc_sPickUpSound;
-
-char g_sPickUpSound[128];
+ConVar gc_bVisible;
 
 char g_sChatPrefix[128];
 char g_sCreditsName[64];
 float g_fSellRatio;
 
+char g_sPickUpSound[MAX_LOOTBOXES][PLATFORM_MAX_PATH];
 char g_sModel[MAX_LOOTBOXES][PLATFORM_MAX_PATH];
 char g_sEfxFile[MAX_LOOTBOXES][PLATFORM_MAX_PATH];
 char g_sEfxName[MAX_LOOTBOXES][PLATFORM_MAX_PATH];
 char g_sLootboxItems[MAX_LOOTBOXES][STORE_MAX_ITEMS / 4][LEVEL_AMOUNT][PLATFORM_MAX_PATH]; //assuming min 4 item on a box
 float g_fChance[MAX_LOOTBOXES][LEVEL_AMOUNT];
 
-int g_iLootboxEntity[MAXPLAYERS + 1] = {INVALID_ENT_REFERENCE, ...};
-Handle g_hTimerDelete[MAXPLAYERS + 1];
+int g_iLootboxEntityRef[MAXPLAYERS + 1] = {INVALID_ENT_REFERENCE, ...};
 Handle g_hTimerColor[MAXPLAYERS + 1];
 int g_iClientSpeed[MAXPLAYERS + 1];
 int g_iClientLevel[MAXPLAYERS + 1];
@@ -114,21 +112,12 @@ public void OnPluginStart()
 	AutoExecConfig_SetFile("lootbox", "sourcemod/mystore");
 	AutoExecConfig_SetCreateFile(true);
 
-	gc_sPickUpSound = AutoExecConfig_CreateConVar("mystore_lootbox_sound_pickup", "ui/csgo_ui_crate_open.wav", "Path to the pickup sound");
-	gc_sPickUpSound.AddChangeHook(OnSettingChanged);
+	gc_bVisible = AutoExecConfig_CreateConVar("mystore_lootbox_visible_for_all", "1", "1 - the lootbox is visible for all player / 0 - the lootbox is only visible for player who owns it.");
 
 	AutoExecConfig_ExecuteFile();
 	AutoExecConfig_CleanFile();
-
 }
 
-public void OnSettingChanged(ConVar convar, const char[] oldValue, const char[] newValue)
-{
-	if (convar == gc_sPickUpSound)
-	{
-		strcopy(g_sPickUpSound, sizeof(g_sPickUpSound), newValue);
-	}
-}
 
 public void MyStore_OnConfigExecuted(ConVar enable, char[] name, char[] prefix, char[] credits)
 {
@@ -144,6 +133,8 @@ public void MyStore_OnConfigExecuted(ConVar enable, char[] name, char[] prefix, 
 
 public void Lootbox_OnMapStart()
 {
+	char sBuffer[128];
+
 	for (int i = 0; i < g_iBoxCount; i++)
 	{
 		PrecacheModel(g_sModel[i], true);
@@ -158,19 +149,14 @@ public void Lootbox_OnMapStart()
 			Downloader_AddFileToDownloadsTable(g_sEfxFile[i]);
 			PrecacheGeneric(g_sEfxFile[i], true);
 		}
+
+		FormatEx(sBuffer, sizeof(sBuffer), "sound/%s", g_sPickUpSound[i]);
+		if (FileExists(sBuffer, true) && g_sPickUpSound[i][0])
+		{
+			AddFileToDownloadsTable(sBuffer);
+			PrecacheSound(g_sPickUpSound[i], true);
+		}
 	}
-
-	gc_sPickUpSound.GetString(g_sPickUpSound, sizeof(g_sPickUpSound));
-
-	char sBuffer[128];
-	FormatEx(sBuffer, sizeof(sBuffer), "sound/%s", g_sPickUpSound);
-	if (FileExists(sBuffer, true) && g_sPickUpSound[0])
-	{
-		AddFileToDownloadsTable(sBuffer);
-		PrecacheSound(g_sPickUpSound, true);
-	}
-
-	PrecacheModel("models/props_crates/static_crate_40.mdl", true);
 
 	PrecacheSound("ui/csgo_ui_crate_item_scroll.wav", true);
 }
@@ -202,6 +188,7 @@ public bool Lootbox_Config(KeyValues &kv, int itemid)
 
 	kv.GetString("file", g_sEfxFile[g_iBoxCount], PLATFORM_MAX_PATH);
 	kv.GetString("name", g_sEfxName[g_iBoxCount], PLATFORM_MAX_PATH);
+	kv.GetString("sound", g_sPickUpSound[g_iBoxCount], PLATFORM_MAX_PATH, "");
 
 	float percent = 0.0;
 	g_fChance[g_iBoxCount][LEVEL_GREY] = kv.GetFloat("grey", 50.0);
@@ -209,6 +196,7 @@ public bool Lootbox_Config(KeyValues &kv, int itemid)
 	g_fChance[g_iBoxCount][LEVEL_GREEN] = kv.GetFloat("green", 15.0);
 	g_fChance[g_iBoxCount][LEVEL_GOLD] = kv.GetFloat("gold", 10.0);
 	g_fChance[g_iBoxCount][LEVEL_PINK] = kv.GetFloat("pink", 5.0);
+
 	for (int i = 0; i < LEVEL_AMOUNT; i++)
 	{
 		percent += g_fChance[g_iBoxCount][i];
@@ -290,8 +278,8 @@ bool DropLootbox(int client, int index)
 	if (!iLootbox)
 		return false;
 
-	char sBuffer[32];
-	FormatEx(sBuffer, 32, "lootbox_%d", iLootbox);
+//	char sBuffer[32];
+//	FormatEx(sBuffer, 32, "lootbox_%d", iLootbox);
 
 	float fOri[3], fAng[3], fRad[2], fPos[3];
 
@@ -310,10 +298,7 @@ bool DropLootbox(int client, int index)
 
 	fPos[2] += 35;
 
-	SetEntPropString(iLootbox, Prop_Data, "m_iName", sBuffer);
-	SetEntProp(iLootbox, Prop_Send, "m_usSolidFlags", 12); //FSOLID_NOT_SOLID|FSOLID_TRIGGER
-	SetEntProp(iLootbox, Prop_Data, "m_nSolidType", 6); // SOLID_VPHYSICS
-	SetEntProp(iLootbox, Prop_Send, "m_CollisionGroup", 1); //COLLISION_GROUP_DEBRIS
+//	SetEntPropString(iLootbox, Prop_Data, "m_iName", sBuffer);
 
 	DispatchKeyValue(iLootbox, "model", g_sModel[index]);
 	DispatchSpawn(iLootbox);
@@ -322,27 +307,26 @@ bool DropLootbox(int client, int index)
 
 	TeleportEntity(iLootbox, fPos, fAng, NULL_VECTOR);
 
-	g_iLootboxEntity[client] = EntIndexToEntRef(iLootbox);
+	g_iLootboxEntityRef[client] = EntIndexToEntRef(iLootbox);
 
 	CreateGlow(iLootbox);
 	int iLight = CreateLight(iLootbox, fPos);
 	int iRotator = CreateRotator(iLootbox, fPos);
-	int iTrigger = CreateTriggerProp(iLootbox, fPos, sBuffer);
 
 	DataPack pack = new DataPack();
 	g_iClientBox[client] = index;
 	pack.WriteCell(client);
-	pack.WriteCell(iTrigger);
 	pack.WriteCell(iLootbox);
 	pack.WriteCell(iRotator);
 	pack.WriteCell(iLight);
 	g_iClientSpeed[client] = 235;
-	g_hTimerDelete[client] = CreateTimer(55.0, Timer_DeleteBox, client);
 	g_hTimerColor[client] = CreateTimer(0.2, Timer_Color, pack, TIMER_REPEAT);
 
-	SDKHook(iLootbox, SDKHook_SetTransmit, Hook_SetTransmit_Preview);
-	SDKHook(iLight, SDKHook_SetTransmit, Hook_SetTransmit_Preview);
-	SDKHook(iTrigger, SDKHook_SetTransmit, Hook_SetTransmit_Preview);
+	if(!gc_bVisible.BoolValue)
+	{
+		SDKHook(iLootbox, SDKHook_SetTransmit, Hook_SetTransmit);
+		SDKHook(iLight, SDKHook_SetTransmit, Hook_SetTransmit);
+	}
 
 	return true;
 }
@@ -395,49 +379,8 @@ int CreateLight(int ent, float pos[3])
 	return iLight;
 }
 
-int CreateTriggerProp(int ent, float pos[3], char[] name)
+public Action Timer_Open(Handle timer, int client)
 {
-	int iTrigger = CreateEntityByName("prop_dynamic_override");
-
-	SetEntPropString(iTrigger, Prop_Data, "m_iName", name);
-
-	DispatchKeyValue(iTrigger, "spawnflags", "64");
-
-	DispatchKeyValue(iTrigger, "model", "models/props_crates/static_crate_40.mdl");
-	DispatchSpawn(iTrigger);
-
-	AcceptEntityInput(iTrigger, "Enable");
-
-	SetEntProp(iTrigger, Prop_Data, "m_spawnflags", 64);
-
-	TeleportEntity(iTrigger, pos, NULL_VECTOR, NULL_VECTOR);
-
-	float fMins[3];
-	float fMaxs[3];
-
-	GetEntPropVector(ent, Prop_Send, "m_vecMins", fMins);
-	GetEntPropVector(ent, Prop_Send, "m_vecMaxs", fMaxs);
-
-	SetEntPropVector(iTrigger, Prop_Send, "m_vecMins", fMins);
-	SetEntPropVector(iTrigger, Prop_Send, "m_vecMaxs", fMaxs);
-	SetEntProp(iTrigger, Prop_Send, "m_nSolidType", 2);
-
-	int iEffects = GetEntProp(iTrigger, Prop_Send, "m_fEffects");
-	iEffects |= 32;
-	SetEntProp(iTrigger, Prop_Send, "m_fEffects", iEffects);
-
-	return iTrigger;
-}
-
-public void Hook_OnBreak(const char[] output, int ent, int client, float delay)
-{
-	TriggerTimer(g_hTimerDelete[client]);
-
-	if (IsValidEdict(ent))
-	{
-		AcceptEntityInput(ent, "Kill");
-	}
-
 	char sUId[64];
 	strcopy(sUId, sizeof(sUId), g_sLootboxItems[g_iClientBox[client]][GetRandomInt(0, g_iItemLevelCount[g_iClientBox[client]][g_iClientLevel[client]] - 1)][g_iClientLevel[client]]); // sry
 
@@ -445,8 +388,12 @@ public void Hook_OnBreak(const char[] output, int ent, int client, float delay)
 
 	if (itemid == -1)
 	{
+		RequestFrame(Frame_DeleteBox, client);
+		MyStore_GiveItem(client, g_iItemID[g_iClientBox[client]], 0, 0, 0);
+		CPrintToChat(client, "%s%s", g_sChatPrefix, "Error occured, item back. Inform admin log");
+
 		MyStore_LogMessage(0, LOG_ERROR, "Can't find item uid %s for lootbox #%i on level #%i.", sUId, g_iClientBox[client], g_iClientLevel[client]);
-		return;
+		return Plugin_Stop;
 	}
 
 	any item[Item_Data];
@@ -462,37 +409,31 @@ public void Hook_OnBreak(const char[] output, int ent, int client, float delay)
 	else
 	{
 		MyStore_GiveItem(client, itemid, _, _, item[iPrice]);
-		CPrintToChat(client, "%s%t", g_sChatPrefix, "You won lootbox item", item[szName], handler[szType]);
 
-		if (item[bPreview])
-		{
-			Call_StartForward(gf_hPreviewItem);
-			Call_PushCell(client);
-			Call_PushString(handler[szType]);
-			Call_PushCell(item[iDataIndex]);
-			Call_Finish();
-		}
+		char sBuffer[128];
+		Format(sBuffer, sizeof(sBuffer), "%t", "You won lootbox item", item[szName], handler[szType]);
+
+		CPrintToChat(client, "%s%s", g_sChatPrefix, sBuffer);
+		CRemoveTags(sBuffer, sizeof(sBuffer));
+		PrintHintText(client, sBuffer);
+	}
+
+	if (item[bPreview] && IsPlayerAlive(client))
+	{
+		Call_StartForward(gf_hPreviewItem);
+		Call_PushCell(client);
+		Call_PushString(handler[szType]);
+		Call_PushCell(item[iDataIndex]);
+		Call_Finish();
 	}
 
 	float fVec[3];
 	GetClientAbsOrigin(client, fVec);
-	EmitAmbientSound(g_sPickUpSound, fVec, _, _, _, _, _, _);
+	EmitAmbientSound(g_sPickUpSound[g_iClientBox[client]], fVec, _, _, _, _, _, _);
 
-	if (!g_sEfxName[g_iClientBox[client]][0])
-		return;
+	RequestFrame(Frame_DeleteBox, client);
 
-	float fOri[3];
-	GetEntPropVector(ent, Prop_Send, "m_vecOrigin", fOri);
-
-	int iEfx = CreateEntityByName("info_particle_system");
-	DispatchKeyValue(iEfx, "start_active", "0");
-	DispatchKeyValue(iEfx, "effect_name", g_sEfxName[g_iClientBox[client]]);
-	DispatchSpawn(iEfx);
-	ActivateEntity(iEfx);
-	TeleportEntity(iEfx, fOri, NULL_VECTOR, NULL_VECTOR);
-	AcceptEntityInput(iEfx, "Start");
-	SDKHook(iEfx, SDKHook_SetTransmit, Hook_SetTransmit_Preview);
-	CreateTimer(1.2, Timer_RemoveEfx, EntIndexToEntRef(iEfx));
+	return Plugin_Handled;
 }
 
 public Action Timer_RemoveEfx(Handle timer, int reference)
@@ -545,12 +486,12 @@ int FindStringIndex2(int tableidx, const char[] str)
 	return INVALID_STRING_INDEX;
 }
 
-public Action Hook_SetTransmit_Preview(int ent, int client)
+public Action Hook_SetTransmit(int ent, int client)
 {
-	if (g_iLootboxEntity[client] == INVALID_ENT_REFERENCE)
+	if (g_iLootboxEntityRef[client] == INVALID_ENT_REFERENCE)
 		return Plugin_Handled;
 
-	if (ent == EntRefToEntIndex(g_iLootboxEntity[client]))
+	if (ent == EntRefToEntIndex(g_iLootboxEntityRef[client]))
 		return Plugin_Continue;
 
 	return Plugin_Handled;
@@ -560,14 +501,14 @@ public Action Timer_Color(Handle timer, DataPack pack)
 {
 	pack.Reset();
 	int client = pack.ReadCell();
-	if (g_hTimerDelete[client] == null)
+
+	if (g_iClientBox[client] == -1)
 		return Plugin_Stop;
 
-	int trigger = pack.ReadCell();
 	int lootbox = pack.ReadCell();
 	int rotator = pack.ReadCell();
 	int light = pack.ReadCell();
-	
+
 	int index = g_iClientBox[client];
 	float fPos[3];
 	GetEntPropVector(lootbox, Prop_Send, "m_vecOrigin", fPos);
@@ -583,16 +524,13 @@ public Action Timer_Color(Handle timer, DataPack pack)
 
 	if (g_iClientSpeed[client] < 1)
 	{
-		SetEntProp(trigger, Prop_Data, "m_iHealth", 70);
-		SetEntProp(trigger, Prop_Data, "m_takedamage", 2);
-		HookSingleEntityOutput(trigger, "OnBreak", Hook_OnBreak, true);
-	//	SDKHook(trigger, SDKHook_OnTakeDamage, Hook_OnTakeDamage);
 
-		CPrintToChat(client, "%s%t", g_sChatPrefix, "Damage the crate to open");
+		if (g_sEfxName[g_iClientBox[client]][0])
+		{
+			CreateEffect(client, fPos);
+		}
 
-		Format(sBuffer, sizeof(sBuffer), "%t", "Damage the crate to open");
-		CRemoveTags(sBuffer, sizeof(sBuffer));
-		PrintHintText(client, sBuffer);
+		CreateTimer(0.5, Timer_Open, client);
 
 		return Plugin_Stop;
 	}
@@ -692,13 +630,31 @@ public Action Timer_Color(Handle timer, DataPack pack)
 	return Plugin_Continue;
 }
 
+void CreateEffect(int client, float fPos[3])
+{
+	int iEfx = CreateEntityByName("info_particle_system");
+	DispatchKeyValue(iEfx, "start_active", "0");
+	DispatchKeyValue(iEfx, "effect_name", g_sEfxName[g_iClientBox[client]]);
+	DispatchSpawn(iEfx);
+	ActivateEntity(iEfx);
+	TeleportEntity(iEfx, fPos, NULL_VECTOR, NULL_VECTOR);
+	AcceptEntityInput(iEfx, "Start");
+
+	if(!gc_bVisible.BoolValue)
+	{
+		SDKHook(iEfx, SDKHook_SetTransmit, Hook_SetTransmit);
+	}
+
+	CreateTimer(1.5, Timer_RemoveEfx, EntIndexToEntRef(iEfx));
+//	PrintToServer("fired %s", g_sEfxName[g_iClientBox[client]]);
+}
+
+
 public void Event_RoundEnd(Event event, char[] name, bool dontBroadcast)
 {
 	for (int i = 1; i <= MaxClients; i++)
 	{
-		g_hTimerColor[i] = null;
-
-		if (g_iLootboxEntity[i] != INVALID_ENT_REFERENCE)
+		if (g_iLootboxEntityRef[i] != INVALID_ENT_REFERENCE)
 		{
 			MyStore_GiveItem(i, g_iItemID[g_iClientBox[i]], 0, 0, 0);
 
@@ -706,28 +662,21 @@ public void Event_RoundEnd(Event event, char[] name, bool dontBroadcast)
 		}
 		g_iClientBox[i] = -1;
 
-		if (g_hTimerDelete[i] != null)
-		{
-			TriggerTimer(g_hTimerDelete[i]);
-		}
+		RequestFrame(Frame_DeleteBox, i);
 	}
 }
 
-public Action Timer_DeleteBox(Handle timer, int client)
+public void Frame_DeleteBox(int client)
 {
-	g_hTimerDelete[client] = null;
-
-	if (g_iLootboxEntity[client] != INVALID_ENT_REFERENCE)
+	if (g_iLootboxEntityRef[client] != INVALID_ENT_REFERENCE)
 	{
-		int entity = EntRefToEntIndex(g_iLootboxEntity[client]);
+		int entity = EntRefToEntIndex(g_iLootboxEntityRef[client]);
 
 		if (entity > 0 && IsValidEdict(entity))
 		{
-			SDKUnhook(entity, SDKHook_SetTransmit, Hook_SetTransmit_Preview);
+			SDKUnhook(entity, SDKHook_SetTransmit, Hook_SetTransmit);
 			AcceptEntityInput(entity, "Kill");
 		}
 	}
-	g_iLootboxEntity[client] = INVALID_ENT_REFERENCE;
-
-	return Plugin_Stop;
+	g_iLootboxEntityRef[client] = INVALID_ENT_REFERENCE;
 }
