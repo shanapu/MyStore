@@ -1329,7 +1329,6 @@ void DisplayStoreMenu(int client, int parent = -1, int last = -1)
 
 			}
 
-		//	iPosition++;  //new
 		}
 	}
 
@@ -1666,7 +1665,6 @@ public void DisplayPreviewMenu(int client, int itemid)
 		}
 	}
 
-	
 	Format(sBuffer, sizeof(sBuffer), "%t", "Preview Item");
 	menu.AddItem("preview_item", sBuffer, ITEMDRAW_DEFAULT);
 

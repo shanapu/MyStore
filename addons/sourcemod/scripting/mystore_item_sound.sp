@@ -50,7 +50,7 @@ int g_iFlagBits[STORE_MAX_ITEMS];
 
 char g_sChatPrefix[128];
 char g_sCreditsName[64];
-char g_sSteam[64];
+char g_sSteam[256];
 
 ConVar gc_bEnable;
 

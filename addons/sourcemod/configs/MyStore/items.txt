@@ -937,8 +937,10 @@
 					"worldmodel"			"models/maoling/weapon/overwatch/knife/genji/katana_w.mdl"
 					"weapon"				"weapon_knife"
 					"unique_id"				"uid_genji_sword"
-					"price"					"388"
+					"price"					"10000"
 					"preview"				"1"
+					"buyable"				"0" // only win in lootbox
+					"ignore_vip"			"1" // even VIPs can't use it
 					"type"					"weaponmodel"
 					"slot"					"2"
 				}
@@ -1823,9 +1825,11 @@
 				"max_time"					"10"
 				"delay"						"30.000000"
 				"effect"					"1"
+				"buyable"					"0" // only win in lootbox
+				"ignore_vip"				"1" // even VIPs can't use it
 				"unique_id"					"uid_jetpack"
 				"type"						"jetpack"
-				"price"						"100"
+				"price"						"10000"
 			}
 		}
 		"Life extensions"
