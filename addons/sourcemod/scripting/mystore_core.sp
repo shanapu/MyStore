@@ -1143,7 +1143,7 @@ void DisplayStoreMenu(int client, int parent = -1, int last = -1)
 	// List all Items
 	for (int i = 0; i < g_iItemCount; i++)
 	{
-		if (g_aItems[i][iParent] == parent && (!gc_bShowVIP.BoolValue && CheckFlagBits(target, g_aItems[i][iFlagBits], iFlags && CheckSteamAuth(target, g_aItems[i][szSteam])) || gc_bShowVIP.BoolValue))
+		if (g_aItems[i][iParent] == parent && (!gc_bShowVIP.BoolValue && (CheckFlagBits(target, g_aItems[i][iFlagBits], iFlags) || CheckSteamAuth(target, g_aItems[i][szSteam])) || gc_bShowVIP.BoolValue))
 		{
 			int costs = GetLowestPrice(i);
 			bool reduced = false;
@@ -1292,7 +1292,7 @@ void DisplayStoreMenu(int client, int parent = -1, int last = -1)
 				else if (!g_bInvMode[client] && g_aItems[i][bBuyable])
 				{
 					int iStyle = ITEMDRAW_DEFAULT;
-					if ((g_aItems[i][iPlans] == 0 && g_iCredits[target] < costs && !g_aItems[i][bPreview]) || (gc_bShowVIP.BoolValue && !CheckFlagBits(target, g_aItems[i][iFlagBits], iFlags) && !CheckSteamAuth(target, g_aItems[i][szSteam])))
+					if ((g_aItems[i][iPlans] == 0 && g_iCredits[target] < costs && !g_aItems[i][bPreview]) || (gc_bShowVIP.BoolValue && !g_aItems[i][bPreview] && (!CheckFlagBits(target, g_aItems[i][iFlagBits], iFlags) || !CheckSteamAuth(target, g_aItems[i][szSteam]))))
 					{
 						iStyle = ITEMDRAW_DISABLED;
 					}
@@ -1618,8 +1618,6 @@ public void DisplayPreviewMenu(int client, int itemid)
 	}
 
 	char sBuffer[128];
-	bool reduced = false;
-	int price = Forward_OnGetEndPrice(client, itemid, g_aItems[itemid][iPrice], reduced);
 
 	if (HasClientItem(client, itemid))
 	{
@@ -1645,8 +1643,11 @@ public void DisplayPreviewMenu(int client, int itemid)
 	// Player don't own the item
 	else if (!g_bInvMode[client] && g_aItems[itemid][bBuyable])
 	{
+		bool reduced = false;
+		int price = Forward_OnGetEndPrice(client, itemid, g_aItems[itemid][iPrice], reduced);
+
 		int iStyle = ITEMDRAW_DEFAULT;
-		if ((g_aItems[itemid][iPlans] == 0 && g_iCredits[target] < price) || (gc_bShowVIP.BoolValue && !CheckFlagBits(target, g_aItems[itemid][iFlagBits]) && !CheckSteamAuth(target, g_aItems[itemid][szSteam])))
+		if ((g_iCredits[target] < price) || (gc_bShowVIP.BoolValue && (!CheckFlagBits(target, g_aItems[itemid][iFlagBits]) || !CheckSteamAuth(target, g_aItems[itemid][szSteam]))))
 		{
 			iStyle = ITEMDRAW_DISABLED;
 		}
@@ -1655,7 +1656,7 @@ public void DisplayPreviewMenu(int client, int itemid)
 		if (g_aItems[itemid][iPlans] == 0)
 		{
 			Format(sBuffer, sizeof(sBuffer), "%t %t", "Buy Item", price, reduced ? "discount" : "nodiscount");
-			menu.AddItem("buy_item", sBuffer, g_iCredits[target] >= price ? ITEMDRAW_DEFAULT : ITEMDRAW_DISABLED);
+			menu.AddItem("buy_item", sBuffer, iStyle);
 		}
 		// Player can buy the item in a plan
 		else
@@ -1679,7 +1680,6 @@ public void DisplayPreviewMenu(int client, int itemid)
 		Call_PushCell(itemid);
 		Call_Finish();
 	}
-
 	menu.Display(client, MENU_TIME_FOREVER);
 }
 
@@ -3313,6 +3313,7 @@ void GoThroughConfig(KeyValues &kv, int parent = -1)
 			kv.GetString("flag", sFlags, sizeof(sFlags));
 			g_aItems[g_iItemCount][iFlagBits] = ReadFlagString(sFlags);
 			g_aItems[g_iItemCount][iPrice] = kv.GetNum("price", -1);
+			g_aItems[g_iItemCount][iTrade] = kv.GetNum("trade", 15);
 			g_aItems[g_iItemCount][bBuyable] = kv.GetNum("buyable", 1) ? true : false;
 			g_aItems[g_iItemCount][bIgnoreVIP] = kv.GetNum("ignore_vip", 0) ? true : false;
 			g_aItems[g_iItemCount][iHandler] = g_iPackageHandler;
@@ -3344,6 +3345,7 @@ void GoThroughConfig(KeyValues &kv, int parent = -1)
 
 			g_aItems[g_iItemCount][iParent] = parent;
 			g_aItems[g_iItemCount][iPrice] = kv.GetNum("price");
+			g_aItems[g_iItemCount][iTrade] = kv.GetNum("trade", 15);
 			kv.GetString("description", g_aItems[g_iItemCount][szDescription], 64, "\0");
 			g_aItems[g_iItemCount][bBuyable] = kv.GetNum("buyable", 1) ? true : false;
 			g_aItems[g_iItemCount][bIgnoreVIP] = kv.GetNum("ignore_vip", 0) ? true : false;

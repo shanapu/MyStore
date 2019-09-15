@@ -101,6 +101,9 @@ public void Store_OnMenu(Menu &menu, int client, int itemid)
 	any item[Item_Data];
 	MyStore_GetItem(itemid, item);
 
+	if ((item[iTrade] & TRADE_GIFT) != TRADE_GIFT)
+		return;
+
 	int clientItem[CLIENT_ITEM_SIZE];
 	MyStore_GetClientItem(client, itemid, clientItem);
 

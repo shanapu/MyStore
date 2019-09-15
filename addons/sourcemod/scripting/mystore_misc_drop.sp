@@ -202,6 +202,9 @@ public void Store_OnMenu(Menu &menu, int client, int itemid)
 	any item[Item_Data];
 	MyStore_GetItem(itemid, item);
 
+	if ((item[iTrade] & TRADE_DROP) != TRADE_DROP)
+		return;
+
 	if (item[iFlagBits] != 0)  ///todo test
 		return;
 

@@ -1320,6 +1320,9 @@ public void Store_OnMenu(Menu &menu, int client, int itemid)
 	any item[Item_Data];
 	MyStore_GetItem(itemid, item);
 
+	if ((item[iTrade] & TRADE_VOUCHER) != TRADE_VOUCHER)
+		return;
+
 	any handler[Type_Handler];
 	MyStore_GetHandler(item[iHandler], handler);
 

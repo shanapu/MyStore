@@ -117,8 +117,12 @@ public void Store_OnMenu(Menu &menu, int client, int itemid)
 	any item[Item_Data];
 	MyStore_GetItem(itemid, item);
 
+	if ((item[iTrade] & TRADE_SELL) != TRADE_SELL)
+		return;
+
 	any handler[Type_Handler];
 	MyStore_GetHandler(item[iHandler], handler);
+
 
 	char sBuffer[128];
 	if (StrEqual(handler[szType], "package"))

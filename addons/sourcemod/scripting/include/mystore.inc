@@ -106,6 +106,11 @@ public void __pl_mystore_SetNTVOptional()
 #define LOG_ADMIN 2
 #define LOG_EVENT 3
 
+#define TRADE_SELL 1
+#define TRADE_GIFT 2
+#define TRADE_DROP 4
+#define TRADE_VOUCHER 8
+
 #define ITEM_EQUIP_FAIL 1
 #define ITEM_EQUIP_KEEP 1
 #define ITEM_EQUIP_REMOVE 0
@@ -135,6 +140,7 @@ enum Item_Data
 	iFlagBits,
 	iDataIndex,
 	iPlans,
+	iTrade,
 
 	bool:bPreview,
 	bool:bBuyable,
