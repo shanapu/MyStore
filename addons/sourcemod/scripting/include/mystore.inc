@@ -141,6 +141,7 @@ enum Item_Data
 	iDataIndex,
 	iPlans,
 	iTrade,
+	iSecret,
 
 	bool:bPreview,
 	bool:bBuyable,

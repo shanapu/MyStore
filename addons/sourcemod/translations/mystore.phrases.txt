@@ -1136,6 +1136,11 @@
 		"en"		"Parachute"
 	}
 
+	"info"
+	{
+		"en"		"Info Panel"
+	}
+
 	"froggyjump"
 	{
 		"en"		"Froggy Jump"

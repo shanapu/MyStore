@@ -193,10 +193,10 @@ public bool Emotes_Config(KeyValues &kv, int itemid)
 	g_iItemId[g_iCount] = itemid;
 
 	char sBuffer[16];
-	kv.GetString("flag", sBuffer, sizeof(sBuffer));
+	kv.GetString("flag", sBuffer, sizeof(sBuffer), "\0");
 	g_iFlagBits[g_iCount] = ReadFlagString(sBuffer);
 
-	kv.GetString("steam", g_sSteam[g_iCount], 64);
+	kv.GetString("steam", g_sSteam[g_iCount], 64, "\0");
 
 	if (g_iCooldown[g_iCount] < 10)
 	{

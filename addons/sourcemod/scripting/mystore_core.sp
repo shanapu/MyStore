@@ -1143,7 +1143,7 @@ void DisplayStoreMenu(int client, int parent = -1, int last = -1)
 	// List all Items
 	for (int i = 0; i < g_iItemCount; i++)
 	{
-		if (g_aItems[i][iParent] == parent && (!gc_bShowVIP.BoolValue && (CheckFlagBits(target, g_aItems[i][iFlagBits], iFlags) || CheckSteamAuth(target, g_aItems[i][szSteam])) || gc_bShowVIP.BoolValue))
+		if ((HasSecretAccess(client, i) || g_aItems[i][iSecret] == 0) && (g_aItems[i][iParent] == parent && (!gc_bShowVIP.BoolValue && (CheckFlagBits(target, g_aItems[i][iFlagBits], iFlags) || CheckSteamAuth(target, g_aItems[i][szSteam])) || gc_bShowVIP.BoolValue)))
 		{
 			int costs = GetLowestPrice(i);
 			bool reduced = false;
@@ -3055,7 +3055,7 @@ bool HasClientItem(int client, int itemid)
 		return false;
 
 	// Is the item free (available for everyone)?
-	if (Forward_OnGetEndPrice(client, itemid, g_aItems[itemid][iPrice]) <= 0 && g_aItems[itemid][iPlans] == 0)
+	if (Forward_OnGetEndPrice(client, itemid, g_aItems[itemid][iPrice]) <= 0 && g_aItems[itemid][iPlans] == 0 && g_aItems[itemid][iSecret] == 0)
 		return true;
 
 	// Is the client a VIP therefore has access to all the items already?
@@ -3310,8 +3310,10 @@ void GoThroughConfig(KeyValues &kv, int parent = -1)
 			kv.GetString("shortcut", g_aItems[g_iItemCount][szShortcut], 64, "\0");
 			kv.GetString("description", g_aItems[g_iItemCount][szDescription], 64, "\0");
 			kv.GetString("steam", g_aItems[g_iItemCount][szSteam], 256, "\0");
-			kv.GetString("flag", sFlags, sizeof(sFlags));
+			kv.GetString("flag", sFlags, sizeof(sFlags), "\0");
 			g_aItems[g_iItemCount][iFlagBits] = ReadFlagString(sFlags);
+			kv.GetString("secret", sFlags, sizeof(sFlags), "\0");
+			g_aItems[g_iItemCount][iSecret] = ReadFlagString(sFlags);
 			g_aItems[g_iItemCount][iPrice] = kv.GetNum("price", -1);
 			g_aItems[g_iItemCount][iTrade] = kv.GetNum("trade", 15);
 			g_aItems[g_iItemCount][bBuyable] = kv.GetNum("buyable", 1) ? true : false;
@@ -3354,8 +3356,12 @@ void GoThroughConfig(KeyValues &kv, int parent = -1)
 			g_aItems[g_iItemCount][iId] = g_iItemCount;
 
 			kv.GetString("steam", g_aItems[g_iItemCount][szSteam], 256, "\0");
-			kv.GetString("flag", sFlags, sizeof(sFlags));
+
+			kv.GetString("flag", sFlags, sizeof(sFlags), "\0");
 			g_aItems[g_iItemCount][iFlagBits] = ReadFlagString(sFlags);
+
+			kv.GetString("secret", sFlags, sizeof(sFlags), "\0");
+			g_aItems[g_iItemCount][iSecret] = ReadFlagString(sFlags);
 
 			g_aItems[g_iItemCount][iHandler] = iHandle;
 
@@ -3810,6 +3816,17 @@ bool IsClientAdmin(int client)
 bool HasClientAccess(int client)
 {
 	return CheckFlagBits(client, g_iMinFlags);
+}
+
+bool HasSecretAccess(int client, int itemid)
+{
+	if (CheckFlagBits(client, g_aItems[itemid][iSecret]))
+		return true;
+
+	if (HasClientItem(client, itemid))
+		return true;
+
+	return false;
 }
 
 bool CheckFlagBits(int client, int flagsNeed, int flags = -1)

@@ -11,7 +11,7 @@
 https://steamcommunity.com/id/shanapu
 
 #### Credits/Spezial Thanks:  
-sourcemod team, Zephyrus (dvarnai), Hexer10, bara, Kxnrl, Totenfluch, dordnung, Franc1sco, Drixevel, CZE|EMINEM, Kuristaja, maoling, rogeraabbccdd, Mitchell, gubka, FrozDark, SWAT_88, Bacardi, PeEzZ, Rachnus  
+sourcemod team, Zephyrus (dvarnai), Hexer10, bara, Kxnrl, Totenfluch, dordnung, Franc1sco, Drixevel, CZE|EMINEM, Kuristaja, maoling, In*Victus, rogeraabbccdd, Mitchell, gubka, FrozDark, SWAT_88, Bacardi, PeEzZ, Rachnus  
 :heart:  
 
 

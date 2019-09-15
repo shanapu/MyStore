@@ -131,10 +131,10 @@ public bool Sounds_Config(KeyValues &kv, int itemid)
 	g_unPrice[g_iCount] = kv.GetNum("price");
 	g_iItemId[g_iCount] = itemid;
 
-	kv.GetString("flag", sBuffer, sizeof(sBuffer));
+	kv.GetString("flag", sBuffer, sizeof(sBuffer), "\0");
 	g_iFlagBits[g_iCount] = ReadFlagString(sBuffer);
 
-	kv.GetString("steam", g_sSteam[g_iCount], 64);
+	kv.GetString("steam", g_sSteam[g_iCount], 64, "\0");
 
 	if (g_iCooldown[g_iCount] < 10)
 	{

@@ -24,6 +24,13 @@
 			"type"							"info"
 			"unique_id"						"uid_info_about_us"
 		}
+		"Admin secret panel"
+		{
+			"text"							"This is a secret info panel \n Only admins can see \n Have fun!"
+			"type"							"info"
+			"secret"						"z" // only admin with "z" can see item.
+			"unique_id"						"uid_info_secret"
+		}
 		"Shop Toplists"
 		{
 			"type"							"link"
@@ -187,7 +194,8 @@
 						"type"				"attachment"
 						"preview"			"1"
 						"price"				"100"
-						"slot"				"0" 
+						"slot"				"0"
+						"secret"			"z" // only admin can see & buy item. When item was droped/gifted new owner can see and use item.
 						"unique_id"			"uid_attachment_afro"
 					}
 					"Asian Hat"
