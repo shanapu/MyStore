@@ -1,0 +1,9 @@
+UnlitGeneric
+{
+	"$basetexture" "emotes/pepehands"
+	"$nocull" 1
+   	"$translucent" "1"
+	"$spriteorientation" "oriented"
+}
+
+

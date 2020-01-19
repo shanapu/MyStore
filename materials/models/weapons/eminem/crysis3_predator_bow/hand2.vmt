@@ -1,0 +1,12 @@
+"VertexLitGeneric"
+{
+     "$basetexture" "models\weapons\eminem\crysis3_predator_bow\hand2"
+     "$bumpmap" "models\weapons\eminem\crysis3_predator_bow\hand2_n"
+        "$envmap" "env_cubemap"
+        "$normalmapalphaenvmapmask" "1"
+	"$phong" 		"1"
+	"$phongexponent" 	"45"
+	"$phongboost" "10"
+	"$phongfresnelranges" "[1 8 6]"
+        "$Selfillum"	"1"
+}

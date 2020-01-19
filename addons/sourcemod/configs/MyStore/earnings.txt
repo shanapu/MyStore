@@ -1,0 +1,100 @@
+"Earnings"
+{
+	"default"
+	{
+		"flags"				""					// Flag to recieve this earnings, no flag = everyone
+		"player"			"0"					// Minimal player on server before recieve earnings
+		"bots"				"0"					// Do Bot kills count?
+		"msg"				"1"					// Notification for earning credits. 0 = disabled / 1 = single notification on every earning / 2 = Sum credits on death or end of round / 3 = shown detailed stats on death or end of round
+		"nick"				"mywebsite.tld"		// String in nickname for getting multiplier on credits
+		"nick_multi"		"1.2"				// Multiplier for nickname string - multiply with all multiplier and earnings, except dailys
+		"groupid"			"123456"			// Steam groupid for getting multiplier on credits
+		"groupid_multi"		"1.2"				// Multiplier for groupid - multiply with all multiplier and earnings, except dailys
+		"clantag"			"[MyClanTag]"		// String in clantag for getting multiplier on credits
+		"clantag_multi"		"1.2"				// Multiplier matching clan tag - multiply with all multiplier and earnings, except dailys
+		"timer"				"120"				// Timer time to get earnings for playtime (active/inactive)
+		"active"			"1"					// Credits you earn for playing in a team ("timer")
+		"inactive"			"0"					// Credits you earn for beeing spectator ("timer")
+		"kill"				"10"				// Credits you earn for make a kill
+		"tk"				"-100"				// Credits you earn/loose for make a teamkill
+		"suicide"			"0"					// Credits you earn/lose for killing yourself/suicide
+		"assist"			"5"					// Credits you earn for assisting a kill
+		"headshot"			"20"				// Credits you earn for a headshot, additional to kill credits
+		"noscope"			"40"				// Credits you earn for a no scope kill with a scoped rifle
+		"backstab"			"45"				// Credits you earn for backstabing a player
+		"knife"				"20"				// Credits you earn for knife kill
+		"taser"				"45"				// Credits you earn for a taser kill
+		"he"				"25"				// Credits you earn for he grenade kill
+		"flash"				"100"				// Credits you earn for flashbang kill
+		"smoke"				"100"				// Credits you earn for smoke grenade kill
+		"molotov"			"25"				// Credits you earn for molotov / inc grande kill
+		"decoy"				"100"				// Credits you earn for a decoy kill
+		"win"				"10"				// Credits you earn for survive and win the round
+		"mvp"				"20"				// Credits you earn for beeing the round MVP
+		"plant"				"10"				// Credits you earn for planting the bomb
+		"defuse"			"10"				// Credits you earn for defuse the bomb
+		"explode"			"10"				// Credits you earn for when your planted bomb explode
+		"rescued"			"10"				// Credits you earn for you rescued a hostage
+		"vip_kill"			"50"				// Credits you earn for killing the VIP, additional to kill credits
+		"vip_escape"		"50"				// Credits you earn for beeing the VIP and escape
+		"Dailys"
+		{
+			"1"				"1000"				// Credits you earn on first day (start challange) - !daily
+			"2"				"1500"				// Credits you earn on second day in row - !daily
+			"3"				"2000"				// Credits you earn on third day in row - !daily
+			"4"				"2500"				// Credits you earn on fourth day in row - !daily
+			"5"				"3000"				// Credits you earn on fifth day in row - !daily
+			"6"				"3500"				// Credits you earn on sixth day in row - !daily
+			"7"				"5000"				// Credits you earn on seventh/last day (end challange) - !daily
+		}
+	}
+	"Admin"
+	{
+		"flags"				"g"					// Flag to recieve this earnings, no flag = everyone
+		"player"			"0"					// Minimal player on server before recieve earnings
+		"bots"				"0"					// Do Bot kills count?
+		"msg"				"1"					// Notification for earning credits. 0 = disabled / 1 = single notification on earn / 2 = Sum credits on death or end of round / 3 = shown detailed stats  on death or end of round
+		"nick"				"mywebsite.team"	// String in nickname for getting multiplier on credits
+		"nick_multi"		"1.3"				// Multiplier for nickname string
+		"groupid"			"123456"			// Steam groupid for getting multiplier on credits
+		"groupid_multi"		"1.2"				// Multiplier for groupid
+		"clantag"			"[MyClanTag.Admin]"	// String in clantag for getting multiplier on credits
+		"clantag_multi"		"1.3"				// Multiplier matching clan tag
+		"timer"				"120"				// Timer time to get earnings for playtime (active/inactive)
+		"active"			"1"					// Credits you earn for playing in a team ("timer")
+		"inactive"			"0"					// Credits you earn for beeing spectator ("timer")
+		"kill"				"10"				// Credits you earn for make a kill
+		"tk"				"-100"				// Credits you earn/loose for make a teamkill
+		"suicide"			"0"					// Credits you earn/lose for killing yourself/suicide
+		"assist"			"5"					// Credits you earn for assisting a kill
+		"headshot"			"20"				// Credits you earn for a headshot, additional to kill credits
+		"noscope"			"40"				// Credits you earn for a no scope kill with a scoped rifle
+		"backstab"			"30"				// Credits you earn for backstabing a player
+		"knife"				"20"				// Credits you earn for knife kill
+		"taser"				"25"				// Credits you earn for a taser kill
+		"he"				"25"				// Credits you earn for he grenade kill
+		"flash"				"100"				// Credits you earn for flashbang kill
+		"smoke"				"100"				// Credits you earn for smoke grenade kill
+		"molotov"			"50"				// Credits you earn for molotov / inc grande kill
+		"decoy"				"100"				// Credits you earn for a decoy kill
+		"win"				"10"				// Credits you earn for survive and win the round
+		"mvp"				"20"				// Credits you earn for beeing the round MVP
+		"plant"				"10"				// Credits you earn for planting the bomb
+		"defuse"			"10"				// Credits you earn for defuse the bomb
+		"explode"			"10"				// Credits you earn for when your planted bomb explode
+		"rescued"			"10"				// Credits you earn for you rescued a hostage
+		"vip_kill"			"50"				// Credits you earn for killing the VIP, additional to kill credits
+		"vip_escape"		"50"				// Credits you earn for beeing the VIP and escape
+		"Dailys"
+		{
+			"1"				"100"				// Credits you earn on first day (start challange) - !daily
+			"2"				"150"				// Credits you earn on second day in row - !daily
+			"3"				"200"				// Credits you earn on third day in row - !daily
+			"4"				"250"				// Credits you earn on fourth day in row - !daily
+			"5"				"300"				// Credits you earn on fifth day in row - !daily
+			"6"				"350"				// Credits you earn on sixth day in row - !daily
+			"7"				"500"				// Credits you earn on seventh/last day (end challange) - !daily
+		}
+	}
+
+}

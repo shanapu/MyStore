@@ -1,14 +1,18 @@
-work in progress
+[![Build Status](https://travis-ci.org/shanapu/MyStore.svg?branch=master)](https://travis-ci.org/shanapu/MyStore)
 
-initially no support
+### Important links
+* [**Installation guide**](https://github.com/shanapu/MyStore/wiki/Install)
+* [**Download**](https://shanapu.de/MyStore/)
+* [**FAQ**](https://github.com/shanapu/MyStore/wiki/FAQ)
+* [**Report Bug / Feature Request**](https://github.com/shanapu/MyStore/issues/new/choose)
 
-unfinished features
+### Need some tester and bug reporter
 
-slow development
+https://steamcommunity.com/id/shanapu
 
-hardcoded messages
+#### Credits/Spezial Thanks:  
+sourcemod team, Zephyrus (dvarnai), Hexer10, bara, Kxnrl, Totenfluch, dordnung, Franc1sco, Drixevel, CZE|EMINEM, Kuristaja, maoling, In*Victus, rogeraabbccdd, Mitchell, gubka, FrozDark, SWAT_88, Bacardi, PeEzZ, Rachnus  
+:heart:  
 
-bugs n errors
 
-pr welcome
-
+coded with ![](http://shanapu.de/githearth-small.png) free software

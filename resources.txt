@@ -1,0 +1,13 @@
+resources
+
+https://gamebanana.com/skins/144166
+https://github.com/dvarnai/store-plugin/tree/master/models/store/hats
+https://github.com/dvarnai/store-plugin/tree/master/materials/sprites/store/trails
+https://github.com/dvarnai/store-plugin/tree/master/materials/paintball
+https://hlmod.ru/threads/particles-partikli-besplatno.45019/
+https://forums.alliedmods.net/attachment.php?attachmentid=164010&d=1499592377
+https://forums.alliedmods.net/showthread.php?t=309198
+https://github.com/Rachnus/Emotes/tree/master/materials/emotes
+https://forums.alliedmods.net/showpost.php?p=2456161&postcount=123
+https://github.com/Kxnrl/Store/blob/master/resources/sound/
+https://gamebanana.com/members/1168544

@@ -1,0 +1,17 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models\player\kuristaja\slickman\slickman_armor_vet_d"
+	"$bumpmap" "models\player\kuristaja\slickman\slickman_armor_normal"
+
+	"$phong" "1"
+	"$phongboost" ".5"
+	"$phongexponent" "20"
+	"$phongfresnelranges" "[.5 2 8]"
+	"$PhongAlbedoTint" "1"
+
+	$alphatest 1
+
+	"$rimlight" "1"
+	"$rimlightexponent" "35"
+	"$rimlightboost" ".2"
+}

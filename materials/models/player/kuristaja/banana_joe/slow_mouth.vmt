@@ -1,0 +1,7 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/player/kuristaja//banana_joe/slow_mouth"
+
+	"$translucent" 1
+	"$nocull" 1
+}

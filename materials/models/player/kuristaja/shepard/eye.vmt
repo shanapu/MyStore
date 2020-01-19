@@ -1,0 +1,10 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/player/kuristaja/shepard/eye"
+	"$bumpmap"		"models/player/kuristaja/shepard/eye_bump"
+
+ 	"$phong" "1"
+	"$phongexponent" "30"
+	"$phongboost"	".7"
+	"$phongfresnelranges"	"[1 1 1]"
+}

@@ -1,0 +1,21 @@
+"Vertexlitgeneric"
+{
+	"$baseTexture" "models\weapons\eminem\crysis3_predator_bow\7"
+	"$bumpmap" "models\weapons\eminem\crysis3_predator_bow\7_n"
+
+	"$envmap" "env_cubemap"
+
+     "$basemapalphaenvmapmask" 1
+     "$envmaptint" "[0.2 0.2 0.2]"
+     "$normalmapalphaenvmapmask" 1
+     "$envmapfresnel" "0.7"
+
+     "$phong" 1
+     "$phongtint"                   "[0.7 0.9 1]" 
+
+     "$phongboost" "0.5"
+     "$phongfresnelranges" "[0.1 0.5 1.1]"
+     "$phongalbedotint" "1"
+     "$phongalbedoboost" "38"
+
+}

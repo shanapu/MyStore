@@ -1,0 +1,206 @@
+// Exported from SourceMod Translator
+// Date: 2019-08-04 02:30:22 UTC
+// Language: Hungarian (hu)
+// 
+// To view other translations for this plugin, please visit:
+// http://translator.mitchdempsey.com/sourcemod_plugins/322
+//
+"Phrases"
+{
+
+	"You dont have permission"
+	{
+		"hu"		"Nincs jogosultságod ehhez."
+	}
+
+	"Must be Alive"
+	{
+		"hu"		"Ez a parancs halottként nem használható."
+	}
+
+	"Confirm_Yes"
+	{
+		"hu"		"Igen"
+	}
+
+	"Confirm_No"
+	{
+		"hu"		"Nem"
+	}
+
+	"Player Resetted"
+	{
+		"hu"		"{1} nullázva lett."
+	}
+
+	"Inventory hasnt been fetched"
+	{
+		"hu"		"Várj egy kicsit. A tárgyaid még nem töltöttek be."
+	}
+
+	"Item Bought"
+	{
+		"hu"		"{1}"
+	}
+
+	"Item Available"
+	{
+		"hu"		"{1} ({2})"
+	}
+
+	"Item Plan Available"
+	{
+		"hu"		"{1} (Válassz időszakot)"
+	}
+
+	"Item Equipped"
+	{
+		"hu"		"{1} [FELVÉVE]"
+	}
+
+	"Item Equip"
+	{
+		"hu"		"Tárgy felvétele"
+	}
+
+	"Item Unequip"
+	{
+		"hu"		"Tárgy levétele"
+	}
+
+	"Item Use"
+	{
+		"hu"		"Tárgy használata"
+	}
+
+	"Title Credits"
+	{
+		"hu"		"{1}: {2}"
+	}
+
+	"Title Expiration"
+	{
+		"hu"		"Lejár {1}n {2}ó múlva"
+	}
+
+	"Chat Bought Item"
+	{
+		"hu"		"A következőt vetted: {green}{1} {2}{default}."
+	}
+
+	"Credit Too Many Matches"
+	{
+		"hu"		"Több mint egy játékos van ilyen névvel."
+	}
+
+	"Credit No Match"
+	{
+		"hu"		"Nincs ilyen játékos."
+	}
+
+	"Confirm_Buy"
+	{
+		"hu"		"Biztosan meg akarod venni a következőt: {1} {2}?"
+	}
+
+	"Chat Sold Item"
+	{
+		"hu"		"A következőt adtad el: {green}{1} {2}{default}."
+	}
+
+	"Confirm_Sell"
+	{
+		"hu"		"Biztosan el akarod adni a következőt: {1} {2}?"
+	}
+
+	"Confirm_Drop"
+	{
+		"hu"		"Biztosan el akarod ajándékozni a következőt: {1} {2}?"
+	}
+
+	"Gift Item Picked"
+	{
+		"hu"		"A következőt vetted fel {green}{1} {2}{default}."
+	}
+
+	"Item Gift"
+	{
+		"hu"		"Tárgy elajándékozása"
+	}
+
+	"Package Gift"
+	{
+		"hu"		"Csomag elajándékozása"
+	}
+
+	"Title Gift"
+	{
+		"hu"		"Játékos kiválasztása ajándékozáshoz"
+	}
+
+	"Gift Player Left"
+	{
+		"hu"		"A kiválasztott játékos már elhagyta a játékot."
+	}
+
+	"Gift No Players"
+	{
+		"hu"		"Nincs senki akinek odatudnád adni ezt a tárgyat."
+	}
+
+	"Chat Gift Item Sent"
+	{
+		"hu"		"A következőt küldted: {green}{2} {3}{default} neki: {green}{1}{default}."
+	}
+
+	"Chat Gift Item Received"
+	{
+		"hu"		"{green}{1}{default} a következőt küldte neked: {green}{2} {3}{default}."
+	}
+
+	"Credit Gift Disabled"
+	{
+		"hu"		"A szerveren a kreditek ajándékozása ki van kapcsolva."
+	}
+
+	"Confirm_Gift"
+	{
+		"hu"		"Biztosan el akarod ajándékozni a következőt: {1} {2} neki: {3}?"
+	}
+
+	"TeamBet Invalid Team"
+	{
+		"hu"		"Helytelen csapat azonosító."
+	}
+
+	"TeamBet Already Placed"
+	{
+		"hu"		"Ebben a körben már fogadtál."
+	}
+
+	"TeamBet Period Over"
+	{
+		"hu"		"Ebben a körben már nem fogadhatsz."
+	}
+
+	"Jetpack Fuel"
+	{
+		"hu"		"[Jetpack] Üzemanyag: {1}"
+	}
+
+	"PlayerModels Settings Changed"
+	{
+		"hu"		"Az új beállításaid a következő élettől fognak működni."
+	}
+
+	"nametag"
+	{
+		"hu"		"név tag"
+	}
+
+	"namecolor"
+	{
+		"hu"		"név szín"
+	}
+
+}

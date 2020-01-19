@@ -1,0 +1,9 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/player/kuristaja/shepard/white"
+
+	"$envmap" "env_cubemap" 
+	"$envmaptint" "[1 1 1]" 
+	"$envmapcontrast" 0
+	"$envmapsaturation" 0
+}

@@ -1,0 +1,20 @@
+"VertexLitGeneric"
+{
+	"$basetexture"			"models/player/kuristaja/deadpool/deadpoolsword_color"
+	"$bumpmap"			"models/player/kuristaja/deadpool/deadpoolsword_norm"
+	"$normalmapalphaenvmapmask" "1"
+	
+	"$envmap" 			"env_cubemap"	
+	"$envmapcontrast" 0.3
+	"$envmapsaturation" 0.5
+	"$envmaptint" "[ 0.1 0.1 0.1 ]"
+
+	"$phong"			"1"
+	"$phongboost"		"3"
+	"$phongexponent"		"30"
+	"$phongfresnelranges"	"[0.1 0.75 4]"
+
+	"$rimlight"		"1"
+	"$rimlightexponent"		"8"
+	"$rimlightboost"		"1"
+}

@@ -1,0 +1,2835 @@
+"Store"
+{
+	"Main Info Panel"
+	{
+		"Rules"
+		{
+			"description"					"    Please read first"
+			"Communication"
+			{
+				"text"						"Don't scream \nCAPSLOCK = scream \nDon't be a dick! \nBe cool!"
+				"type"						"info"
+				"unique_id"					"uid_info_communication"
+			}
+			"Gameplay"
+			{
+				"text"						"Don't fuck up others! \nDon't be a dick! \nDon't fuck up others! Have fun!"
+				"type"						"info"
+				"unique_id"					"uid_info_gameplay"
+			}
+		}
+		"About us"
+		{
+			"text"							"This is a info panel \n You can use 256 chars \n Have fun!"
+			"type"							"info"
+			"unique_id"						"uid_info_about_us"
+		}
+		"Admin secret panel"
+		{
+			"text"							"This is a secret info panel \n Only admins can see \n Have fun!"
+			"type"							"info"
+			"secret"						"z" // only admin with "z" can see item.
+			"unique_id"						"uid_info_secret"
+		}
+		"Shop Toplists"
+		{
+			"type"							"link"
+			"command"						"sm_toplists"
+			"unique_id"						"uid_toplists_toplists"
+		}
+		"Coupons"
+		{
+			"type"							"link"
+			"command"						"sm_voucher"
+			"unique_id"						"uid_vouchers_coupons"
+		}
+		"Weblinks"
+		{
+			"text"							"www.myfavoritepornwebsite.com \nwww.mysecondfavoritepornwebsite.com \nHave fun! ( ͡° ͜ʖ ͡°)"
+			"type"							"info"
+			"unique_id"						"uid_info_weblinks"
+		}
+		"Hide effects"
+		{
+			"shortcut"						"hide"
+			"Hide/show attachments"
+			{
+				"type"						"link"
+				"command"					"sm_hideattachment"
+			}
+			"Hide/show parachutes"
+			{
+				"type"						"link"
+				"command"					"sm_hideparachute"
+			}
+			"Hide/show paintballs"
+			{
+				"type"						"link"
+				"command"					"sm_hidepaintball"
+			}
+			"Hide/show emotes"
+			{
+				"type"						"link"
+				"command"					"sm_hideemote"
+			}
+			"Hide/show grenade trails"
+			{
+				"type"						"link"
+				"command"					"sm_hidegrenadetrail"
+			}
+			"Hide/show laser pointers"
+			{
+				"type"						"link"
+				"command"					"sm_hidelaserpointer"
+			}
+			"Hide/show painters"
+			{
+				"type"						"link"
+				"command"					"sm_hidepainter"
+			}
+			"Hide/show particles"
+			{
+				"type"						"link"
+				"command"					"sm_hideparticle"
+			}
+			"Hide/show trails"
+			{
+				"type"						"link"
+				"command"					"sm_hidetrail"
+			}
+		}
+	}
+	"Cosmetics"
+	{
+		"description"						"    Models, accessory, effects & more"
+		"Player"
+		{
+			"Playermodels"
+			{
+				"Counter-Terrorists"
+				{
+					"Deadpool"
+					{
+						"model"				"models/player/custom_player/kuristaja/deadpool/deadpool.mdl"
+						"arms"				"models/player/custom_player/kuristaja/deadpool/deadpool_arms.mdl"
+						"unique_id"			"uid_model_deadpool"
+						"team"				"3"
+						"preview"			"1"
+						"price"				"100"
+						"trade"				"1" // 1 = sell only
+						"type"				"playermodel"
+						"steam"				"STEAM_1:0:11101" // only 'gaben' can buy this item
+					}
+					"Banana Joe"
+					{
+						"model"				"models/player/custom_player/kuristaja/banana_joe/banana_joe.mdl"
+						"arms"				"models/player/custom_player/kuristaja/banana_joe/banana_joe_arms.mdl"
+						"unique_id"			"uid_model_bananajoe"
+						"team"				"3"
+						"preview"			"1"
+						"trade"				"2" // 2 = gift only
+						"price"				"100"
+						"type"				"playermodel"
+					}
+					"Shepard"
+					{
+						"model"				"models/player/custom_player/kuristaja/shepard/shepard.mdl"
+						"arms"				"models/player/custom_player/kuristaja/shepard/shepard_arms.mdl"
+						"unique_id"			"uid_model_shepard"
+						"team"				"3"
+						"preview"			"1"
+						"trade"				"3" // 3 = sell & gift only
+						"price"				"100"
+						"type"				"playermodel"
+					}
+				}
+				"Terrorists"
+				{
+					"Helena (Resident Evil 6)"
+					{
+						"model"				"models/player/custom_player/kuristaja/re6/helena/helena.mdl"
+						"arms"				"models/player/custom_player/kuristaja/re6/helena/helena_arms.mdl"
+						"unique_id"			"uid_model_helena"
+						"team"				"2"
+						"preview"			"1"
+						"price"				"100"
+						"trade"				"9" // 9 = sell & voucher only
+						"type"				"playermodel"
+						"steam"				"STEAM_1:0:11101" // only 'gaben' can buy this item
+					}
+					"Alien"
+					{
+						"model"				"models/player/custom_player/kuristaja/fo4/alien/alien.mdl"
+						"arms"				"models/player/custom_player/kuristaja/fo4/alien/alien_arms.mdl"
+						"unique_id"			"uid_model_atat"
+						"team"				"2"
+						"preview"			"1"
+						"price"				"100"
+						"trade"				"12" // 12 = drop & voucher only
+						"type"				"playermodel"
+					}
+					"Slickman"
+					{
+						"model"				"models/player/custom_player/kuristaja/slickman/slickman.mdl"
+						"arms"				"models/player/custom_player/kuristaja/slickman/slickman_arms.mdl"
+						"unique_id"			"uid_model_vader"
+						"team"				"2"
+						"preview"			"1"
+						"price"				"100"
+						"trade"				"14" // 14 = gift, drop & voucher only
+						"type"				"playermodel"
+					}
+				}
+			}
+			"Attachments"
+			{
+				"description"				"    Former called 'Hats'"
+				"Hats / Helmets"
+				{
+					"Afro"
+					{
+						"model"				"models/store/hats/afro.mdl"
+						"position"			"0.000000 -3.000000 6.000000"
+						"angles"			"0.000000 0.000000 0.000000"
+						"type"				"attachment"
+						"preview"			"1"
+						"price"				"100"
+						"slot"				"0"
+						"secret"			"z" // only admin can see & buy item. When item was droped/gifted new owner can see and use item.
+						"unique_id"			"uid_attachment_afro"
+					}
+					"Asian Hat"
+					{
+						"model"				"models/store/hats/asian_hat.mdl"
+						"position"			"0.000000 -4.000000 6.000000"
+						"angles"			"0.000000 0.000000 0.000000"
+						"type"				"attachment"
+						"preview"			"1"
+						"price"				"100"
+						"slot"				"0"
+						"unique_id"			"uid_attachment_asian"
+					}
+					"Colonial Tricorn"
+					{
+						"model"				"models/store/hats/colonial_tricorn_v1.mdl"
+						"position"			"0.000000 -4.000000 6.000000"
+						"angles"			"0.000000 0.000000 0.000000"
+						"type"				"attachment"
+						"preview"			"1"
+						"price"				"100"
+						"slot"				"0"
+						"unique_id"			"uid_attachment_tricorn"
+					}
+					"Fedora Hat"
+					{
+						"model"				"models/store/hats/fedorahat.mdl"
+						"position"			"0.000000 -4.000000 6.000000"
+						"angles"			"0.000000 0.000000 0.000000"
+						"type"				"attachment"
+						"preview"			"1"
+						"price"				"100"
+						"slot"				"0"
+						"unique_id"			"uid_attachment_fedora"
+					}
+					"KFC bukket"
+					{
+						"model"				"models/store/hats/kfcbucket.mdl"
+						"position"			"0.000000 -4.000000 6.000000"
+						"angles"			"0.000000 0.000000 0.000000"
+						"type"				"attachment"
+						"preview"			"1"
+						"price"				"100"
+						"slot"				"0"
+						"unique_id"			"uid_attachment_kfcbukket"
+					}
+					"Uncle Sam"
+					{
+						"model"				"models/store/hats/uncle_sam_hat.mdl"
+						"position"			"0.000000 -4.000000 6.000000"
+						"angles"			"0.000000 0.000000 0.000000"
+						"type"				"attachment"
+						"preview"			"1"
+						"price"				"100"
+						"slot"				"0"
+						"unique_id"			"uid_attachment_uncle_sam_hat"
+					}
+					"Witch Hat"
+					{
+						"model"				"models/store/hats/witchhat.mdl"
+						"position"			"0.000000 -4.000000 6.000000"
+						"angles"			"0.000000 0.000000 0.000000"
+						"type"				"attachment"
+						"preview"			"1"
+						"price"				"100"
+						"slot"				"0"
+						"unique_id"			"uid_attachment_witch_hat"
+					}
+					"Seuss hat"
+					{
+						"model"				"models/store/hats/seusshat.mdl"
+						"position"			"0.000000 -4.000000 6.000000"
+						"angles"			"0.000000 0.000000 0.000000"
+						"type"				"attachment"
+						"preview"			"1"
+						"price"				"100"
+						"slot"				"0"
+						"unique_id"			"uid_attachment_seusshat"
+					}
+					"Links hat"
+					{
+						"model"				"models/store/hats/links_hat_v4.mdl"
+						"position"			"0.000000 -4.000000 6.000000"
+						"angles"			"0.000000 0.000000 0.000000"
+						"type"				"attachment"
+						"preview"			"1"
+						"price"				"100"
+						"slot"				"0"
+						"unique_id"			"uid_attachment_seusshat"
+					}
+					"Daft Punk"
+					{
+						"model"				"models/store/hats/daft_punk_v1.mdl"
+						"position"			"0.000000 1.000000 4.000000"
+						"angles"			"-67.000000 0.000000 0.000000"
+						"type"				"attachment"
+						"preview"			"1"
+						"Plans"
+						{
+							"1 Day"
+							{
+								"price"		"1"
+								"time"		"86400" // 86400 = one day
+							}
+							"1 Week"
+							{
+								"price"		"100"
+								"time"		"604800" // 604800 = one week
+							}
+							"1 Month"
+							{
+								"price"		"1000"
+								"time"		"2678400‬" // 2678400‬ = one month
+							}
+						}
+						"slot"				"0"
+						"unique_id"			"uid_attachment_daft_punk"
+					}
+				}
+				"Masks"
+				{
+					"Andross mask"
+					{
+						"model"				"models/store/hats/androssmask.mdl"
+						"position"			"0.000000 -4.000000 6.000000"
+						"angles"			"0.000000 0.000000 0.000000"
+						"type"				"attachment"
+						"preview"			"1"
+						"price"				"100"
+						"slot"				"1"
+						"unique_id"			"uid_attachment_androssmask"
+					}
+					"Deku Scrub mask"
+					{
+						"model"				"models/store/hats/deku_scrub_mask.mdl"
+						"position"			"0.000000 -4.000000 6.000000"
+						"angles"			"0.000000 0.000000 0.000000"
+						"type"				"attachment"
+						"preview"			"1"
+						"price"				"100"
+						"slot"				"1"
+						"unique_id"			"uid_attachment_deku_scrub_mask"
+					}
+					"Gumby mask"
+					{
+						"model"				"models/store/hats/gumby_mask_v1.mdl"
+						"position"			"0.000000 -4.000000 6.000000"
+						"angles"			"0.000000 0.000000 0.000000"
+						"type"				"attachment"
+						"preview"			"1"
+						"price"				"100"
+						"slot"				"1"
+						"unique_id"			"uid_attachment_gumby_mask"
+					}
+					"Zora mask"
+					{
+						"model"				"models/store/hats/zora_mask.mdl"
+						"position"			"0.000000 -4.000000 6.000000"
+						"angles"			"0.000000 0.000000 0.000000"
+						"type"				"attachment"
+						"preview"			"1"
+						"price"				"100"
+						"slot"				"1"
+						"unique_id"			"uid_attachment_zora_mask"
+					}
+					"Goron Mask"
+					{
+						"model"				"models/store/hats/goron_mask.mdl"
+						"position"			"0.000000 1.000000 4.000000"
+						"angles"			"-67.000000 0.000000 0.000000"
+						"type"				"attachment"
+						"preview"			"1"
+						"Plans"
+						{
+							"1 Day"
+							{
+								"price"		"1"
+								"time"		"86400" // 86400 = one day
+							}
+							"1 Week"
+							{
+								"price"		"100"
+								"time"		"604800" // 604800 = one week
+							}
+							"1 Month"
+							{
+								"price"		"1000"
+								"time"		"2678400‬" // 2678400‬ = one month
+							}
+						}
+						"slot"				"1"
+						"unique_id"			"uid_attachment_goron_mask"
+					}
+				}
+				"Glasses"
+				{
+					"3D Glasses"
+					{
+						"model"				"models/store/hats/3dglasses.mdl"
+						"position"			"0.000000 0.500000 2.000000"
+						"angles"			"0.000000 0.000000 0.000000"
+						"type"				"attachment"
+						"preview"			"1"
+						"price"				"100"
+						"slot"				"2"
+						"unique_id"			"uid_attachment_3dglasses"
+					}
+					"Star glasses"
+					{
+						"model"				"models/store/hats/starglasses.mdl"
+						"position"			"0.000000 0.500000 2.000000"
+						"angles"			"0.000000 0.000000 0.000000"
+						"type"				"attachment"
+						"preview"			"1"
+						"price"				"100"
+						"slot"				"2"
+						"unique_id"			"uid_attachment_deku_starglasses"
+					}
+				}
+			}
+			"Kill Effect"
+			{
+				"description"				"    Particle effect on frag"
+				"Vortex (fire)"
+				{
+					"name"					"fire_vixr_final"
+					"file"					"particles/2j.pcf"
+					"duration"				"1.500000"
+					"preview"				"1"
+					"price"					"100"
+					"type"					"particle"
+					"slot"					"kill"
+					"unique_id"				"uid_particle_kill_vortex_(fire)"
+				}
+				"Vortex (ice)"
+				{
+					"name"					"vixr_final"
+					"file"					"particles/2j.pcf"
+					"preview"				"1"
+					"price"					"100"
+					"duration"				"1.500000"
+					"type"					"particle"
+					"slot"					"kill"
+					"unique_id"				"uid_particle_kill_vortex_(ice)"
+				}
+			}
+			"Spawn Effect"
+			{
+				"description"				"    Particle effect on spawn"
+				"Vortex (fire)"
+				{
+					"name"					"fire_vixr_final"
+					"preview"				"1"
+					"price"					"100"
+					"file"					"particles/2j.pcf"
+					"duration"				"5.500000"
+					"type"					"particle"
+					"slot"					"spawn"
+					"unique_id"				"uid_particle_spawn_vortex"
+				}
+				"Vortex (ice)"
+				{
+					"name"					"vixr_final"
+					"file"					"particles/2j.pcf"
+					"preview"				"1"
+					"price"					"100"
+					"duration"				"5.500000"
+					"type"					"particle"
+					"slot"					"spawn"
+					"unique_id"				"uid_particle_spawn_vortex"
+				}
+			}
+			"Hit Effect"
+			{
+				"description"				"    Particle effect on hit"
+				"Blood"
+				{
+					"name"					"blood"
+					"file"					"particles/2j.pcf"
+					"preview"				"1"
+					"price"					"100"
+					"duration"				"0.500000"
+					"type"					"particle"
+					"slot"					"hit"
+					"unique_id"				"uid_particle_hit_blood"
+				}
+				"Vortex (ice)"
+				{
+					"name"					"Sparks"
+					"file"					"particles/2j.pcf"
+					"preview"				"1"
+					"price"					"100"
+					"duration"				"0.500000"
+					"type"					"particle"
+					"slot"					"hit"
+					"unique_id"				"uid_particle_hit_vortex_(ice)"
+				}
+			}
+			"Aura"
+			{
+				"description"				"    Particle Aura on Player"
+				"Hell"
+				{
+					"name"					"hell_end"
+					"file"					"particles/2j.pcf"
+					"preview"				"1"
+					"price"					"100"
+					"type"					"particle"
+					"slot"					"aura"
+					"unique_id"				"uid_particle_aura_hell"
+				}
+				"Lightning"
+				{
+					"name"					"molnii_final"
+					"file"					"particles/2j.pcf"
+					"preview"				"1"
+					"price"					"100"
+					"type"					"particle"
+					"slot"					"aura"
+					"unique_id"				"uid_particle_aura_lightning"
+				}
+				"Geometry"
+				{
+					"name"					"new_001"
+					"file"					"particles/2j.pcf"
+					"preview"				"1"
+					"price"					"100"
+					"type"					"particle"
+					"slot"					"aura"
+					"unique_id"				"uid_particle_aura_geometry"
+				}
+				"Geometry2"
+				{
+					"name"					"new_002"
+					"file"					"particles/2j.pcf"
+					"preview"				"1"
+					"price"					"100"
+					"type"					"particle"
+					"slot"					"aura"
+					"unique_id"				"uid_particle_aura_geometry2"
+				}
+				"Pink holl"
+				{
+					"name"					"new_003"
+					"file"					"particles/2j.pcf"
+					"preview"				"1"
+					"price"					"100"
+					"type"					"particle"
+					"slot"					"aura"
+					"unique_id"				"uid_particle_aura_pink_holl"
+				}
+				"Tornado (Rainbow)"
+				{
+					"name"					"new_004"
+					"file"					"particles/2j.pcf"
+					"preview"				"1"
+					"price"					"100"
+					"type"					"particle"
+					"slot"					"aura"
+					"unique_id"				"uid_particle_aura_tornado_(rainbow)"
+				}
+				"Sphere (Color)"
+				{
+					"name"					"sphere"
+					"file"					"particles/2j.pcf"
+					"preview"				"1"
+					"price"					"100"
+					"type"					"particle"
+					"slot"					"aura"
+					"unique_id"				"uid_particle_aura_sphere_(color)"
+				}
+				"Splash"
+				{
+					"name"					"splash"
+					"file"					"particles/2j.pcf"
+					"preview"				"1"
+					"price"					"100"
+					"type"					"particle"
+					"slot"					"aura"
+					"unique_id"				"uid_particle_aura_splash"
+				}
+				"Tornado 2 (Color)"
+				{
+					"name"					"tornado"
+					"file"					"particles/2j.pcf"
+					"preview"				"1"
+					"price"					"100"
+					"type"					"particle"
+					"slot"					"aura"
+					"unique_id"				"uid_particle_aura_tornado_2_(color)"
+				}
+				"Equalizer (diamond)"
+				{
+					"name"					"ekvalaizer_gray"
+					"file"					"particles/2j.pcf"
+					"preview"				"1"
+					"price"					"100"
+					"type"					"particle"
+					"slot"					"aura"
+					"unique_id"				"uid_particle_aura_equalizer_(diamond)"
+				}
+				"Equalizer (orange)"
+				{
+					"name"					"ekvalaizer_white"
+					"file"					"particles/2j.pcf"
+					"preview"				"1"
+					"price"					"100"
+					"type"					"particle"
+					"slot"					"aura"
+					"unique_id"				"uid_particle_aura_equalizer_(orange)"
+				}
+				"Equalizer (green)"
+				{
+					"name"					"ekvalaizer_black_blue"
+					"file"					"particles/2j.pcf"
+					"preview"				"1"
+					"price"					"100"
+					"type"					"particle"
+					"slot"					"aura"
+					"unique_id"				"uid_particle_aura_equalizer_(green)"
+				}
+				"Equalizer (pink)"
+				{
+					"name"					"ekvalaizer"
+					"file"					"particles/2j.pcf"
+					"preview"				"1"
+					"price"					"100"
+					"type"					"particle"
+					"slot"					"aura"
+					"unique_id"				"uid_particle_aura_equalizer_(pink)"
+				}
+				"Arcane Zeus"
+				{
+					"name"					"end"
+					"file"					"particles/2j.pcf"
+					"preview"				"1"
+					"price"					"100"
+					"type"					"particle"
+					"slot"					"aura"
+					"unique_id"				"uid_particle_aura_arcane_zeus"
+				}
+			}
+			"Trails"
+			{
+				"description"				"    Particle and sprite Trails"
+				"Particle Trails"
+				{
+					"Energy (Blue)"
+					{
+						"name"				"puzyr"
+						"file"				"particles/2j.pcf"
+						"preview"			"1"
+						"price"				"100"
+						"type"				"particle"
+						"slot"				"trail"
+						"unique_id"			"uid_particle_trail_energy_(blue)"
+					}
+					"Energy (Color)"
+					{
+						"name"				"puzyr2"
+						"file"				"particles/2j.pcf"
+						"preview"			"1"
+						"price"				"100"
+						"type"				"particle"
+						"slot"				"trail"
+						"unique_id"			"uid_particle_trail_energy_(color)"
+					}
+					"Gamma (Gray)"
+					{
+						"name"				"gamma_gray"
+						"file"				"particles/2j.pcf"
+						"preview"			"1"
+						"price"				"100"
+						"type"				"particle"
+						"slot"				"trail"
+						"unique_id"			"uid_particle_trail_gamma_(gray)"
+					}
+					"Gamma (Red-Green)"
+					{
+						"name"				"gamma"
+						"file"				"particles/2j.pcf"
+						"preview"			"1"
+						"price"				"100"
+						"type"				"particle"
+						"slot"				"trail"
+						"unique_id"			"uid_particle_trail_gamma_(red-green)"
+					}
+					"Gamma (Light-Blue)"
+					{
+						"name"				"gamma_blue"
+						"file"				"particles/2j.pcf"
+						"preview"			"1"
+						"price"				"100"
+						"type"				"particle"
+						"slot"				"trail"
+						"unique_id"			"uid_particle_trail_gamma_(light-blue)"
+					}
+					"Flashs"
+					{
+						"name"				"trail2"
+						"file"				"particles/2j.pcf"
+						"preview"			"1"
+						"price"				"100"
+						"type"				"particle"
+						"slot"				"trail"
+						"unique_id"			"uid_particle_trail_flashs"
+					}
+					"Flashs (light blue)"
+					{
+						"name"				"trail2_color1"
+						"file"				"particles/2j.pcf"
+						"preview"			"1"
+						"price"				"100"
+						"type"				"particle"
+						"slot"				"trail"
+						"unique_id"			"uid_particle_trail_flashs_(light_blue)"
+					}
+					"Sparks (Pink)"
+					{
+						"name"				"trail_new_001"
+						"file"				"particles/2j.pcf"
+						"preview"			"1"
+						"price"				"100"
+						"type"				"particle"
+						"slot"				"trail"
+						"unique_id"			"uid_particle_trail_sparks_(pink)"
+					}
+					"Green Twirl"
+					{
+						"name"				"trail_new_002"
+						"file"				"particles/2j.pcf"
+						"preview"			"1"
+						"price"				"100"
+						"type"				"particle"
+						"slot"				"trail"
+						"unique_id"			"uid_particle_trail_green_twirl"
+					}
+					"Ice vs Fire"
+					{
+						"name"				"trail_new_003_final"
+						"file"				"particles/2j.pcf"
+						"preview"			"1"
+						"price"				"100"
+						"type"				"particle"
+						"slot"				"trail"
+						"unique_id"			"uid_particle_trail_ice_vs_fire"
+					}
+					"Show lights"
+					{
+						"name"				"trai"
+						"file"				"particles/2j.pcf"
+						"preview"			"1"
+						"price"				"100"
+						"type"				"particle"
+						"slot"				"trail"
+						"unique_id"			"uid_particle_trail_show_lights"
+					}
+				}
+				"Sprite Trails"
+				{
+					"Blue Lightning"
+					{
+						"material"			"materials/sprites/store/trails/bluelightning.vmt"
+						"preview"			"1"
+						"price"				"100"
+						"width"				"25.000000"
+						"color"				"255 255 255 255"
+						"type"				"trail"
+						"unique_id"			"uid_trail_blue_lightning"
+					}
+					"Crowns"
+					{
+						"material"			"materials/sprites/store/trails/crown.vmt"
+						"preview"			"1"
+						"price"				"100"
+						"width"				"15.000000"
+						"color"				"255 255 255 255"
+						"type"				"trail"
+						"unique_id"			"uid_trail_crowns"
+					}
+					"Awesome"
+					{
+						"material"			"materials/sprites/store/trails/awesome.vmt"
+						"preview"			"1"
+						"price"				"100"
+						"width"				"15.000000"
+						"color"				"255 255 255 255"
+						"type"				"trail"
+						"unique_id"			"uid_trail_awesome"
+					}
+					"Money"
+					{
+						"material"			"materials/sprites/store/trails/Banknote.vmt"
+						"preview"			"1"
+						"price"				"100"
+						"width"				"15.000000"
+						"color"				"255 255 255 255"
+						"type"				"trail"
+						"unique_id"			"uid_trail_money"
+					}
+					"FFUUU"
+					{
+						"material"			"materials/sprites/store/trails/fuu1.vmt"
+						"preview"			"1"
+						"price"				"100"
+						"width"				"15.000000"
+						"color"				"255 255 255 255"
+						"type"				"trail"
+					}
+					"Pokeball"
+					{
+						"material"			"materials/sprites/store/trails/pokeball.vmt"
+						"preview"			"1"
+						"price"				"100"
+						"width"				"15.000000"
+						"color"				"255 255 255 255"
+						"type"				"trail"
+						"unique_id"			"uid_trail_pokeball"
+					}
+					"Psychball"
+					{
+						"material"			"materials/sprites/store/trails/psychball.vmt"
+						"preview"			"1"
+						"price"				"100"
+						"width"				"15.000000"
+						"color"				"255 255 255 255"
+						"type"				"trail"
+						"unique_id"			"uid_trail_psychball"
+					}
+					"Rainbow"
+					{
+						"material"			"materials/sprites/store/trails/rainbow.vmt"
+						"preview"			"1"
+						"price"				"100"
+						"width"				"15.000000"
+						"color"				"255 255 255 255"
+						"type"				"trail"
+						"unique_id"			"uid_trail_rainbow"
+					}
+					"Smug Leaf"
+					{
+						"material"			"materials/sprites/store/trails/smugleaf.vmt"
+						"preview"			"1"
+						"price"				"100"
+						"width"				"15.000000"
+						"color"				"255 255 255 255"
+						"type"				"trail"
+						"unique_id"			"uid_trail_sug_leaf"
+					}
+					"Spongebob"
+					{
+						"material"			"materials/sprites/store/trails/spongebob.vmt"
+						"preview"			"1"
+						"price"				"100"
+						"width"				"15.000000"
+						"color"				"255 255 255 255"
+						"type"				"trail"
+						"unique_id"			"uid_trail_spongebob"
+					}
+					"Trollface"
+					{
+						"material"			"materials/sprites/store/trails/trollface.vmt"
+						"preview"			"1"
+						"price"				"100"
+						"width"				"15.000000"
+						"color"				"255 255 255 255"
+						"type"				"trail"
+						"unique_id"			"uid_trail_trollface"
+					}
+					"Windows"
+					{
+						"material"			"materials/sprites/store/trails/windows.vmt"
+						"preview"			"1"
+						"price"				"100"
+						"width"				"15.000000"
+						"color"				"255 255 255 255"
+						"type"				"trail"
+						"unique_id"			"uid_trail_windows"
+					}
+					"YingYang"
+					{
+						"material"			"materials/sprites/store/trails/yingyang2.vmt"
+						"preview"			"1"
+						"price"				"100"
+						"width"				"15.000000"
+						"color"				"255 255 255 255"
+						"type"				"trail"
+						"unique_id"			"uid_trail_yingyang"
+					}
+				}
+			}
+			"Lights"
+			{
+				"description"				"    Glow Light effect"
+				"1"
+				{
+					"color"					"150 150 255 255"
+					"brightness"			"1"
+					"preview"				"1"
+					"style"					"0"
+					"distance"				"0"
+					"radius"				"440"
+					"price"					"1"
+					"type"					"light"
+					"unique_id"				"uid_light_1"
+				}
+				"2"
+				{
+					"color"					"240 240 240 255"
+					"brightness"			"1"
+					"preview"				"1"
+					"style"					"0"
+					"distance"				"0"
+					"radius"				"440"
+					"price"					"1"
+					"type"					"light"
+					"unique_id"				"uid_light_2"
+				}
+				"3"
+				{
+					"color"					"0 125 0 255"
+					"brightness"			"1"
+					"preview"				"1"
+					"style"					"0"
+					"distance"				"0"
+					"radius"				"440"
+					"price"					"1"
+					"type"					"light"
+					"unique_id"				"uid_light_3"
+				}
+				"4"
+				{
+					"color"					"125 77 0 255"
+					"brightness"			"1"
+					"preview"				"1"
+					"style"					"0"
+					"distance"				"0"
+					"radius"				"440"
+					"price"					"1"
+					"type"					"light"
+					"unique_id"				"uid_light_4"
+				}
+			}
+		}
+		"Weapons"
+		{
+			"Weaponmodels"
+			{
+				"Overwatch Genji"
+				{
+					"description"			"    Knife"
+					"model"					"models/maoling/weapon/overwatch/knife/genji/katana_v.mdl"
+					"worldmodel"			"models/maoling/weapon/overwatch/knife/genji/katana_w.mdl"
+					"weapon"				"weapon_knife"
+					"unique_id"				"uid_genji_sword"
+					"price"					"10000"
+					"preview"				"1"
+					"buyable"				"0" // only win in lootbox
+					"ignore_vip"			"1" // even VIPs can't use it
+					"type"					"weaponmodel"
+					"slot"					"2"
+				}
+				"Elite Banana"
+				{
+					"description"			"    Dual Berettas"
+					"model"					"models/weapons/eminem/banana_elite/v_banana.mdl"
+					"worldmodel"			"models/weapons/eminem/banana_elite/w_banana.mdl"
+					"dropmodel"				"models/weapons/eminem/banana_elite/w_banana_dropped.mdl"
+					"weapon"				"weapon_elite"
+					"price"					"400"
+					"preview"				"1"
+					"type"					"weaponmodel"
+					"slot"					"3"
+					"unique_id"				"uid_weaponmodel_elite_banana"
+				}
+				"Crysis 3 Predator Bow"
+				{
+					"description"			"    AWP"
+					"model"					"models/weapons/eminem/crysis3_predator_bow/v_crysis3_predator_bow.mdl"
+					"worldmodel"			"models/weapons/eminem/crysis3_predator_bow/w_crysis3_predator_bow.mdl"
+					"dropmodel"				"models/weapons/eminem/crysis3_predator_bow/w_crysis3_predator_bow_dropped.mdl"
+					"weapon"				"weapon_awp"
+					"price"					"400"
+					"preview"				"1"
+					"type"					"weaponmodel"
+					"slot"					"0"
+					"unique_id"				"uid_weaponmodel_crysis_3_predator_bow"
+				}
+				"Neptune"
+				{
+					"description"			"    AWP"
+					"model"					"models/maoling/weapon\neptunia/awp\neptune/awp.mdl"
+					"worldmodel"			"models/maoling/weapon\neptunia/awp\neptune/awp_w.mdl"
+					"dropmodel"				"models/maoling/weapon\neptunia/awp\neptune/awp_w_dropped.mdl"
+					"weapon"				"weapon_awp"
+					"price"					"400"
+					"type"					"weaponmodel"
+					"preview"				"1"
+					"slot"					"0"
+					"unique_id"				"uid_weaponmodel_neptune_awp"
+				}
+				"Vocaloid"
+				{
+					"description"			"    Deagle"
+					"model"					"models/maoling/weapon/vocaloid/deagle/deagle.mdl"
+					"worldmodel"			"models/maoling/weapon/vocaloid/deagle/deagle_w.mdl"
+					"dropmodel"				"models/maoling/weapon/vocaloid/deagle/deagle_w_dropped.mdl"
+					"weapon"				"weapon_deagle"
+					"price"					"4000"
+					"type"					"weaponmodel"
+					"preview"				"1"
+					"slot"					"1"
+					"unique_id"				"uid_weaponmodel_vocaloid_deagle"
+				}
+			}
+			"Grenade model"
+			{
+				"HE - Grenade"
+				{
+					"Chicken HE"
+					{
+						"model"				"models/chicken/chicken.mdl"
+						"unique_id"			"nademodel_he_chicken"
+						"grenade"			"hegrenade"
+						"price"				"1"
+						"preview"			"1"
+						"type"				"grenademodel"
+					}
+					"Bananna Frag"
+					{
+						"model"				"models/props/cs_italy/bananna.mdl"
+						"unique_id"			"nademodel_he_banana"
+						"grenade"			"hegrenade"
+						"price"				"100"
+						"type"				"grenademodel"
+					}
+					"Watermelon Boom"
+					{
+						"model"				"models/props_junk/watermelon01.mdl"
+						"unique_id"			"nademodel_he_melone"
+						"grenade"			"hegrenade"
+						"price"				"100"
+						"type"				"grenademodel"
+					}
+				}
+				"Molotov"
+				{
+					"Chicken Fire"
+					{
+						"model"				"models/chicken/chicken.mdl"
+						"unique_id"			"nademodel_inc_chicken"
+						"grenade"			"incgrenade"
+						"preview"			"1"
+						"price"				"100"
+						"type"				"grenademodel"
+					}
+					"Bananna Fire"
+					{
+						"model"				"models/props/cs_italy/bananna.mdl"
+						"unique_id"			"nademodel_inc_banana"
+						"grenade"			"incgrenade"
+						"preview"			"1"
+						"price"				"100"
+						"type"				"grenademodel"
+					}
+					"Watermelon Fire"
+					{
+						"model"				"models/props_junk/watermelon01.mdl"
+						"unique_id"			"nademodel_inc_melone"
+						"grenade"			"incgrenade"
+						"preview"			"1"
+						"price"				"100"
+						"type"				"grenademodel"
+					}
+				}
+				"Flashbang"
+				{
+					"Chicken Flash"
+					{
+						"model"				"models/chicken/chicken.mdl"
+						"unique_id"			"nademodel_flash_chicken"
+						"grenade"			"flashbang"
+						"preview"			"1"
+						"price"				"100"
+						"type"				"grenademodel"
+					}
+					"Bananna Flash"
+					{
+						"model"				"models/props/cs_italy/bananna.mdl"
+						"unique_id"			"nademodel_flash_banana"
+						"grenade"			"flashbang"
+						"preview"			"1"
+						"price"				"100"
+						"type"				"grenademodel"
+					}
+					"Watermelon Flash"
+					{
+						"model"				"models/props_junk/watermelon01.mdl"
+						"unique_id"			"nademodel_flash_melone"
+						"grenade"			"flashbang"
+						"preview"			"1"
+						"price"				"100"
+						"type"				"grenademodel"
+					}
+				}
+				"Smoke"
+				{
+					"Chicken Smoke"
+					{
+						"model"				"models/chicken/chicken.mdl"
+						"unique_id"			"nademodel_smoke_chicken"
+						"grenade"			"smokegrenade"
+						"preview"			"1"
+						"price"				"100"
+						"type"				"grenademodel"
+					}
+					"Bananna Smoke"
+					{
+						"model"				"models/props/cs_italy/bananna.mdl"
+						"unique_id"			"nademodel_smoke_banana"
+						"grenade"			"smokegrenade"
+						"preview"			"1"
+						"price"				"100"
+						"type"				"grenademodel"
+					}
+					"Watermelon Smoke"
+					{
+						"model"				"models/props_junk/watermelon01.mdl"
+						"unique_id"			"nademodel_smoke_melone"
+						"grenade"			"smokegrenade"
+						"preview"			"1"
+						"price"				"100"
+						"type"				"grenademodel"
+					}
+				}
+			}
+			"Grenade Trails"
+			{
+				"Blue Glow"
+				{
+					"material"				"materials/sprites/blueglow1.vmt"
+					"width"					"2.000000"
+					"price"					"100"
+					"type"					"grenadetrail"
+					"color"					"0 0 255 255"
+					"unique_id"				"uid_grenadetrail_blue_glow"
+				}
+				"Heat Wave"
+				{
+					"material"				"materials/sprites/heatwave.vmt"
+					"width"					"6.000000"
+					"price"					"100"
+					"type"					"grenadetrail"
+					"color"					"255 0 255 255"
+					"unique_id"				"uid_grenadetrail_heat_wave"
+				}
+				"smoke"
+				{
+					"material"				"materials/sprites/smoke.vmt"
+					"width"					"10.000000"
+					"price"					"100"
+					"type"					"grenadetrail"
+					"color"					"255 0 255 255"
+					"unique_id"				"uid_grenadetrail_smoke"
+				}
+				"Large Beam"
+				{
+					"material"				"materials/sprites/spotlight01_proxyfade.vmt"
+					"width"					"10.000000"
+					"price"					"100"
+					"type"					"grenadetrail"
+					"color"					"255 0 255 255"
+					"unique_id"				"uid_grenadetrail_large_beam"
+				}
+				"Red Laserbeam"
+				{
+					"material"				"materials/sprites/laserbeam.vmt"
+					"width"					"10.000000"
+					"price"					"100"
+					"type"					"grenadetrail"
+					"color"					"255 0 0 255"
+					"unique_id"				"grenadetrail_laserbeam_red"
+				}
+				"Blue Laserbeam"
+				{
+					"material"				"materials/sprites/laserbeam.vmt"
+					"width"					"10.000000"
+					"price"					"100"
+					"type"					"grenadetrail"
+					"color"					"0 0 255 255"
+					"unique_id"				"grenadetrail_laserbeam_blue"
+				}
+			}
+			"Laser Sight"
+			{
+				"description"				"    Laserpointer in Scope"
+				"Blue"
+				{
+					"color"					"0 0 125"
+					"price"					"100"
+					"type"					"lasersight"
+					"unique_id"				"lasersight_blue"
+				}
+				"Gray"
+				{
+					"color"					"240 240 240"
+					"price"					"100"
+					"type"					"lasersight"
+					"unique_id"				"lasersight_grey"
+				}
+				"Green"
+				{
+					"color"					"0 125 0"
+					"price"					"100"
+					"type"					"lasersight"
+					"unique_id"				"lasersight_green"
+				}
+				"Orange"
+				{
+					"color"					"125 77 0"
+					"price"					"100"
+					"type"					"lasersight"
+					"unique_id"				"lasersight_orange"
+				}
+			}
+			"Bullet Tracers"
+			{
+				"Ray"
+				{
+					"color"					"125 125 125"
+					"material"				"materials/sprites/laserbeam.vmt"
+					"price"					"100"
+					"type"					"tracer"
+					"unique_id"				"uid_tracer_ray"
+				}
+				"Blue Lightning"
+				{
+					"color"					"0 0 225"
+					"material"				"materials/sprites/store/trails/bluelightning.vmt"
+					"price"					"100"
+					"type"					"tracer"
+					"unique_id"				"uid_tracer_blue_lightning"
+				}
+				"random"
+				{
+					"random"				"1"
+					"color"					"225 025 225"
+					"material"				"materials/sprites/laserbeam.vmt"
+					"price"					"100"
+					"type"					"tracer"
+					"unique_id"				"uid_tracer_random"
+				}
+			}
+			"Bullet impact"
+			{
+				"description"				"    Like Paintballs"
+				"Bulletsparks"
+				{
+					"price"					"1000"
+					"type"					"bulletsparks"
+					"unique_id"				"uid_bulletsparks_bulletsparks"
+				}
+				"Pink - Paintball"
+				{
+					"price"					"100"
+					"type"					"paintball"
+					"Decals"
+					{
+						"pink"
+						{
+							"material"		"paintball/pb_pink.vmt"
+						}
+					}
+					"unique_id"				"uid_paintball_pink_-_paintball"
+				}
+				"Cyan and Green - Paintball"
+				{
+					"price"					"100"
+					"type"					"paintball"
+					"Decals"
+					{
+						"cyan"
+						{
+							"material"		"paintball/pb_cyan.vmt"
+						}
+						"green"
+						{
+							"material"		"paintball/pb_green.vmt"
+						}
+					}
+					"unique_id"				"uid_paintball_cyan_and_green_-_paintball"
+				}
+				"Orange and Yellow - Paintball"
+				{
+					"price"					"100"
+					"type"					"paintball"
+					"Decals"
+					{
+						"yellow"
+						{
+							"material"		"paintball/pb_yellow.vmt"
+						}
+						"orange"
+						{
+							"material"		"paintball/pb_orange.vmt"
+						}
+					}
+					"unique_id"				"uid_paintball_orange_and_yellow_-_paintball"
+				}
+				"Random - Paintball"
+				{
+					"price"					"500"
+					"type"					"paintball"
+					"Decals"
+					{
+						"cyan"
+						{
+							"material"		"paintball/pb_cyan.vmt"
+						}
+						"green"
+						{
+							"material"		"paintball/pb_green.vmt"
+						}
+						"pink"
+						{
+							"material"		"paintball/pb_pink.vmt"
+						}
+						"orange"
+						{
+							"material"		"paintball/pb_orange.vmt"
+						}
+						"yellow"
+						{
+							"material"		"paintball/pb_yellow.vmt"
+						}
+					}
+					"unique_id"				"uid_paintball_random_-_paintball"
+				}
+			}
+		}
+		"Pets"
+		{
+			"description"					"    Cute pets following you"
+			"shortcut"						"pets"
+			"Chicken"
+			{
+				"model"						"models/chicken/chicken.mdl"
+				"position"					"50.0 0.0 0.0"
+				"angles"					"0.0 0.0 0.0"
+				"idle"						"idle01"
+				"run"						"run01"
+				"price"						"100"
+				"type"						"pet"
+				"preview"					"1"
+				"unique_id"					"uid_pet_chicken"
+			}
+			"Chicken Zombie"
+			{
+				"model"						"models/chicken/chicken_zombie.mdl"
+				"position"					"50.0 0.0 0.0"
+				"angles"					"0.0 0.0 0.0"
+				"idle"						"idle01"
+				"run"						"run01"
+				"price"						"100"
+				"type"						"pet"
+				"preview"					"1"
+				"unique_id"					"uid_pet_chicken_zombie"
+			}
+			"Crow"
+			{
+				"model"						"models/crow.mdl"
+				"position"					"50.0 0.0 0.0"
+				"angles"					"0.0 0.0 0.0"
+				"idle"						"Idle01"
+				"run"						"Run"
+				"unique_id"					"crow_running"
+				"price"						"100"
+				"preview"					"1"
+				"type"						"pet"
+			}
+			"Crow Flying"
+			{
+				"model"						"models/crow.mdl"
+				"position"					"50.0 0.0 70.0"
+				"angles"					"0.0 0.0 0.0"
+				"idle"						"Fly01"
+				"run"						"Fly01"
+				"unique_id"					"crow_flying"
+				"price"						"100"
+				"preview"					"1"
+				"type"						"pet"
+			}
+			"Pigeon"
+			{
+				"model"						"models/pigeon.mdl"
+				"position"					"50.0 0.0 0.0"
+				"angles"					"0.0 0.0 0.0"
+				"idle"						"Idle01"
+				"run"						"Run"
+				"unique_id"					"pigeon_running"
+				"price"						"100"
+				"preview"					"1"
+				"type"						"pet"
+			}
+			"Pigeon Flying"
+			{
+				"model"						"models/pigeon.mdl"
+				"position"					"50.0 0.0 70.0"
+				"angles"					"0.0 0.0 0.0"
+				"idle"						"Fly01"
+				"run"						"Fly01"
+				"unique_id"					"pigeon_flying"
+				"price"						"100"
+				"preview"					"1"
+				"type"						"pet"
+			}
+			"Seagull"
+			{
+				"model"						"models/seagull.mdl"
+				"position"					"50.0 0.0 0.0"
+				"angles"					"0.0 0.0 0.0"
+				"idle"						"Idle01"
+				"run"						"Run"
+				"unique_id"					"seagull_running"
+				"price"						"100"
+				"preview"					"1"
+				"type"						"pet"
+			}
+			"Seagull Flying"
+			{
+				"model"						"models/seagull.mdl"
+				"position"					"50.0 0.0 70.0"
+				"angles"					"0.0 0.0 0.0"
+				"idle"						"Fly"
+				"run"						"Fly"
+				"unique_id"					"seagull_flying"
+				"price"						"100"
+				"preview"					"1"
+				"type"						"pet"
+			}
+		}
+		"Chat"
+		{
+			"description"					"    Alter your Tag, name- & messagecolor"
+			"Name Tags"
+			{
+				"[Love] *red"
+				{
+					"tag"					"{darkred}[Love]"
+					"price"					"100"
+					"type"					"nametag"
+					"unique_id"				"uid_nametag_love"
+				}
+				"[swag] *red"
+				{
+					"tag"					"{darkred}[swag]"
+					"price"					"100"
+					"type"					"nametag"
+					"unique_id"				"uid_nametag_swag"
+				}
+				"[420] *green"
+				{
+					"tag"					"{green}[420]"
+					"price"					"100"
+					"type"					"nametag"
+					"unique_id"				"uid_nametag_420"
+				}
+				"[n00b] *green"
+				{
+					"tag"					"{green}[n00b]"
+					"price"					"100"
+					"type"					"nametag"
+					"unique_id"				"uid_nametag_n00b"
+				}
+				"[NotABot] *blue"
+				{
+					"tag"					"{darkblue}[NotABot]"
+					"price"					"100"
+					"type"					"nametag"
+					"unique_id"				"uid_nametag_bot"
+				}
+			}
+			"Name Colors"
+			{
+				"Red"
+				{
+					"color"					"{darkred}"
+					"price"					"100"
+					"type"					"namecolor"
+					"unique_id"				"uid_namecolor_red"
+				}
+				"Green"
+				{
+					"color"					"{green}"
+					"price"					"100"
+					"type"					"namecolor"
+					"unique_id"				"uid_namecolor_green"
+				}
+				"Blue"
+				{
+					"color"					"{darkblue}"
+					"price"					"100"
+					"type"					"namecolor"
+					"unique_id"				"uid_namecolor_blue"
+				}
+			}
+			"Msg Colors"
+			{
+				"Red"
+				{
+					"color"					"{darkred}"
+					"price"					"100"
+					"type"					"msgcolor"
+					"unique_id"				"uid_msgcolor_red"
+				}
+				"Green"
+				{
+					"color"					"{green}"
+					"price"					"100"
+					"type"					"msgcolor"
+					"unique_id"				"uid_msgcolor_green"
+				}
+				"Blue"
+				{
+					"color"					"{darkblue}"
+					"price"					"100"
+					"type"					"msgcolor"
+					"unique_id"				"uid_msgcolor_blue"
+				}
+			}
+		}
+		"Connect/Disconnect Message"
+		{
+			"Connect Message"
+			{
+				"connect_text"				"The player {name} connected from {country}."
+				"connect_sound"				"cheer/cheer_2.mp3"
+				"type"						"connect"
+				"price"						"100"
+				"unique_id"					"uid_connect_connect_message"
+			}
+			"Disconnect Message"
+			{
+				"disconnect_text"			"The player {name} leaved the server."
+				"disconnect_sound"			"cheer/cheer_2.mp3"
+				"type"						"connect"
+				"price"						"100"
+				"unique_id"					"uid_disconnect_connect_message"
+			}
+			"Connect/Disconnect Message"
+			{
+				"description"				"    Play a sound/ send message on join/disconnect"
+				"connect_text"				"The player {name} connected from {country}."
+				"connect_sound"				"cheer/cheer_2.mp3"
+				"disconnect_text"			"The player {name} leaved the server."
+				"disconnect_sound"			"cheer/cheer_2.mp3"
+				"type"						"connect"
+				"price"						"200"
+				"unique_id"					"uid_2connect_connect_message"
+			}
+		}
+		"MVP Anthem"
+		{
+			"sound"							"cheer/cheer_2.mp3"
+			"volume"						"0.500000"
+			"type"							"mvp_sound"
+			"price"							"1000"
+			"preview"						"1"
+			"unique_id"						"uid_mvp_sound_mvp_anthem"
+		}
+	}
+	"Game Perks"
+	{
+		"description"						"    Improvements to your gaming experience"
+		"Flashlight"
+		{
+			"description"					"    toggle with +lookweapon"
+			"type"							"flashlight"
+			"price"							"100"
+			"unique_id"						"uid_flashlight_flashlight"
+		}
+		"Perspectives"
+		{
+			"description"					"    Thirdperson & mirror view"
+			"Thirdperson"
+			{
+				"shortcut"					"tp"
+				"type"						"thirdperson"
+				"price"						"100"
+				"unique_id"					"uid_thirdperson"
+			}
+			"Mirror View"
+			{
+				"shortcut"					"mirror"
+				"type"						"mirror"
+				"price"						"100"
+				"unique_id"					"uid_mirrorview"
+			}
+			"Firstperson Death"
+			{
+				"type"						"death_effect"
+				"price"						"1000"
+				"unique_id"					"uid_death_effect"
+			}
+		}
+		"Throw Knifes"
+		{
+			"description"					"    4 knifes per round"
+			"price"							"10000"
+			"limit"							"4"
+			"type"							"throwknife"
+			"unique_id"						"uid_throwknife_throw_knifes"
+		}
+		"Parachutes"
+		{
+			"description"					"    Glide, don't fall"
+			"Rainbow"
+			{
+				"model"						"models/parachute/parachute_rainbow.mdl"
+				"unique_id"					"uid_parachute_rainbow"
+				"price"						"1"
+				"fallspeed"					"80.000000"
+				"preview"					"1"
+				"type"						"parachute"
+			}
+			"Ice"
+			{
+				"model"						"models/parachute/parachute_ice_v2.mdl"
+				"unique_id"					"uid_parachute_ice"
+				"fallspeed"					"100.000000"
+				"preview"					"1"
+				"price"						"1"
+				"type"						"parachute"
+			}
+			"Gargoyle"
+			{
+				"model"						"models/parachute/gargoyle.mdl"
+				"unique_id"					"uid_parachute_gargoyle"
+				"price"						"1"
+				"fallspeed"					"50.000000"
+				"preview"					"1"
+				"type"						"parachute"
+				"flag"						"a"
+			}
+			"Carbon"
+			{
+				"model"						"models/parachute/parachute_carbon.mdl"
+				"unique_id"					"uid_parachute_carbon"
+				"fallspeed"					"100.000000"
+				"preview"					"1"
+				"price"						"1"
+				"type"						"parachute"
+			}
+			"Ark"
+			{
+				"model"						"models/parachute/parachute_ark.mdl"
+				"unique_id"					"uid_parachute_ark"
+				"fallspeed"					"100.000000"
+				"preview"					"1"
+				"price"						"1"
+				"type"						"parachute"
+			}
+			"Blue"
+			{
+				"model"						"models/parachute/parachute_blue.mdl"
+				"unique_id"					"uid_parachute_blue"
+				"price"						"1"
+				"fallspeed"					"100.000000"
+				"preview"					"1"
+				"type"						"parachute"
+			}
+			"Goosang"
+			{
+				"model"						"models/parachute/parachute_goosang.mdl"
+				"unique_id"					"uid_parachute_goosang"
+				"fallspeed"					"100.000000"
+				"price"						"1"
+				"preview"					"1"
+				"type"						"parachute"
+			}
+		}
+		"No fall damage"
+		{
+			"type"							"nofalldamage"
+			"price"							"100"
+			"unique_id"						"uid_nofalldamage"
+		}
+		"No self damage"
+		{
+			"type"							"noselfdamage"
+			"price"							"100"
+			"unique_id"						"uid_nofalldamage"
+		}
+		"Infinity ammo"
+		{
+			"type"							"infinityammo"
+			"price"							"100"
+			"unique_id"						"uid_infinityammo_infinity_ammo"
+		}
+		"No reload"
+		{
+			"type"							"noreload"
+			"price"							"100"
+			"unique_id"						"uid_noreload_no_reload"
+		}
+		"Hit sound"
+		{
+			"description"					"    TF2 'Bling' sound"
+			"type"							"hitsound"
+			"price"							"100"
+			"unique_id"						"uid_hitsound_hit_sound"
+		}
+		"Damage text"
+		{
+			"description"					"    Fortnite like bursting numbers"
+			"type"							"dmgtext"
+			"price"							"10000"
+			"unique_id"						"uid_dmgtext_dmg_text"
+		}
+		"Radar"
+		{
+			"description"					"    Find nearest enemy"
+			"Nearest Name"
+			{
+				"type"						"nearest"
+				"price"						"100"
+				"unique_id"					"uid_nearest_name"
+			}
+			"Direction Nearest"
+			{
+				"type"						"direction"
+				"price"						"100"
+				"unique_id"					"uid_direction_direction"
+			}
+			"Distance Nearest"
+			{
+				"type"						"distance"
+				"price"						"100"
+				"unique_id"					"uid_distance_distance"
+			}
+		}
+		"Buy Weapons"
+		{
+			"Scout"
+			{
+				"weapon"					"weapon_ssg08"
+				"shortcut"					"scout"
+				"type"						"weapon"
+				"limit"						"1"
+				"price"						"1000"
+				"preview"					"1"
+				"unique_id"					"uid_weapon_scout"
+			}
+			"Glock"
+			{
+				"weapon"					"weapon_glock"
+				"type"						"weapon"
+				"limit"						"4"
+				"cooldown"					"20"
+				"price"						"1"
+				"preview"					"1"
+				"unique_id"					"uid_weapon_glock"
+			}
+			"MP7"
+			{
+				"weapon"					"weapon_mp7"
+				"type"						"weapon"
+				"limit"						"2"
+				"cooldown"					"60"
+				"price"						"100"
+				"preview"					"1"
+				"unique_id"					"uid_weapon_mp7"
+			}
+			"MP5SD"
+			{
+				"weapon"					"weapon_mp5sd"
+				"type"						"weapon"
+				"limit"						"2"
+				"cooldown"					"60"
+				"price"						"100"
+				"preview"					"1"
+				"unique_id"					"uid_weapon_mp5sd"
+			}
+			"M4 & Deagle"
+			{
+				"weapon"					"weapon_m4a1"
+				"type"						"weapon"
+				"limit"						"1"
+				"price"						"100"
+				"preview"					"1"
+				"attributes"
+				{
+					"items"					"weapon_deagle"
+				}
+				"unique_id"					"uid_weapon_m4_&_deagle"
+			}
+		}
+		"Instant plant/defuse bomb"
+		{
+			"type"							"instabomb"
+			"price"							"100"
+			"unique_id"						"uid_instabomb_insta_plant/defuse_bomb"
+		}
+		"Movement"
+		{
+			"description"					"    Faster, higher, wider"
+			"Gravityboost - 20sec"
+			{
+				"gravity"					"400"
+				"duration"					"20.000000"
+				"limit"						"2"
+				"type"						"gravity"
+				"price"						"100"
+				"unique_id"					"uid_gravity_gravityboost_-_20sec"
+			}
+			"Speedboost - 15sec"
+			{
+				"speed"						"1.400000"
+				"duration"					"15"
+				"limit"						"3"
+				"type"						"speed"
+				"price"						"100"
+				"unique_id"					"uid_speed_speedboost_-_15sec"
+			}
+			"Bunnyhob"
+			{
+				"type"						"bunnyhob"
+				"price"						"100"
+				"unique_id"					"uid_bunnyhob_bunnyhob"
+			}
+			"Froggyjump"
+			{
+				"type"						"froggyjump"
+				"price"						"100"
+				"unique_id"					"uid_froggyjump_froggyjump"
+			}
+			"Jetpack"
+			{
+				"boost"						"600"
+				"angle"						"50"
+				"max_time"					"10"
+				"delay"						"30.000000"
+				"effect"					"1"
+				"buyable"					"0" // only win in lootbox
+				"ignore_vip"				"1" // even VIPs can't use it
+				"unique_id"					"uid_jetpack"
+				"type"						"jetpack"
+				"price"						"10000"
+			}
+		}
+		"Life extensions"
+		{
+			"description"					"    Respawn, godmode, heal"
+			"Respawn"
+			{
+				"shortcut"					"respawn"
+				"price"						"100"
+				"limit"						"1"
+				"type"						"respawn"
+				"unique_id"					"uid_respawn_respawn"
+			}
+			"Godmode - 10sec"
+			{
+				"duration"					"10"
+				"team"						"1"
+				"limit"						"1"
+				"price"						"1"
+				"type"						"godmode"
+				"unique_id"					"uid_godmode_godmode_10sec"
+			}
+			"Health up +20"
+			{
+				"health"					"20"
+				"max_health"				"0"
+				"limit"						"3"
+				"price"						"1"
+				"type"						"health"
+				"unique_id"					"uid_health_health_up_+20"
+			}
+			"Health up to 100"
+			{
+				"shortcut"					"healup"
+				"health"					"2000"
+				"max_health"				"100"
+				"limit"						"1"
+				"price"						"1"
+				"type"						"health"
+				"unique_id"					"uid_health_health_up_to_100"
+			}
+		}
+		"Spawn perks"
+		{
+			"description"					"    Perks every roundstart"
+			"Gravity"
+			{
+				"gravity"					"600"
+				"type"						"spawn"
+				"price"						"1000"
+				"unique_id"					"uid_spawn_gravity"
+			}
+			"Speed up"
+			{
+				"gravity"					"1.200000"
+				"type"						"spawn"
+				"price"						"1000"
+				"unique_id"					"uid_spawn_speed"
+			}
+			"Armor & Health +10"
+			{
+				"armor"						"10"
+				"health"					"10"
+				"type"						"spawn"
+				"price"						"10000"
+				"unique_id"					"uid_spawn_armor_&_health"
+			}
+			"War Pack"
+			{
+				"description"				"    Negev, armor/health +25, 2.5k money, full nades"
+				"armor"						"25"
+				"health"					"25"
+				"Money"						"2500"
+				"items"						"weapon_hegrenade,weapon_smokegrenade,weapon_decoy,weapon_decoy,weapon_negev"
+				"command"					"say Beware {name} has a War Pack!"
+				"type"						"spawn"
+				"price"						"50000"
+				"unique_id"					"uid_spawn_war_pack"
+			}
+			"Extra Credits 200"
+			{
+				"command"					"sm_givecredits {name} 200; sm_psay 'You get 200 extra credits through spawn perk'"
+				"type"						"spawn"
+				"price"						"10000"
+				"unique_id"					"uid_spawn_extra_credits_200"
+			}
+		}
+	}
+	"Fun & Entertainmaint"
+	{
+		"description"						"    gambling, emotes, sound & fun stuff"
+		"MyCasino"
+		{
+			"description"					"    Gamble your Credits"
+			"shortcut"						"casino"
+			"Daily Bonus"
+			{
+				"description"				"    Get your daily bonus!"
+				"type"						"link"
+				"command"					"sm_daily"
+				"unique_id"					"uid_daily"
+			}
+			"JackPot"
+			{
+				"type"						"link"
+				"command"					"sm_jackpot"
+				"unique_id"					"uid_jackpot_jackpot"
+			}
+			"TeamBet"
+			{
+				"type"						"link"
+				"command"					"sm_teambet"
+				"unique_id"					"uid_teambet_teambet"
+			}
+			"Roulette"
+			{
+				"type"						"link"
+				"command"					"sm_roulette"
+				"unique_id"					"uid_roulette_roulette"
+			}
+			"Crowns"
+			{
+				"type"						"link"
+				"command"					"sm_crowns"
+				"unique_id"					"uid_crowns_crowns"
+			}
+			"Dice"
+			{
+				"type"						"link"
+				"command"					"sm_dice"
+				"unique_id"					"uid_dice_dice"
+			}
+			"Coinflip"
+			{
+				"type"						"link"
+				"command"					"sm_coinflip"
+				"unique_id"					"uid_coinflip_coinflip"
+			}
+		}
+		"Lootboxes"
+		{
+			"description"					"    Yes, Lootboxes!"
+			"shortcut"						"loot"
+			"Basic Lootbox"
+			{
+				"type"						"lootbox"
+				"price"						"100"
+				"unique_id"					"uid_Lootbox1"
+				"model"						"models/props/crates/csgo_drop_crate_bravo.mdl"
+				"sound"						"ui/item_drop4_mythical.wav"
+				"file"						"particles/2j.pcf"
+				"name"						"vixr_final"
+				"grey"						"56.000000"
+				"blue"						"24.000000"
+				"green"						"12.000000"
+				"gold"						"6.000000"
+				"pink"						"2.000000"
+				"Items"
+				{
+					"grey"					"uid_sound_cheer5"
+					"grey"					"uid_sound_cheer1"
+					"grey"					"uid_sound_cheer15"
+					"grey"					"emote1"
+					"grey"					"emote2"
+					"grey"					"emote3"
+					"grey"					"emote4"
+					"grey"					"lasersight_blue"
+					"grey"					"lasersight_grey"
+					"grey"					"lasersight_green"
+					"grey"					"lasersight_orange"
+					"grey"					"uid_attachment_uncle_sam_hat"
+					"blue"					"nademodel_smoke_melone"
+					"blue"					"nademodel_flash_banana"
+					"blue"					"nademodel_he_chicken"
+					"green"					"uid_parachute_rainbow"
+					"green"					"uid_nofalldamage"
+					"gold"					"uid_parachute_blue"
+					"gold"					"uid_jetpack"
+					"pink"					"uid_genji_sword"
+				}
+			}
+			"Extend Lootbox"
+			{
+				"type"						"lootbox"
+				"price"						"100"
+				"unique_id"					"uid_Lootbox1"
+				"model"						"models/props/crates/csgo_drop_crate_bravo.mdl"
+				"sound"						"ui/item_drop5_legendary.wav"
+				"file"						"particles/2j.pcf"
+				"name"						"vixr_final"
+				"grey"						"56.000000"
+				"blue"						"24.000000"
+				"green"						"12.000000"
+				"gold"						"6.000000"
+				"pink"						"2.000000"
+				"Items"
+				{
+					"grey"					"uid_sound_cheer5"
+					"grey"					"uid_sound_cheer1"
+					"grey"					"uid_sound_cheer15"
+					"grey"					"emote1"
+					"grey"					"emote2"
+					"grey"					"emote3"
+					"grey"					"emote4"
+					"grey"					"lasersight_blue"
+					"grey"					"lasersight_grey"
+					"grey"					"lasersight_green"
+					"grey"					"lasersight_orange"
+					"grey"					"uid_attachment_uncle_sam_hat"
+					"blue"					"nademodel_smoke_melone"
+					"blue"					"nademodel_flash_banana"
+					"blue"					"nademodel_he_chicken"
+					"green"					"uid_parachute_rainbow"
+					"green"					"uid_nofalldamage"
+					"gold"					"uid_parachute_blue"
+					"gold"					"uid_jetpack"
+					"pink"					"uid_genji_sword"
+				}
+			}
+			"Info"
+			{
+				"description"				"    Win chances & crate content"
+				"Info for Basic Lootbox"
+				{
+					"text"					"3 sounds \n4 emotes \n4lasersight \n1 hat \n3 nade models..."
+					"type"					"info"
+					"unique_id"				"uid_info_basic_ex"
+				}
+				"Info for Extend Lootbox"
+				{
+					"text"					"3 sounds \n4 emotes \n4lasersight \n1 hat \n3 nade models..."
+					"type"					"info"
+					"unique_id"				"uid_info_basic_ex"
+				}
+			}
+		}
+		"Emotes"
+		{
+			"description"					"    Display emojis (with sound) over your head"
+			"shortcut"						"emotes"
+			"4 House"
+			{
+				"material"					"materials/emotes/4house.vmt"
+				"sound"						"cheer/cheer_1.mp3"
+				"perm"						"1"
+				"cooldown"					"3"
+				"volume"					"0.300000"
+				"scale"						"0.200000"
+				"price"						"1000"
+				"type"						"emote"
+				"unique_id"					"uid_emote_4_house"
+			}
+			"Hey Guys"
+			{
+				"material"					"materials/emotes/heyguys.vmt"
+				"sound"						"cheer/cheer_2.mp3"
+				"perm"						"1"
+				"cooldown"					"3"
+				"volume"					"0.300000"
+				"scale"						"0.200000"
+				"price"						"1000"
+				"type"						"emote"
+				"unique_id"					"uid_emote_hey_guys"
+			}
+			"Pepe Hand"
+			{
+				"material"					"materials/emotes/pepehands.vmt"
+				"sound"						"cheer/cheer_3.mp3"
+				"perm"						"1"
+				"cooldown"					"3"
+				"volume"					"0.300000"
+				"scale"						"0.200000"
+				"price"						"1000"
+				"type"						"emote"
+				"unique_id"					"uid_emote_pepe_hand"
+			}
+			"TriHard"
+			{
+				"material"					"materials/emotes/trihard.vmt"
+				"sound"						"cheer/cheer_4.mp3"
+				"preview"					"1"
+				"perm"						"1"
+				"cooldown"					"3"
+				"volume"					"0.300000"
+				"scale"						"0.200000"
+				"price"						"1000"
+				"type"						"emote"
+				"unique_id"					"uid_emote_trihard"
+			}
+			"Kappa Pride"
+			{
+				"material"					"materials/emotes/kappapride.vmt"
+				"sound"						"cheer/cheer_5.mp3"
+				"preview"					"1"
+				"perm"						"1"
+				"cooldown"					"3"
+				"volume"					"0.300000"
+				"scale"						"0.200000"
+				"price"						"1000"
+				"type"						"emote"
+				"unique_id"					"uid_emote_kappa_pride"
+			}
+			"Feels Bad man"
+			{
+				"material"					"materials/emotes/feelsbadman.vmt"
+				"sound"						"cheer/cheer_6.mp3"
+				"perm"						"1"
+				"preview"					"1"
+				"cooldown"					"3"
+				"volume"					"0.400000"
+				"scale"						"0.200000"
+				"unique_id"					"emote11"
+				"price"						"1000"
+				"type"						"emote"
+			}
+			"Anele"
+			{
+				"material"					"materials/emotes/anele.vmt"
+				"sound"						"cheer/cheer_7.mp3"
+				"perm"						"1"
+				"preview"					"1"
+				"cooldown"					"3"
+				"volume"					"0.400000"
+				"scale"						"0.200000"
+				"unique_id"					"emote10"
+				"price"						"1000"
+				"type"						"emote"
+			}
+			"Hyper Bruh"
+			{
+				"material"					"materials/emotes/hyperbruh.vmt"
+				"sound"						"cheer/cheer_8.mp3"
+				"perm"						"1"
+				"preview"					"1"
+				"cooldown"					"3"
+				"volume"					"0.400000"
+				"scale"						"0.200000"
+				"unique_id"					"emote8"
+				"price"						"1000"
+				"type"						"emote"
+			}
+			"Jebaited"
+			{
+				"material"					"materials/emotes/jebaited.vmt"
+				"sound"						"cheer/cheer_9.mp3"
+				"perm"						"1"
+				"preview"					"1"
+				"cooldown"					"3"
+				"volume"					"0.400000"
+				"scale"						"0.200000"
+				"unique_id"					"emote7"
+				"price"						"1000"
+				"type"						"emote"
+			}
+			"Lul"
+			{
+				"material"					"materials/emotes/lul.vmt"
+				"sound"						"cheer/cheer_10.mp3"
+				"perm"						"1"
+				"preview"					"1"
+				"cooldown"					"3"
+				"volume"					"0.400000"
+				"scale"						"0.200000"
+				"unique_id"					"emote1"
+				"price"						"1000"
+				"type"						"emote"
+			}
+			"Lul"
+			{
+				"material"					"materials/emotes/lulw.vmt"
+				"sound"						"cheer/cheer_11.mp3"
+				"perm"						"1"
+				"preview"					"1"
+				"cooldown"					"3"
+				"volume"					"0.400000"
+				"scale"						"0.200000"
+				"unique_id"					"emote3"
+				"price"						"1000"
+				"type"						"emote"
+			}
+			"Minglee"
+			{
+				"material"					"materials/emotes/minglee.vmt"
+				"sound"						"cheer/cheer_12.mp3"
+				"perm"						"1"
+				"preview"					"1"
+				"cooldown"					"3"
+				"volume"					"0.400000"
+				"scale"						"0.200000"
+				"unique_id"					"emote2"
+				"price"						"1000"
+				"type"						"emote"
+			}
+			"Omega Lul"
+			{
+				"material"					"materials/emotes/omegalul.vmt"
+				"sound"						"cheer/cheer_13.mp3"
+				"perm"						"1"
+				"preview"					"1"
+				"cooldown"					"3"
+				"volume"					"0.400000"
+				"scale"						"0.200000"
+				"unique_id"					"emote4"
+				"price"						"1000"
+				"type"						"emote"
+			}
+			"Pag Chomp"
+			{
+				"material"					"materials/emotes/pagchomp.vmt"
+				"sound"						"cheer/cheer_14.mp3"
+				"perm"						"1"
+				"preview"					"1"
+				"cooldown"					"3"
+				"volume"					"0.400000"
+				"scale"						"0.200000"
+				"unique_id"					"emote5"
+				"price"						"1000"
+				"type"						"emote"
+			}
+			"Wut Face"
+			{
+				"material"					"materials/emotes/wutface.vmt"
+				"sound"						"cheer/cheer_15.mp3"
+				"perm"						"1"
+				"preview"					"1"
+				"cooldown"					"3"
+				"volume"					"0.400000"
+				"scale"						"0.200000"
+				"unique_id"					"emote6"
+				"price"						"1000"
+				"type"						"emote"
+			}
+		}
+		"Sprays"
+		{
+			"description"					"    Graffity is not a crime"
+			"shortcut"						"spray"
+			"Awesome"
+			{
+				"material"					"materials/decals/goosang/sprays/spray_awe.vmt"
+				"type"						"spray"
+				"cooldown"					"5"
+				"unique_id"					"uid_spray_awesome"
+			}
+			"Banksy"
+			{
+				"material"					"materials/decals/goosang/sprays/spray_banks.vmt"
+				"type"						"spray"
+				"cooldown"					"15"
+				"unique_id"					"uid_spray_banksy"
+			}
+			"Button"
+			{
+				"material"					"materials/decals/goosang/sprays/spray_button.vmt"
+				"type"						"spray"
+				"cooldown"					"15"
+				"unique_id"					"uid_spray_button"
+			}
+			"Dick Butt"
+			{
+				"material"					"materials/decals/goosang/sprays/spray_dickbutt.vmt"
+				"type"						"spray"
+				"cooldown"					"15"
+				"unique_id"					"uid_spray_dick_butt"
+			}
+			"Day of the Tentakel"
+			{
+				"material"					"materials/decals/goosang/sprays/spray_dott.vmt"
+				"type"						"spray"
+				"cooldown"					"15"
+				"unique_id"					"uid_spray_day_of_the_tentakel"
+			}
+			"Praise Gabe!"
+			{
+				"material"					"materials/decals/goosang/sprays/spray_gabe.vmt"
+				"type"						"spray"
+				"cooldown"					"15"
+				"unique_id"					"uid_spray_praise_gabe!"
+			}
+			"Retard"
+			{
+				"material"					"materials/decals/goosang/sprays/spray_garrison.vmt"
+				"type"						"spray"
+				"cooldown"					"15"
+				"unique_id"					"uid_spray_retard"
+			}
+			"Klavkalasch"
+			{
+				"material"					"materials/decals/goosang/sprays/spray_klav.vmt"
+				"type"						"spray"
+				"cooldown"					"15"
+				"unique_id"					"uid_spray_klavkalasch"
+			}
+			"Mario"
+			{
+				"material"					"materials/decals/goosang/sprays/spray_mario.vmt"
+				"type"						"spray"
+				"cooldown"					"15"
+				"unique_id"					"uid_spray_mario"
+			}
+			"Minecraft"
+			{
+				"material"					"materials/decals/goosang/sprays/spray_minecraft.vmt"
+				"type"						"spray"
+				"cooldown"					"15"
+				"unique_id"					"uid_spray_minecraft"
+			}
+			"PC Masterrace"
+			{
+				"material"					"materials/decals/goosang/sprays/spray_pc.vmt"
+				"type"						"spray"
+				"cooldown"					"15"
+				"unique_id"					"uid_spray_pc_masterrace"
+			}
+			"Spion & Spion"
+			{
+				"material"					"materials/decals/goosang/sprays/spray_spion.vmt"
+				"type"						"spray"
+				"cooldown"					"15"
+				"unique_id"					"uid_spray_spion_&_spion"
+			}
+			"Spongebob"
+			{
+				"material"					"materials/decals/goosang/sprays/spray_Sponge.vmt"
+				"type"						"spray"
+				"cooldown"					"15"
+				"unique_id"					"uid_spray_spongebob"
+			}
+			"Stranger"
+			{
+				"material"					"materials/decals/goosang/sprays/spray_stranger.vmt"
+				"type"						"spray"
+				"cooldown"					"15"
+				"unique_id"					"uid_spray_stranger"
+			}
+			"Fuck the Police"
+			{
+				"material"					"materials/decals/goosang/sprays/spray_acab.vmt"
+				"type"						"spray"
+				"cooldown"					"15"
+				"unique_id"					"uid_spray_fuck_the_police"
+			}
+			"Troll"
+			{
+				"material"					"materials/decals/goosang/sprays/spray_troll.vmt"
+				"type"						"spray"
+				"cooldown"					"15"
+				"unique_id"					"uid_spray_troll"
+			}
+			"WoW"
+			{
+				"material"					"materials/decals/goosang/sprays/spray_wow.vmt"
+				"type"						"spray"
+				"cooldown"					"15"
+				"unique_id"					"uid_spray_wow"
+			}
+			"Gans"
+			{
+				"material"					"materials/decals/goosang/sprays/spray_gans.vmt"
+				"type"						"spray"
+				"cooldown"					"15"
+				"unique_id"					"uid_spray_gans"
+			}
+			"Decoy CT"
+			{
+				"material"					"materials/decals/goosang/sprays/spray_decoy.vmt"
+				"type"						"spray"
+				"cooldown"					"150"
+				"unique_id"					"uid_spray_decoy_ct"
+			}
+			"Decoy CT 2"
+			{
+				"material"					"materials/decals/goosang/sprays/spray_decoyct.vmt"
+				"type"						"spray"
+				"cooldown"					"150"
+				"unique_id"					"uid_spray_decoy_ct_2"
+			}
+			"Decoy T"
+			{
+				"material"					"materials/decals/goosang/sprays/spray_decoyt.vmt"
+				"type"						"spray"
+				"cooldown"					"150"
+				"unique_id"					"uid_spray_decoy_t"
+			}
+			"Decoy T 2"
+			{
+				"material"					"materials/decals/goosang/sprays/spray_decoyt2.vmt"
+				"type"						"spray"
+				"cooldown"					"150"
+				"unique_id"					"uid_spray_decoy_t_2"
+			}
+		}
+		"Sounds"
+		{
+			"description"					"    Say it loud"
+			"shortcut"						"sounds"
+			"Cheers - perm"
+			{
+				"description"				"    Pay one time use forever"
+				"Cheer #1"
+				{
+					"sound"					"cheer/cheer_1.mp3"
+					"trigger"				"lol"
+					"unique_id"				"uid_sound_cheer1"
+					"perm"					"1"
+					"cooldown"				"30"
+					"volume"				"0.400000"
+					"origin"				"1"
+					"price"					"10"
+					"type"					"sound"
+				}
+				"Cheer #2"
+				{
+					"sound"					"cheer/cheer_2.mp3"
+					"trigger"				"haha"
+					"unique_id"				"uid_sound_cheer2"
+					"perm"					"1"
+					"price"					"10"
+					"volume"				"0.500000"
+					"origin"				"1"
+					"cooldown"				"30"
+					"type"					"sound"
+				}
+				"Cheer #3"
+				{
+					"sound"					"cheer/cheer_3.mp3"
+					"trigger"				"cheer3"
+					"unique_id"				"uid_sound_cheer3"
+					"perm"					"1"
+					"price"					"10"
+					"volume"				"0.700000"
+					"origin"				"1"
+					"cooldown"				"30"
+					"type"					"sound"
+				}
+				"Cheer #4"
+				{
+					"sound"					"cheer/cheer_4.mp3"
+					"trigger"				"cheer4"
+					"unique_id"				"uid_sound_cheer4"
+					"perm"					"1"
+					"price"					"10"
+					"volume"				"0.900000"
+					"origin"				"1"
+					"cooldown"				"30"
+					"type"					"sound"
+				}
+				"Cheer #5"
+				{
+					"sound"					"cheer/cheer_5.mp3"
+					"trigger"				"cheer5"
+					"unique_id"				"uid_sound_cheer5"
+					"perm"					"1"
+					"cooldown"				"30"
+					"volume"				"0.400000"
+					"origin"				"1"
+					"price"					"10"
+					"type"					"sound"
+				}
+				"Cheer #6"
+				{
+					"sound"					"cheer/cheer_6.mp3"
+					"trigger"				"cheer6"
+					"unique_id"				"uid_sound_cheer6"
+					"perm"					"1"
+					"price"					"10"
+					"volume"				"0.500000"
+					"origin"				"1"
+					"cooldown"				"30"
+					"type"					"sound"
+				}
+				"Cheer #7"
+				{
+					"sound"					"cheer/cheer_7.mp3"
+					"trigger"				"cheer7"
+					"unique_id"				"uid_sound_cheer7"
+					"perm"					"1"
+					"price"					"10"
+					"volume"				"0.700000"
+					"origin"				"1"
+					"cooldown"				"30"
+					"type"					"sound"
+				}
+				"Cheer #8"
+				{
+					"sound"					"cheer/cheer_8.mp3"
+					"trigger"				"cheer8"
+					"unique_id"				"uid_sound_cheer8"
+					"perm"					"1"
+					"price"					"10"
+					"volume"				"0.900000"
+					"origin"				"1"
+					"cooldown"				"30"
+					"type"					"sound"
+				}
+				"Cheer #9"
+				{
+					"sound"					"cheer/cheer_9.mp3"
+					"trigger"				"cheer9"
+					"unique_id"				"uid_sound_cheer9"
+					"perm"					"1"
+					"cooldown"				"30"
+					"volume"				"0.400000"
+					"origin"				"1"
+					"cooldown"				"30"
+					"type"					"sound"
+				}
+				"Cheer #10"
+				{
+					"sound"					"cheer/cheer_10.mp3"
+					"trigger"				"cheer10"
+					"unique_id"				"uid_sound_cheer10"
+					"perm"					"1"
+					"price"					"10"
+					"volume"				"0.500000"
+					"origin"				"1"
+					"cooldown"				"30"
+					"type"					"sound"
+				}
+				"Cheer #11"
+				{
+					"sound"					"cheer/cheer_11.mp3"
+					"trigger"				"cheer11"
+					"unique_id"				"uid_sound_cheer11"
+					"perm"					"1"
+					"price"					"10"
+					"volume"				"0.700000"
+					"origin"				"1"
+					"cooldown"				"30"
+					"type"					"sound"
+				}
+				"Cheer #12"
+				{
+					"sound"					"cheer/cheer_12.mp3"
+					"trigger"				"cheer12"
+					"unique_id"				"uid_sound_cheer12"
+					"perm"					"1"
+					"price"					"10"
+					"volume"				"0.900000"
+					"origin"				"1"
+					"cooldown"				"30"
+					"type"					"sound"
+				}
+				"Cheer #13"
+				{
+					"sound"					"cheer/cheer_13.mp3"
+					"trigger"				"cheer13"
+					"unique_id"				"uid_sound_cheer13"
+					"perm"					"1"
+					"cooldown"				"30"
+					"volume"				"0.400000"
+					"origin"				"1"
+					"price"					"10"
+					"type"					"sound"
+				}
+				"Cheer #14"
+				{
+					"sound"					"cheer/cheer_14.mp3"
+					"trigger"				"cheer14"
+					"unique_id"				"uid_sound_cheer14"
+					"perm"					"1"
+					"price"					"10"
+					"volume"				"0.500000"
+					"origin"				"1"
+					"cooldown"				"30"
+					"type"					"sound"
+				}
+				"Cheer #15"
+				{
+					"sound"					"cheer/cheer_15.mp3"
+					"trigger"				"cheer15"
+					"unique_id"				"uid_sound_cheer15"
+					"perm"					"1"
+					"price"					"10"
+					"volume"				"0.700000"
+					"origin"				"1"
+					"cooldown"				"30"
+					"type"					"sound"
+				}
+			}
+			"Effects - one time"
+			{
+				"description"				"    Pay per use"
+				"Fake Explosion"
+				{
+					"sound"					"jihad/boom.mp3"
+					"trigger"				"boom"
+					"perm"					"0"
+					"cooldown"				"360"
+					"volume"				"1"
+					"origin"				"2"
+					"price"					"10"
+					"type"					"sound"
+					"unique_id"				"uid_sound_explosion"
+				}
+				"Fake Jihad"
+				{
+					"sound"					"jihad/suicidebomber.mp3"
+					"trigger"				"jihad"
+					"perm"					"0"
+					"price"					"10"
+					"volume"				"0.500000"
+					"origin"				"3"
+					"cooldown"				"360"
+					"type"					"sound"
+					"unique_id"				"uid_sound_jihad"
+				}
+			}
+		}
+		"Painter / Lazzzers"
+		{
+			"Painter red"
+			{
+				"color"						"255 0 0"
+				"price"						"1000"
+				"type"						"painter"
+				"unique_id"					"uid_painter_painter_red"
+			}
+			"Painter green"
+			{
+				"color"						"0 255 0"
+				"price"						"1000"
+				"type"						"painter"
+				"unique_id"					"uid_painter_painter_green"
+			}
+			"Painter blue"
+			{
+				"color"						"0 0 255"
+				"price"						"1000"
+				"type"						"painter"
+				"unique_id"					"uid_painter_painter_blue"
+			}
+			"Painter random"
+			{
+				"color"						"0 0 0"
+				"price"						"10000"
+				"random"						"1"
+				"type"						"painter"
+				"unique_id"					"uid_painter_random"
+			}
+		}
+		"Poor Jihad bomb"
+		{
+			"description"					"    Fail rate 60% - small radius"
+			"radius"						"250"
+			"delay"							"1.500000"
+			"failrate"						"0.600000"
+			"presound"						"jihad/suicidebomber.mp3"
+			"postsound"						"jihad/boom.mp3"
+			"type"							"jihad"
+			"price"							"100"
+			"unique_id"						"uid_jihad_poor_jihad_bomb"
+		}
+		"Better Jihad bomb"
+		{
+			"description"					"    Fail rate 30% - mid radius"
+			"radius"						"400"
+			"delay"							"0.700000"
+			"failrate"						"0.300000"
+			"presound"						"jihad/suicidebomber.mp3"
+			"postsound"						"jihad/boom.mp3"
+			"type"							"jihad"
+			"price"							"1000"
+			"unique_id"						"uid_jihad_better_jihad_bomb"
+		}
+		"Expert Jihad bomb"
+		{
+			"description"					"    Fail rate 0% - big radius"
+			"radius"						"650"
+			"delay"							"0.500000"
+			"presound"						"jihad/suicidebomber.mp3"
+			"postsound"						"jihad/boom.mp3"
+			"type"							"jihad"
+			"price"							"10000"
+			"unique_id"						"uid_jihad_expert_jihad_bomb"
+		}
+	}
+	"Privilegs - admin only"
+	{
+		"Commands"
+		{
+			"flags"							"z"
+			"Beacon me"
+			{
+				"command"					"sm_beacon {name}"
+				"time"						"20"
+				"cooldown"					"100"
+				"limit"						"4"
+				"type"						"command"
+				"price"						"10"
+				"unique_id"					"uid_command_beacon"
+			}
+			"Gag myself"
+			{
+				"command"					"sm_gag {name}"
+				"command_off"				"sm_ungag {name}"
+				"time"						"300"
+				"cooldown"					"360"
+				"limit"						"1"
+				"type"						"command"
+				"unique_id"					"uid_command_gag"
+			}
+		}
+		"Admin/VIP"
+		{
+			"Get flag 'a'"
+			{
+				"flags"						"a"
+				"immunity"					"0"
+				"type"						"admin"
+				"Plans"
+				{
+					"1 day"
+					{
+						"price"				"10"
+						"time"				"86400"
+					}
+					"1 week"
+					{
+						"price"				"100"
+						"time"				"604800"
+					}
+					"1 month"
+					{
+						"price"				"1000"
+						"time"				"2678400‬"
+					}
+				}
+				"unique_id"					"uid_admin_flag_a"
+			}
+			"Get flag 'g'"
+			{
+				"flags"						"g"
+				"immunity"					"10"
+				"type"						"admin"
+				"Plans"
+				{
+					"1 day"
+					{
+						"price"				"100"
+						"time"				"86400"
+					}
+					"1 week"
+					{
+						"price"				"1000"
+						"time"				"604800"
+					}
+					"1 month"
+					{
+						"price"				"10000"
+						"time"				"2678400‬"
+					}
+				}
+				"unique_id"					"uid_admin_flag_g"
+			}
+			"Group VIP"
+			{
+				"group"						"VIP"
+				"type"						"admin"
+				"attributes"
+				{
+					"armor"					"10"
+					"health"				"110"
+					"speed"					"1.100000"
+					"items"					"weapon_taser"
+				}
+				"Plans"
+				{
+					"1 day"
+					{
+						"price"				"1"
+						"time"				"86400"
+					}
+					"1 week"
+					{
+						"price"				"100"
+						"time"				"604800"
+					}
+					"1 month"
+					{
+						"price"				"1000"
+						"time"				"2678400‬"
+					}
+				}
+				"unique_id"					"uid_admin_group_vip"
+			}
+		}
+	}
+}

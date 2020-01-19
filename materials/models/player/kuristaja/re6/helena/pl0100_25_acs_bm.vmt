@@ -1,0 +1,14 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models\player\kuristaja\re6\helena\pl0100_25_acs_bm"
+	"$bumpmap" "models\player\kuristaja\re6\helena\pl0100_25_acs_normal"
+
+	$alphatest 1
+
+	"$phong" "1"
+	"$phongexponent" "45"
+	"$phongboost" "1"
+	"$phongfresnelranges"	"[5 6 8]"
+	$phongtint "[.3 1 .3]"
+
+}
