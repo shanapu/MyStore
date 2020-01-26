@@ -79,42 +79,42 @@ public void MyStore_OnItemEquipt(int client, int itemid)
 	if (!client || !IsClientInGame(client) || !IsPlayerAlive(client))
 		return;
 
-	any item[Item_Data];
+	Item_Data item;
 	char sValue[32];
 
-	MyStore_GetItem(itemid, item);
+	MyStore_GetItemEnum(itemid, item);
 
-	if (item[hAttributes] == null || g_bUsed[client])
+	if (item.hAttributes == null || g_bUsed[client])
 		return;
 
 	g_bUsed[client] = true;
 
-	if (item[hAttributes].GetString("health", sValue, sizeof(sValue)))
+	if (item.hAttributes.GetString("health", sValue, sizeof(sValue)))
 	{
 		SetEntityHealth(client, GetClientHealth(client) + StringToInt(sValue));
 	}
 
-	if (item[hAttributes].GetString("gravity", sValue, sizeof(sValue)))
+	if (item.hAttributes.GetString("gravity", sValue, sizeof(sValue)))
 	{
 		SetEntityGravity(client, StringToFloat(sValue));
 	}
 
-	if (item[hAttributes].GetString("money", sValue, sizeof(sValue)))
+	if (item.hAttributes.GetString("money", sValue, sizeof(sValue)))
 	{
 		SetEntProp(client, Prop_Send, "m_iAccount", GetEntProp(client, Prop_Send, "m_iAccount") + StringToInt(sValue));
 	}
 
-	if (item[hAttributes].GetString("armor", sValue, sizeof(sValue)))
+	if (item.hAttributes.GetString("armor", sValue, sizeof(sValue)))
 	{
 		SetEntProp(client, Prop_Send, "m_ArmorValue", GetEntProp(client, Prop_Send, "m_ArmorValue") + StringToInt(sValue));
 	}
 
-	if (item[hAttributes].GetString("speed", sValue, sizeof(sValue)))
+	if (item.hAttributes.GetString("speed", sValue, sizeof(sValue)))
 	{
 		SetEntPropFloat(client, Prop_Data, "m_flLaggedMovementValue", StringToFloat(sValue));
 	}
 
-	if (item[hAttributes].GetString("items", sValue, sizeof(sValue)))
+	if (item.hAttributes.GetString("items", sValue, sizeof(sValue)))
 	{
 		if (sValue[0])
 		{
@@ -129,7 +129,7 @@ public void MyStore_OnItemEquipt(int client, int itemid)
 		}
 	}
 
-	if (item[hAttributes].GetString("command", sValue, sizeof(sValue)))
+	if (item.hAttributes.GetString("command", sValue, sizeof(sValue)))
 	{
 		if (!sValue[0])
 			return;
@@ -174,44 +174,44 @@ public void Event_PlayerSpawn(Event event, const char[] name, bool dontBroadcast
 
 	int idx = -1;
 	int item_idx = -1;
-	any item[Item_Data];
+	Item_Data item;
 	char sValue[32];
 
 	while ((item_idx = MyStore_IterateEquippedItems(client, idx, true)) != -1)
 	{
-		MyStore_GetItem(item_idx, item);
+		MyStore_GetItemEnum(item_idx, item);
 
-		if (item[hAttributes] == null || g_bUsed[client])
+		if (item.hAttributes == null || g_bUsed[client])
 			return;
 
 		g_bUsed[client] = true;
 
-		if (item[hAttributes].GetString("health", sValue, sizeof(sValue)))
+		if (item.hAttributes.GetString("health", sValue, sizeof(sValue)))
 		{
 			SetEntityHealth(client, GetClientHealth(client) + StringToInt(sValue));
 		}
 
-		if (item[hAttributes].GetString("money", sValue, sizeof(sValue)))
+		if (item.hAttributes.GetString("money", sValue, sizeof(sValue)))
 		{
 			SetEntProp(client, Prop_Send, "m_iAccount", GetEntProp(client, Prop_Send, "m_iAccount") + StringToInt(sValue));
 		}
 
-		if (item[hAttributes].GetString("gravity", sValue, sizeof(sValue)))
+		if (item.hAttributes.GetString("gravity", sValue, sizeof(sValue)))
 		{
 			SetEntityGravity(client, StringToFloat(sValue));
 		}
 
-		if (item[hAttributes].GetString("armor", sValue, sizeof(sValue)))
+		if (item.hAttributes.GetString("armor", sValue, sizeof(sValue)))
 		{
 			SetEntProp(client, Prop_Send, "m_ArmorValue", GetEntProp(client, Prop_Send, "m_ArmorValue") + StringToInt(sValue));
 		}
 
-		if (item[hAttributes].GetString("speed", sValue, sizeof(sValue)))
+		if (item.hAttributes.GetString("speed", sValue, sizeof(sValue)))
 		{
 			SetEntPropFloat(client, Prop_Data, "m_flLaggedMovementValue", StringToFloat(sValue));
 		}
 
-		if (item[hAttributes].GetString("items", sValue, sizeof(sValue)))
+		if (item.hAttributes.GetString("items", sValue, sizeof(sValue)))
 		{
 			if (sValue[0])
 			{
@@ -226,7 +226,7 @@ public void Event_PlayerSpawn(Event event, const char[] name, bool dontBroadcast
 			}
 		}
 
-		if (item[hAttributes].GetString("command", sValue, sizeof(sValue)))
+		if (item.hAttributes.GetString("command", sValue, sizeof(sValue)))
 		{
 			if (!sValue[0])
 				return;

@@ -199,13 +199,13 @@ public void Store_OnMenu(Menu &menu, int client, int itemid)
 	if (MyStore_IsClientVIP(client))
 		return;
 
-	any item[Item_Data];
-	MyStore_GetItem(itemid, item);
+	Item_Data item;
+	MyStore_GetItemEnum(itemid, item);
 
-	if ((item[iTrade] & TRADE_DROP) != TRADE_DROP)
+	if ((item.iTrade & TRADE_DROP) != TRADE_DROP)
 		return;
 
-	if (item[iFlagBits] != 0)  ///todo test
+	if (item.iFlagBits != 0)  ///todo test
 		return;
 
 	int clientItem[CLIENT_ITEM_SIZE];
@@ -214,11 +214,11 @@ public void Store_OnMenu(Menu &menu, int client, int itemid)
 	if (clientItem[PRICE_PURCHASE] <= 0)
 		return;
 
-	any handler[Type_Handler];
-	MyStore_GetHandler(item[iHandler], handler);
+	Type_Handler handler;
+	MyStore_GetHandlerEnum(item.iHandler, handler);
 
 	char sBuffer[128];
-	if (StrEqual(handler[szType], "package"))
+	if (StrEqual(handler.szType, "package"))
 	{
 		Format(sBuffer, sizeof(sBuffer), "%t", "Package Drop");
 		menu.AddItem("drop_package", sBuffer, ITEMDRAW_DEFAULT);
@@ -234,18 +234,18 @@ public bool Store_OnHandler(int client, char[] selection, int itemid)
 {
 	if (strcmp(selection, "drop_package") == 0 || strcmp(selection, "drop_item") == 0)
 	{
-		any item[Item_Data];
-		MyStore_GetItem(itemid, item);
+		Item_Data item;
+		MyStore_GetItemEnum(itemid, item);
 
 		g_iSelectedItem[client] = itemid;
 
-		any handler[Type_Handler];
-		MyStore_GetHandler(item[iHandler], handler);
+		Type_Handler handler;
+		MyStore_GetHandlerEnum(item.iHandler, handler);
 
 		if (MyStore_ShouldConfirm())
 		{
 			char sTitle[128];
-			Format(sTitle, sizeof(sTitle), "%t", "Confirm_Drop", item[szName], handler[szType]);
+			Format(sTitle, sizeof(sTitle), "%t", "Confirm_Drop", item.szName, handler.szType);
 			MyStore_DisplayConfirmMenu(client, sTitle, Store_OnConfirmHandler, 1);
 		}
 		else
@@ -327,6 +327,7 @@ void DropItem(int client, int itemid)
 	pack.WriteCell(clientItem[DATE_PURCHASE]); // date purchase
 	pack.WriteCell(clientItem[DATE_EXPIRATION]); // date expiration
 	pack.WriteCell(clientItem[PRICE_PURCHASE]); // price
+	PrintToChatAll("%i price", clientItem[PRICE_PURCHASE]);
 	g_pDrops.SetValue(sBuffer, pack);
 
 	MyStore_RemoveItem(client, itemid);
@@ -440,6 +441,7 @@ public Action Timer_KillDrop(Handle timer, int entRef)
 	int purchase = pack.ReadCell(); // date purchase
 	int expiration = pack.ReadCell(); // date expiration
 	int price = pack.ReadCell(); // price
+	PrintToChatAll("timerkilldrop %i price", price);
 	delete pack;
 
 	if (IsValidEdict(entity_model))
@@ -485,6 +487,7 @@ public void Event_RoundEnd(Event event, char[] name, bool dontBroadcast)
 			int purchase = pack.ReadCell(); // date purchase
 			int expiration = pack.ReadCell(); // date expiration
 			int price = pack.ReadCell(); // price
+			PrintToChatAll("roundend %i price", price);
 			delete pack;
 
 			if (IsValidEdict(entity_model))
@@ -539,13 +542,14 @@ public void Hook_StartTouch(int entity, int client)
 	int purchase = pack.ReadCell(); // date purchase
 	int expiration = pack.ReadCell(); // date expiration
 	int price = pack.ReadCell(); // price
+	PrintToChatAll("touch %i price", price);
 
-	any item[Item_Data];
-	MyStore_GetItem(itemid, item);
+	Item_Data item;
+	MyStore_GetItemEnum(itemid, item);
 
 	if (MyStore_HasClientItem(client, itemid) && gc_iRemoveType.IntValue != 2)
 	{
-		CPrintToChat(client, "%s%t", g_sChatPrefix, "Cannot pickup", item[szName]);
+		CPrintToChat(client, "%s%t", g_sChatPrefix, "Cannot pickup", item.szName);
 		return;
 	}
 	else if (MyStore_HasClientItem(client, itemid) && gc_iRemoveType.IntValue == 2)
@@ -575,9 +579,9 @@ public void Hook_StartTouch(int entity, int client)
 		AcceptEntityInput(entity, "Kill");
 	}
 
-	CPrintToChat(dropper, "%s%t", g_sChatPrefix, "Your drop picked up", item[szName], client);
-	CPrintToChat(client, "%s%t", g_sChatPrefix, "You picked up", item[szName], dropper);
-	MyStore_LogMessage(client, LOG_EVENT, "Picked up item '%s' dropped by %L worth: %i credits", item[szName], dropper, price);
+	CPrintToChat(dropper, "%s%t", g_sChatPrefix, "Your drop picked up", item.szName, client);
+	CPrintToChat(client, "%s%t", g_sChatPrefix, "You picked up", item.szName, dropper);
+	MyStore_LogMessage(client, LOG_EVENT, "Picked up item '%s' dropped by %L worth: %i credits", item.szName, dropper, price);
 
 	if (!g_sEfxName[0])
 		return;

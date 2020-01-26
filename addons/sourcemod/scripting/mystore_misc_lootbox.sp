@@ -396,34 +396,34 @@ public Action Timer_Open(Handle timer, int client)
 		return Plugin_Stop;
 	}
 
-	any item[Item_Data];
-	MyStore_GetItem(itemid, item);
-	any handler[Type_Handler];
-	MyStore_GetHandler(item[iHandler], handler);
+	Item_Data item;
+	MyStore_GetItemEnum(itemid, item);
+	Type_Handler handler;
+	MyStore_GetHandlerEnum(item.iHandler, handler);
 
 	if (MyStore_HasClientItem(client, itemid))
 	{
-		MyStore_SetClientCredits(client, MyStore_GetClientCredits(client) + item[iPrice], "Cashed a box item");
-		CPrintToChat(client, "%s%t", g_sChatPrefix, "Already own item from box. Get Credits back", item[szName], handler[szType], item[iPrice], g_sCreditsName);
+		MyStore_SetClientCredits(client, MyStore_GetClientCredits(client) + item.iPrice, "Cashed a box item");
+		CPrintToChat(client, "%s%t", g_sChatPrefix, "Already own item from box. Get Credits back", item.szName, handler.szType, item.iPrice, g_sCreditsName);
 	}
 	else
 	{
-		MyStore_GiveItem(client, itemid, _, _, item[iPrice]);
+		MyStore_GiveItem(client, itemid, _, _, item.iPrice);
 
 		char sBuffer[128];
-		Format(sBuffer, sizeof(sBuffer), "%t", "You won lootbox item", item[szName], handler[szType]);
+		Format(sBuffer, sizeof(sBuffer), "%t", "You won lootbox item", item.szName, handler.szType);
 
 		CPrintToChat(client, "%s%s", g_sChatPrefix, sBuffer);
 		CRemoveTags(sBuffer, sizeof(sBuffer));
 		PrintHintText(client, sBuffer);
 	}
 
-	if (item[bPreview] && IsPlayerAlive(client))
+	if (item.bPreview && IsPlayerAlive(client))
 	{
 		Call_StartForward(gf_hPreviewItem);
 		Call_PushCell(client);
-		Call_PushString(handler[szType]);
-		Call_PushCell(item[iDataIndex]);
+		Call_PushString(handler.szType);
+		Call_PushCell(item.iDataIndex);
 		Call_Finish();
 	}
 

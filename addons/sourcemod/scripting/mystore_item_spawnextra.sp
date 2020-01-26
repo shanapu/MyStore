@@ -109,10 +109,11 @@ public bool Spawn_Config(KeyValues &kv, int itemid)
 public int Spawn_Equip(int client, int itemid)
 {
 	g_bEquipt[client] = true;
-	any item[Item_Data];
-	MyStore_GetItem(itemid, item);
 
-	CPrintToChat(client, "%s%t", g_sChatPrefix, "Recieve Spawn", item[szName]);
+	Item_Data item;
+	MyStore_GetItemEnum(itemid, item)
+
+	CPrintToChat(client, "%s%t", g_sChatPrefix, "Recieve Spawn", item.szName);
 
 //	GivePlayerExtras(client);
 
