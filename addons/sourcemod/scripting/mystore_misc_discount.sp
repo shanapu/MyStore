@@ -240,19 +240,19 @@ public Action MyStore_OnGetEndPrice(int client, int itemid, int &price)
 		if (!IsInTime(g_sTime[i]))
 			continue;
 
-		any item[Item_Data];
+		Item_Data item;
 		MyStore_GetItem(itemid, item);
 
-		any handler[Type_Handler];
-		MyStore_GetHandler(item[iHandler], handler);
+		Type_Handler handler;
+		MyStore_GetHandler(item.iHandler, handler);
 
-		if (g_bNoPlan[i] && item[iPlans] != 0)
+		if (g_bNoPlan[i] && item.iPlans != 0)
 			continue;
 
 		bool exluded = false;
 		for (int j = 0; j < g_iExcludes[i]; j++)
 		{
-			if (StrEqual(g_sExcludeType[i][j], handler[szType]) || StrEqual(g_sExcludeItem[i][j], item[szUniqueId]))
+			if (StrEqual(g_sExcludeType[i][j], handler.szType) || StrEqual(g_sExcludeItem[i][j], item.szUniqueId))
 			{
 				exluded = true;
 			}
@@ -260,7 +260,7 @@ public Action MyStore_OnGetEndPrice(int client, int itemid, int &price)
 		if (exluded)
 			continue;
 
-		if (StrEqual(g_sType[i], "all") || StrEqual(g_sItem[i], "all") || StrEqual(g_sItem[i], item[szUniqueId]) || StrEqual(g_sType[i], handler[szType]))
+		if (StrEqual(g_sType[i], "all") || StrEqual(g_sItem[i], "all") || StrEqual(g_sItem[i], item.szUniqueId) || StrEqual(g_sType[i], handler.szType))
 		{
 			if (StrContains(g_sDiscount[i], "%") != -1)
 			{

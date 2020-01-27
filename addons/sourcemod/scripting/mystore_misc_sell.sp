@@ -114,18 +114,18 @@ public void Store_OnMenu(Menu &menu, int client, int itemid)
 	if (clientItem[PRICE_PURCHASE] <= 0)
 		return;
 
-	any item[Item_Data];
+	Item_Data item;
 	MyStore_GetItem(itemid, item);
 
-	if ((item[iTrade] & TRADE_SELL) != TRADE_SELL)
+	if ((item.iTrade & TRADE_SELL) != TRADE_SELL)
 		return;
 
-	any handler[Type_Handler];
-	MyStore_GetHandler(item[iHandler], handler);
+	Type_Handler handler;
+	MyStore_GetHandler(item.iHandler, handler);
 
 
 	char sBuffer[128];
-	if (StrEqual(handler[szType], "package"))
+	if (StrEqual(handler.szType, "package"))
 	{
 		Format(sBuffer, sizeof(sBuffer), "%t", "Package Sell", RoundToFloor(clientItem[PRICE_PURCHASE] * gc_fSellRatio.FloatValue), g_sCreditsName);
 		menu.AddItem("sell_package", sBuffer, ITEMDRAW_DEFAULT);
@@ -141,13 +141,13 @@ public bool Store_OnHandler(int client, char[] selection, int itemid)
 {
 	if (strcmp(selection, "sell_package") == 0 || strcmp(selection, "sell_item") == 0)
 	{
-		any item[Item_Data];
+		Item_Data item;
 		MyStore_GetItem(itemid, item);
 
 		g_iSelectedItem[client] = itemid;
 
-		any handler[Type_Handler];
-		MyStore_GetHandler(item[iHandler], handler);
+		Type_Handler handler;
+		MyStore_GetHandler(item.iHandler, handler);
 
 		int clientItem[CLIENT_ITEM_SIZE];
 		MyStore_GetClientItem(client, itemid, clientItem);
@@ -155,7 +155,7 @@ public bool Store_OnHandler(int client, char[] selection, int itemid)
 		if (MyStore_ShouldConfirm())
 		{
 			char sTitle[128];
-			Format(sTitle, sizeof(sTitle), "%t", "Confirm_Sell", item[szName], handler[szType], RoundToFloor(clientItem[PRICE_PURCHASE] * gc_fSellRatio.FloatValue));
+			Format(sTitle, sizeof(sTitle), "%t", "Confirm_Sell", item.szName, handler.szType, RoundToFloor(clientItem[PRICE_PURCHASE] * gc_fSellRatio.FloatValue));
 			MyStore_DisplayConfirmMenu(client, sTitle, Store_OnConfirmHandler, 1);
 		}
 		else
@@ -184,11 +184,11 @@ void SellItem(int client, int itemid)
 		return;
 	}
 
-	any item[Item_Data];
+	Item_Data item;
 	MyStore_GetItem(itemid, item);
 
-	any handler[Type_Handler];
-	MyStore_GetHandler(item[iHandler], handler);
+	Type_Handler handler;
+	MyStore_GetHandler(item.iHandler, handler);
 
 	MyStore_SellClientItem(client, itemid, gc_fSellRatio.FloatValue);
 }

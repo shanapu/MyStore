@@ -98,10 +98,10 @@ public void Store_OnMenu(Menu &menu, int client, int itemid)
 	if (MyStore_IsClientVIP(client))
 		return;
 
-	any item[Item_Data];
+	Item_Data item;
 	MyStore_GetItem(itemid, item);
 
-	if ((item[iTrade] & TRADE_GIFT) != TRADE_GIFT)
+	if ((item.iTrade & TRADE_GIFT) != TRADE_GIFT)
 		return;
 
 	int clientItem[CLIENT_ITEM_SIZE];
@@ -110,11 +110,11 @@ public void Store_OnMenu(Menu &menu, int client, int itemid)
 	if (clientItem[PRICE_PURCHASE] <= 0)
 		return;
 
-	any handler[Type_Handler];
-	MyStore_GetHandler(item[iHandler], handler);
+	Type_Handler handler;
+	MyStore_GetHandler(item.iHandler, handler);
 
 	char sBuffer[128];
-	if (StrEqual(handler[szType], "package"))
+	if (StrEqual(handler.szType, "package"))
 	{
 		Format(sBuffer, sizeof(sBuffer), "%t", "Package Gift");
 		menu.AddItem("gift_package", sBuffer, ITEMDRAW_DEFAULT);
@@ -131,7 +131,7 @@ public bool Store_OnHandler(int client, char[] selection, int itemid)
 {
 	if (strcmp(selection, "gift_package") == 0|| strcmp(selection, "gift_package") == 0)
 	{
-		any item[Item_Data];
+		Item_Data item;
 		MyStore_GetItem(itemid, item);
 
 		g_iSelectedItem[client] = itemid;
@@ -150,7 +150,7 @@ public bool Store_OnHandler(int client, char[] selection, int itemid)
 				continue;
 
 			int iFlags = GetUserFlagBits(i);
-			if (!CheckFlagBits(i, item[iFlagBits], iFlags))
+			if (!CheckFlagBits(i, item.iFlagBits, iFlags))
 				continue;
 
 			if (i != client && IsClientInGame(i) && !MyStore_HasClientItem(i, itemid))
@@ -217,11 +217,11 @@ public int MenuHandler_Gift(Menu menu, MenuAction action, int client, int param2
 			if (MyStore_ShouldConfirm())
 			{
 				char sTitle[128];
-				any item[Item_Data];
+				Item_Data item;
 				MyStore_GetItem(g_iSelectedItem[client], item);
-				any handler[Type_Handler];
-				MyStore_GetHandler(item[iHandler], handler);
-				Format(sTitle, sizeof(sTitle), "%t", "Confirm_Gift", item[szName], handler[szType], iReceiver);
+				Type_Handler handler;
+				MyStore_GetHandler(item.iHandler, handler);
+				Format(sTitle, sizeof(sTitle), "%t", "Confirm_Gift", item.szName, handler.szType, iReceiver);
 				MyStore_DisplayConfirmMenu(client, sTitle, MenuHandler_Gift, iIndex);
 				return;
 			}
@@ -250,18 +250,18 @@ void GiftItem(int client, int receiver, int itemid)
 		return;
 	}
 
-	any item[Item_Data];
+	Item_Data item;
 	MyStore_GetItem(itemid, item);
 
-	any handler[Type_Handler];
-	MyStore_GetHandler(item[iHandler], handler);
+	Type_Handler handler;
+	MyStore_GetHandler(item.iHandler, handler);
 
 	MyStore_TransferClientItem(client, receiver, itemid);
 
-	CPrintToChat(client, "%s%t", g_sChatPrefix, "Chat Gift Item Sent", receiver, item[szName], handler[szType]);
-	CPrintToChat(receiver, "%s%t", g_sChatPrefix, "Chat Gift Item Received", client, item[szName], handler[szType]);
+	CPrintToChat(client, "%s%t", g_sChatPrefix, "Chat Gift Item Sent", receiver, item.szName, handler.szType);
+	CPrintToChat(receiver, "%s%t", g_sChatPrefix, "Chat Gift Item Received", client, item.szName, handler.szType);
 
-	MyStore_LogMessage(client, LOG_EVENT, "Gifted a %s to %N", item[szName], receiver);
+	MyStore_LogMessage(client, LOG_EVENT, "Gifted a %s to %N", item.szName, receiver);
 }
 
 

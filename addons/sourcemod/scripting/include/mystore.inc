@@ -125,49 +125,46 @@ public void __pl_mystore_SetNTVOptional()
 #define CLIENT_ITEM_SIZE 6
 
 
-enum Item_Data
+enum struct Item_Data
 {
-	String:szName[ITEM_NAME_LENGTH],
-	String:szUniqueId[PLATFORM_MAX_PATH],
-	String:szShortcut[64],
-	String:szDescription[64],
-	String:szSteam[256],
+	char szName[ITEM_NAME_LENGTH];
+	char szUniqueId[PLATFORM_MAX_PATH];
+	char szShortcut[64];
+	char szDescription[64];
+	char szSteam[256];
 
-	iId,
-	iPrice,
-	iParent,
-	iHandler,
-	iFlagBits,
-	iDataIndex,
-	iPlans,
-	iTrade,
-	iSecret,
+	int iId;
+	int iPrice;
+	int iParent;
+	int iHandler;
+	int iFlagBits;
+	int iDataIndex;
+	int iPlans;
+	int iTrade;
+	int iSecret;
 
-	bool:bPreview,
-	bool:bBuyable,
-	bool:bIgnoreVIP,
+	bool bPreview;
+	bool bBuyable;
+	bool bIgnoreVIP;
 
-	StringMap:hAttributes
+	StringMap hAttributes;
 }
 
-enum Type_Handler
+enum struct Type_Handler
 {
-	String:szType[64],
-	
-	bool:bEquipable,
-	bool:bRaw,
-	
-	Handle:hPlugin,
-	
-	Function:fnMapStart,
-	Function:fnReset,
-	Function:fnConfig,
-	Function:fnUse,
-	Function:fnRemove
+	char szType[64];
+
+	bool bEquipable;
+	bool bRaw;
+
+	Handle hPlugin;
+
+	Function fnMapStart;
+	Function fnReset;
+	Function fnConfig;
+	Function fnUse;
+	Function fnRemove;
 }
-
-
-
 
 /**
  * Called when DisplayConfirmMenu return as comfirmed.
@@ -504,7 +501,7 @@ native bool MyStore_IsItemInBoughtPackage(int client, int itemid, int uid = -1);
  * 
  * @return				True for success, otherwise false.
  */
-native bool MyStore_GetItem(int itemid, int output[Item_Data]);
+native bool MyStore_GetItem(int itemid, any output[sizeof(Item_Data)]);
 
 /**
  * Get item data.
@@ -523,7 +520,7 @@ native int MyStore_GetItemIdbyUniqueId(char[] unique_id);
  * 
  * @return				True for success, otherwise false.
  */
-native bool MyStore_GetHandler(int index, int output[Type_Handler]);
+native bool MyStore_GetHandler(int index, any output[sizeof(Type_Handler)]);
 
 /**
  * Give a client a item.

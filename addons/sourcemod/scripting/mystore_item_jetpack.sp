@@ -57,17 +57,17 @@ int g_iCount = 0;
 int g_iJumps[MAXPLAYERS + 1];
 int g_iParaEntRef[MAXPLAYERS + 1] = {INVALID_ENT_REFERENCE, ...};
 
-enum Jetpack
+enum struct Jetpack
 {
-	String:szModel[PLATFORM_MAX_PATH],
-	Float:fJetPackBoost,
-	Float:fReloadDelay,
-	Float:fJetPackMax,
-	iJetPackAngle,
-	iTeam,
-	bool:bEffect
+	char szModel[PLATFORM_MAX_PATH];
+	float fJetPackBoost;
+	float fReloadDelay;
+	float fJetPackMax;
+	int iJetPackAngle;
+	int iTeam;
+	bool bEffect;
 }
-any g_aJetpack[STORE_MAX_ITEMS][Jetpack];
+Jetpack g_aJetpack[STORE_MAX_ITEMS];
 
 /*
  * Build date: <DATE>
@@ -119,15 +119,15 @@ public void Jetpack_OnMapStart()
 {
 	for (int i = 0; i < g_iCount; i++)
 	{
-		if (!g_aJetpack[i][szModel][0])
+		if (!g_aJetpack[i].szModel[0])
 			continue;
 
-		Downloader_AddFileToDownloadsTable(g_aJetpack[i][szModel]);
+		Downloader_AddFileToDownloadsTable(g_aJetpack[i].szModel);
 
-		if (IsModelPrecached(g_aJetpack[i][szModel]))
+		if (IsModelPrecached(g_aJetpack[i].szModel))
 			continue;
 
-		PrecacheModel(g_aJetpack[i][szModel], true);
+		PrecacheModel(g_aJetpack[i].szModel, true);
 	}
 }
 
@@ -145,14 +145,14 @@ public bool Jetpack_Config(KeyValues &kv, int itemid)
 {
 	MyStore_SetDataIndex(itemid, g_iCount);
 
-	kv.GetString("model", g_aJetpack[g_iCount][szModel], PLATFORM_MAX_PATH, "");
+	kv.GetString("model", g_aJetpack[g_iCount].szModel, PLATFORM_MAX_PATH, "");
 
-	g_aJetpack[g_iCount][fJetPackBoost] = kv.GetFloat("boost", 400.0);
-	g_aJetpack[g_iCount][iJetPackAngle] = kv.GetNum("angle", 50);
-	g_aJetpack[g_iCount][fJetPackMax] = kv.GetFloat("max_time", 10.0);
-	g_aJetpack[g_iCount][fReloadDelay] = kv.GetFloat("delay", 60.0);
-	g_aJetpack[g_iCount][iTeam] = kv.GetNum("team", 0);
-	g_aJetpack[g_iCount][bEffect] = view_as<bool>(kv.GetNum("effect", 1));
+	g_aJetpack[g_iCount].fJetPackBoost = kv.GetFloat("boost", 400.0);
+	g_aJetpack[g_iCount].iJetPackAngle = kv.GetNum("angle", 50);
+	g_aJetpack[g_iCount].fJetPackMax = kv.GetFloat("max_time", 10.0);
+	g_aJetpack[g_iCount].fReloadDelay = kv.GetFloat("delay", 60.0);
+	g_aJetpack[g_iCount].iTeam = kv.GetNum("team", 0);
+	g_aJetpack[g_iCount].bEffect = view_as<bool>(kv.GetNum("effect", 1));
 
 	g_iCount++;
 
@@ -233,7 +233,7 @@ public Action Timer_Fly(Handle tmr, int userid)
 	if (!client || !IsClientConnected(client) || g_bDelay[client])
 		return Plugin_Handled;
 
-	if ((GetClientTeam(client) != CS_TEAM_T && g_aJetpack[g_iCount][iTeam] == 1) || (GetClientTeam(client) != CS_TEAM_CT && g_aJetpack[g_iCount][iTeam] == 2) || !IsPlayerAlive(client))
+	if ((GetClientTeam(client) != CS_TEAM_T && g_aJetpack[g_iCount].iTeam == 1) || (GetClientTeam(client) != CS_TEAM_CT && g_aJetpack[g_iCount].iTeam == 2) || !IsPlayerAlive(client))
 		return Plugin_Handled;
 
 	int iEquipped = MyStore_GetEquippedItem(client, "jetpack");
@@ -242,9 +242,9 @@ public Action Timer_Fly(Handle tmr, int userid)
 
 	int iIndex = MyStore_GetDataIndex(iEquipped);
 
-	if (0 <= g_iJumps[client] <= g_aJetpack[iIndex][fJetPackMax])
+	if (0 <= g_iJumps[client] <= g_aJetpack[iIndex].fJetPackMax)
 	{
-		if (g_aJetpack[iIndex][fJetPackMax] != 0.0)
+		if (g_aJetpack[iIndex].fJetPackMax != 0.0)
 		{
 			g_iJumps[client]++;
 		}
@@ -256,27 +256,27 @@ public Action Timer_Fly(Handle tmr, int userid)
 		GetClientEyeAngles(client, ClientEyeAngle);
 		GetClientAbsOrigin(client, ClientAbsOrigin);
 
-		float newAngle = g_aJetpack[g_iCount][iJetPackAngle] * -1.0;
+		float newAngle = g_aJetpack[g_iCount].iJetPackAngle * -1.0;
 		ClientEyeAngle[0] = newAngle;
 		GetAngleVectors(ClientEyeAngle, Velocity, NULL_VECTOR, NULL_VECTOR);
 
-		ScaleVector(Velocity, g_aJetpack[g_iCount][fJetPackBoost]);
+		ScaleVector(Velocity, g_aJetpack[g_iCount].fJetPackBoost);
 
 		TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, Velocity);
 
 		g_bDelay[client] = true;
 		CreateTimer(0.1, Timer_DelayOff, GetClientUserId(client));
 
-		if (g_aJetpack[g_iCount][bEffect])
+		if (g_aJetpack[g_iCount].bEffect)
 		{
 			CreateEffect(client, ClientAbsOrigin, ClientEyeAngle);
 		}
 
-		if (g_aJetpack[client][szModel][0] && !g_bParachute[client])
+		if (g_aJetpack[client].szModel[0] && !g_bParachute[client])
 		{
 			// Open parachute
 			int iEntity = CreateEntityByName("prop_dynamic_override");
-			DispatchKeyValue(iEntity, "model", g_aJetpack[client][szModel]);
+			DispatchKeyValue(iEntity, "model", g_aJetpack[client].szModel);
 			DispatchSpawn(iEntity);
 
 			SetEntityMoveType(iEntity, MOVETYPE_NOCLIP);
@@ -299,12 +299,12 @@ public Action Timer_Fly(Handle tmr, int userid)
 			g_bParachute[client] = true;
 		}
 
-		if (g_iJumps[client] == g_aJetpack[g_iCount][fJetPackMax] && g_aJetpack[g_iCount][fReloadDelay] != 0)
+		if (g_iJumps[client] == g_aJetpack[g_iCount].fJetPackMax && g_aJetpack[g_iCount].fReloadDelay != 0)
 		{
 			delete g_hTimerFly[client];
 			DisableParachute(client);
 
-			g_hTimerReload[client] = CreateTimer(g_aJetpack[g_iCount][fReloadDelay], Timer_Reload, GetClientUserId(client));
+			g_hTimerReload[client] = CreateTimer(g_aJetpack[g_iCount].fReloadDelay, Timer_Reload, GetClientUserId(client));
 
 			PrintCenterText(client, "%t", "Jetpack Empty");
 
@@ -342,7 +342,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 	if (!IsPlayerAlive(client) || g_bDelay[client])
 		return Plugin_Continue;
 
-	if ((GetClientTeam(client) != 2 && g_aJetpack[g_iCount][iTeam] == 1) || (GetClientTeam(client) != 3 && g_aJetpack[g_iCount][iTeam] == 2))
+	if ((GetClientTeam(client) != 2 && g_aJetpack[g_iCount].iTeam == 1) || (GetClientTeam(client) != 3 && g_aJetpack[g_iCount].iTeam == 2))
 		return Plugin_Continue;
 
 	int iEquipped = MyStore_GetEquippedItem(client, "jetpack");
@@ -353,9 +353,9 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 
 	if (buttons & IN_JUMP && buttons & IN_DUCK)
 	{
-		if (0 <= g_iJumps[client] <= g_aJetpack[iIndex][fJetPackMax])
+		if (0 <= g_iJumps[client] <= g_aJetpack[iIndex].fJetPackMax)
 		{
-			if (g_aJetpack[iIndex][fJetPackMax] != 0.0)
+			if (g_aJetpack[iIndex].fJetPackMax != 0.0)
 			{
 				g_iJumps[client]++;
 			}
@@ -367,27 +367,27 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 			GetClientEyeAngles(client, ClientEyeAngle);
 			GetClientAbsOrigin(client, ClientAbsOrigin);
 
-			float newAngle = g_aJetpack[iIndex][iJetPackAngle] * -1.0;
+			float newAngle = g_aJetpack[iIndex].iJetPackAngle * -1.0;
 			ClientEyeAngle[0] = newAngle;
 			GetAngleVectors(ClientEyeAngle, Velocity, NULL_VECTOR, NULL_VECTOR);
 
-			ScaleVector(Velocity, g_aJetpack[iIndex][fJetPackBoost]);
+			ScaleVector(Velocity, g_aJetpack[iIndex].fJetPackBoost);
 
 			TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, Velocity);
 
 			g_bDelay[client] = true;
 			CreateTimer(0.1, Timer_DelayOff, GetClientUserId(client));
 
-			if (g_aJetpack[g_iCount][bEffect])
+			if (g_aJetpack[g_iCount].bEffect)
 			{
 				CreateEffect(client, ClientAbsOrigin, ClientEyeAngle);
 			}
 
-			if (g_aJetpack[client][szModel][0] && !g_bParachute[client])
+			if (g_aJetpack[client].szModel[0] && !g_bParachute[client])
 			{
 				// Open parachute
 				int iEntity = CreateEntityByName("prop_dynamic_override");
-				DispatchKeyValue(iEntity, "model", g_aJetpack[client][szModel]);
+				DispatchKeyValue(iEntity, "model", g_aJetpack[client].szModel);
 				DispatchSpawn(iEntity);
 
 				SetEntityMoveType(iEntity, MOVETYPE_NOCLIP);
@@ -411,9 +411,9 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 			}
 
 
-			if (g_iJumps[client] == g_aJetpack[iIndex][fJetPackMax] && g_aJetpack[iIndex][fReloadDelay] != 0.0)
+			if (g_iJumps[client] == g_aJetpack[iIndex].fJetPackMax && g_aJetpack[iIndex].fReloadDelay != 0.0)
 			{
-				g_hTimerReload[client] = CreateTimer(g_aJetpack[iIndex][fReloadDelay], Timer_Reload, GetClientUserId(client));
+				g_hTimerReload[client] = CreateTimer(g_aJetpack[iIndex].fReloadDelay, Timer_Reload, GetClientUserId(client));
 				DisableParachute(client);
 				PrintCenterText(client, "%t", "Jetpack Empty");
 			}

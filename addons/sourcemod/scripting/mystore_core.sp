@@ -62,8 +62,8 @@ char g_sPlanName[STORE_MAX_ITEMS][STORE_MAX_PLANS][ITEM_NAME_LENGTH];
 int g_iPlanPrice[STORE_MAX_ITEMS][STORE_MAX_PLANS];
 int g_iPlanTime[STORE_MAX_ITEMS][STORE_MAX_PLANS];
 
-any g_aItems[STORE_MAX_ITEMS][Item_Data];
-any g_aTypeHandlers[STORE_MAX_TYPES][Type_Handler];
+Item_Data g_aItems[STORE_MAX_ITEMS];
+Type_Handler g_aTypeHandlers[STORE_MAX_TYPES];
 
 int g_iPlayerItems[MAXPLAYERS + 1][STORE_MAX_ITEMS][CLIENT_ITEM_SIZE];
 bool g_bMySQL = false;
@@ -385,9 +385,9 @@ public Action Command_Say(int client, char [] command, int args)
 		for (int i = 0; i < g_iItemCount; i++)
 		{
 			//Have we found a shortcut?
-			if (strcmp(g_aItems[i][szShortcut], sArg[1]) == 0 && g_aItems[i][szShortcut][0] != 0)
+			if (strcmp(g_aItems[i].szShortcut, sArg[1]) == 0 && g_aItems[i].szShortcut[0] != 0)
 			{
-				if (!CheckFlagBits(client, g_aItems[i][iFlagBits]) || !MyStore_HasClientAccess(client) || !CheckSteamAuth(client, g_aItems[i][szSteam]))
+				if (!CheckFlagBits(client, g_aItems[i].iFlagBits) || !MyStore_HasClientAccess(client) || !CheckSteamAuth(client, g_aItems[i].szSteam))
 					return Plugin_Continue;
 
 				g_bInvMode[client] = false;
@@ -397,7 +397,7 @@ public Action Command_Say(int client, char [] command, int args)
 				//Already has item? Show menu
 				if (HasClientItem(client, i))
 				{
-					if (g_aItems[i][bPreview])
+					if (g_aItems[i].bPreview)
 					{
 						DisplayPreviewMenu(client, i);
 					}
@@ -409,14 +409,14 @@ public Action Command_Say(int client, char [] command, int args)
 				//Don't has item? show a buy menu or buy item
 				else
 				{
-					if (g_aItems[i][iPlans] != 0)
+					if (g_aItems[i].iPlans != 0)
 					{
 						DisplayPlanMenu(client, i);
 					}
 					else if (gc_bConfirm.BoolValue)
 					{
 						char sTitle[128];
-						Format(sTitle, sizeof(sTitle), "%t", "Confirm_Buy", g_aItems[i][szName], g_aTypeHandlers[g_aItems[i][iHandler]][szType]);
+						Format(sTitle, sizeof(sTitle), "%t", "Confirm_Buy", g_aItems[i].szName, g_aTypeHandlers[g_aItems[i].iHandler].szType);
 						MyStore_DisplayConfirmMenu(client, sTitle, MenuHandler_Store, 0);
 					}
 					else
@@ -751,10 +751,10 @@ public void OnMapStart()
 {
 	for (int i = 0; i < g_iTypeHandlers; i++)
 	{
-		if (g_aTypeHandlers[i][fnMapStart] == INVALID_FUNCTION)
+		if (g_aTypeHandlers[i].fnMapStart == INVALID_FUNCTION)
 			continue;
 
-		Call_StartFunction(g_aTypeHandlers[i][hPlugin], g_aTypeHandlers[i][fnMapStart]);
+		Call_StartFunction(g_aTypeHandlers[i].hPlugin, g_aTypeHandlers[i].fnMapStart);
 		Call_Finish();
 	}
 }
@@ -1107,19 +1107,19 @@ void DisplayStoreMenu(int client, int parent = -1, int last = -1)
 		{
 			if (gc_iDescription.IntValue > 1)
 			{
-				menu.SetTitle("%s\n%s\n%t", g_aItems[parent][szName], g_aItems[parent][szDescription], "Title Credits", g_sCreditsName, g_iCredits[target]);
+				menu.SetTitle("%s\n%s\n%t", g_aItems[parent].szName, g_aItems[parent].szDescription, "Title Credits", g_sCreditsName, g_iCredits[target]);
 			}
 			else
 			{
-				menu.SetTitle("%s\n%t", g_aItems[parent][szName], "Title Credits", g_sCreditsName, g_iCredits[target]);
+				menu.SetTitle("%s\n%t", g_aItems[parent].szName, "Title Credits", g_sCreditsName, g_iCredits[target]);
 			}
 		}
 		else
 		{
-			menu.SetTitle("%N\n%s\n%t", target, g_aItems[parent][szName], "Title Credits", g_sCreditsName, g_iCredits[target]);
+			menu.SetTitle("%N\n%s\n%t", target, g_aItems[parent].szName, "Title Credits", g_sCreditsName, g_iCredits[target]);
 		}
 
-		g_iMenuBack[client] = g_aItems[parent][iParent];
+		g_iMenuBack[client] = g_aItems[parent].iParent;
 	}
 	else if (g_bInvMode[client])
 	{
@@ -1143,68 +1143,51 @@ void DisplayStoreMenu(int client, int parent = -1, int last = -1)
 	// List all Items
 	for (int i = 0; i < g_iItemCount; i++)
 	{
-		if ((HasSecretAccess(client, i) || g_aItems[i][iSecret] == 0) && (g_aItems[i][iParent] == parent && (!gc_bShowVIP.BoolValue && (CheckFlagBits(target, g_aItems[i][iFlagBits], iFlags) || CheckSteamAuth(target, g_aItems[i][szSteam])) || gc_bShowVIP.BoolValue)))
+		//item is not in parent
+		if (g_aItems[i].iParent != parent)
+			continue;
+
+		//Item is secret and player has no access
+		if (!HasSecretAccess(client, i) && g_aItems[i].iSecret != 0)
+			continue;
+
+		//VIP items not shown if no VIP
+		if (!gc_bShowVIP.BoolValue && !CheckFlagBits(target, g_aItems[i].iFlagBits, iFlags) && !CheckSteamAuth(target, g_aItems[i].szSteam))
+			continue;
+
+		int costs = GetLowestPrice(i);
+		bool reduced = false;
+		costs = Forward_OnGetEndPrice(client, i, costs, reduced);
+
+		// This is a package
+		if (g_aItems[i].iHandler == g_iPackageHandler)
 		{
-			int costs = GetLowestPrice(i);
-			bool reduced = false;
-			costs = Forward_OnGetEndPrice(client, i, costs, reduced);
+			if (!PackageHasClientItem(target, i, g_bInvMode[client]))
+				continue;
 
-			// This is a package
-			if (g_aItems[i][iHandler] == g_iPackageHandler)
+			int iStyle = ITEMDRAW_DEFAULT;
+			if (gc_bShowVIP.BoolValue && (!CheckFlagBits(target, g_aItems[i].iFlagBits, iFlags) || !CheckSteamAuth(target, g_aItems[i].szSteam)))
 			{
-				if (!PackageHasClientItem(target, i, g_bInvMode[client]))
-					continue;
+				iStyle = ITEMDRAW_DISABLED;
+			}
 
-				int iStyle = ITEMDRAW_DEFAULT;
-				if (gc_bShowVIP.BoolValue && (!CheckFlagBits(target, g_aItems[i][iFlagBits], iFlags) || !CheckSteamAuth(target, g_aItems[i][szSteam])))
+			char sBuffer[128];
+			IntToString(i, sId, sizeof(sId));
+			// Player already own the package or the package is free
+			if (g_aItems[i].iPrice == -1 || HasClientItem(target, i))
+			{
+
+				if (gc_iDescription.IntValue < 3)
 				{
-					iStyle = ITEMDRAW_DISABLED;
+					Format(sBuffer, sizeof(sBuffer), "%s\n%s", g_aItems[i].szName, g_aItems[i].szDescription);
+				}
+				else
+				{
+					Format(sBuffer, sizeof(sBuffer), "%s", g_aItems[i].szName);
 				}
 
-				char sBuffer[128];
-				IntToString(i, sId, sizeof(sId));
-				// Player already own the package or the package is free
-				if (g_aItems[i][iPrice] == -1 || HasClientItem(target, i))
+				if (PackageHasClientItem(target, i, false))
 				{
-
-					if (gc_iDescription.IntValue < 3)
-					{
-						Format(sBuffer, sizeof(sBuffer), "%s\n%s", g_aItems[i][szName], g_aItems[i][szDescription]);
-					}
-					else
-					{
-						Format(sBuffer, sizeof(sBuffer), "%s", g_aItems[i][szName]);
-					}
-
-					if (PackageHasClientItem(target, i, false))
-					{
-						if (menu.ItemCount == iPosition)
-						{
-							menu.AddItem(sId, sBuffer, iStyle);
-						}
-						else
-						{
-							menu.InsertItem(iPosition, sId, sBuffer, iStyle);
-						}
-					}
-					else
-					{
-						menu.AddItem(sId, sBuffer, iStyle);
-					}
-				}
-				// Player can buy the package as normal trade in
-				else if (!g_bInvMode[client] && g_aItems[i][iPlans] == 0 && g_aItems[i][bBuyable])
-				{
-					if (gc_iDescription.IntValue < 3)
-					{
-						Format(sBuffer, sizeof(sBuffer), "%t\n%s", "Item Available", g_aItems[i][szName], g_aItems[i][iPrice], g_aItems[i][szDescription]);
-					}
-					else
-					{
-						Format(sBuffer, sizeof(sBuffer), "%t", "Item Available", g_aItems[i][szName], g_aItems[i][iPrice]);
-					}
-
-					
 					if (menu.ItemCount == iPosition)
 					{
 						menu.AddItem(sId, sBuffer, iStyle);
@@ -1214,122 +1197,148 @@ void DisplayStoreMenu(int client, int parent = -1, int last = -1)
 						menu.InsertItem(iPosition, sId, sBuffer, iStyle);
 					}
 				}
-				// Player can buy the package in a plan
-				else if (!g_bInvMode[client])
+				else
+				{
+					menu.AddItem(sId, sBuffer, iStyle);
+				}
+			}
+			// Player can buy the package as normal trade in
+			else if (!g_bInvMode[client] && g_aItems[i].iPlans == 0 && g_aItems[i].bBuyable)
+			{
+				if (gc_iDescription.IntValue < 3)
+				{
+					Format(sBuffer, sizeof(sBuffer), "%t\n%s", "Item Available", g_aItems[i].szName, g_aItems[i].iPrice, g_aItems[i].szDescription);
+				}
+				else
+				{
+					Format(sBuffer, sizeof(sBuffer), "%t", "Item Available", g_aItems[i].szName, g_aItems[i].iPrice);
+				}
+
+				
+				if (menu.ItemCount == iPosition)
+				{
+					menu.AddItem(sId, sBuffer, iStyle);
+				}
+				else
+				{
+					menu.InsertItem(iPosition, sId, sBuffer, iStyle);
+				}
+			}
+			// Player can buy the package in a plan
+			else if (!g_bInvMode[client])
+			{
+				if (gc_iDescription.IntValue < 3)
+				{
+					Format(sBuffer, sizeof(sBuffer), "%t\n%s", "Item Plan Available", g_aItems[i].szName, g_aItems[i].szDescription);
+				}
+				else
+				{
+					Format(sBuffer, sizeof(sBuffer), "%t", "Item Plan Available", g_aItems[i].szName);
+				}
+
+				if (menu.ItemCount == iPosition)
+				{
+					menu.AddItem(sId, sBuffer, (costs <= g_iCredits[target] ? ITEMDRAW_DEFAULT : ITEMDRAW_DISABLED));
+				}
+				else
+				{
+					menu.InsertItem(iPosition, sId, sBuffer, (costs <= g_iCredits[target] ? ITEMDRAW_DEFAULT : ITEMDRAW_DISABLED));
+				}
+			}
+			iPosition++; // old
+		}
+		// This is a normal item
+		else
+		{
+			char sBuffer[128];
+			IntToString(i, sId, sizeof(sId));
+			// Player already own the item
+			if (HasClientItem(target, i))
+			{
+				// Player has item equipt
+				if (IsEquipped(target, i))
 				{
 					if (gc_iDescription.IntValue < 3)
 					{
-						Format(sBuffer, sizeof(sBuffer), "%t\n%s", "Item Plan Available", g_aItems[i][szName], g_aItems[i][szDescription]);
+						Format(sBuffer, sizeof(sBuffer), "%t\n%s", "Item Equipped", g_aItems[i].szName, g_aItems[i].szDescription);
 					}
 					else
 					{
-						Format(sBuffer, sizeof(sBuffer), "%t", "Item Plan Available", g_aItems[i][szName]);
+						Format(sBuffer, sizeof(sBuffer), "%t", "Item Equipped", g_aItems[i].szName);
 					}
 
 					if (menu.ItemCount == iPosition)
 					{
-						menu.AddItem(sId, sBuffer, (costs <= g_iCredits[target] ? ITEMDRAW_DEFAULT : ITEMDRAW_DISABLED));
+						menu.AddItem(sId, sBuffer, ITEMDRAW_DEFAULT);
 					}
 					else
 					{
-						menu.InsertItem(iPosition, sId, sBuffer, (costs <= g_iCredits[target] ? ITEMDRAW_DEFAULT : ITEMDRAW_DISABLED));
+						menu.InsertItem(iPosition, sId, sBuffer, ITEMDRAW_DEFAULT);
 					}
 				}
-				iPosition++; // old
+				// Item is not equipt
+				else
+				{
+					if (gc_iDescription.IntValue < 3)
+					{
+						Format(sBuffer, sizeof(sBuffer), "%t\n%s", "Item Bought", g_aItems[i].szName, g_aItems[i].szDescription);
+					}
+					else
+					{
+						Format(sBuffer, sizeof(sBuffer), "%t", "Item Bought", g_aItems[i].szName);
+					}
+
+					if (menu.ItemCount == iPosition)
+					{
+						menu.AddItem(sId, sBuffer, ITEMDRAW_DEFAULT);
+					}
+					else
+					{
+						menu.InsertItem(iPosition, sId, sBuffer, ITEMDRAW_DEFAULT);
+					}
+				}
 			}
-			// This is a normal item
-			else
+			// Player don't own the item
+			else if (!g_bInvMode[client] && g_aItems[i].bBuyable)
 			{
-				char sBuffer[128];
-				IntToString(i, sId, sizeof(sId));
-				// Player already own the item
-				if (HasClientItem(target, i))
+				int iStyle = ITEMDRAW_DEFAULT;
+				if ((g_aItems[i].iPlans == 0 && g_iCredits[target] < costs && !g_aItems[i].bPreview) || (gc_bShowVIP.BoolValue && !g_aItems[i].bPreview && (!CheckFlagBits(target, g_aItems[i].iFlagBits, iFlags) || !CheckSteamAuth(target, g_aItems[i].szSteam))))
 				{
-					// Player has item equipt
-					if (IsEquipped(target, i))
-					{
-						if (gc_iDescription.IntValue < 3)
-						{
-							Format(sBuffer, sizeof(sBuffer), "%t\n%s", "Item Equipped", g_aItems[i][szName], g_aItems[i][szDescription]);
-						}
-						else
-						{
-							Format(sBuffer, sizeof(sBuffer), "%t", "Item Equipped", g_aItems[i][szName]);
-						}
-
-						if (menu.ItemCount == iPosition)
-						{
-							menu.AddItem(sId, sBuffer, ITEMDRAW_DEFAULT);
-						}
-						else
-						{
-							menu.InsertItem(iPosition, sId, sBuffer, ITEMDRAW_DEFAULT);
-						}
-					}
-					// Item is not equipt
-					else
-					{
-						if (gc_iDescription.IntValue < 3)
-						{
-							Format(sBuffer, sizeof(sBuffer), "%t\n%s", "Item Bought", g_aItems[i][szName], g_aItems[i][szDescription]);
-						}
-						else
-						{
-							Format(sBuffer, sizeof(sBuffer), "%t", "Item Bought", g_aItems[i][szName]);
-						}
-
-						if (menu.ItemCount == iPosition)
-						{
-							menu.AddItem(sId, sBuffer, ITEMDRAW_DEFAULT);
-						}
-						else
-						{
-							menu.InsertItem(iPosition, sId, sBuffer, ITEMDRAW_DEFAULT);
-						}
-					}
-				}
-				// Player don't own the item
-				else if (!g_bInvMode[client] && g_aItems[i][bBuyable])
-				{
-					int iStyle = ITEMDRAW_DEFAULT;
-					if ((g_aItems[i][iPlans] == 0 && g_iCredits[target] < costs && !g_aItems[i][bPreview]) || (gc_bShowVIP.BoolValue && !g_aItems[i][bPreview] && (!CheckFlagBits(target, g_aItems[i][iFlagBits], iFlags) || !CheckSteamAuth(target, g_aItems[i][szSteam]))))
-					{
-						iStyle = ITEMDRAW_DISABLED;
-					}
-
-					// Player can buy the item as normal trade in
-					if (g_aItems[i][iPlans] == 0)
-					{
-						if (gc_iDescription.IntValue < 3)
-						{
-							Format(sBuffer, sizeof(sBuffer), "%t %t\n%s", "Item Available", g_aItems[i][szName], costs, reduced ? "discount" : "nodiscount", g_aItems[i][szDescription]);
-						}
-						else
-						{
-							Format(sBuffer, sizeof(sBuffer), "%t %t", "Item Available", g_aItems[i][szName], costs, reduced ? "discount" : "nodiscount");
-						}
-
-						menu.AddItem(sId, sBuffer, iStyle);
-					}
-					// Player can buy the item in a plan
-					else
-					{
-						if (gc_iDescription.IntValue < 3)
-						{
-							Format(sBuffer, sizeof(sBuffer), "%t %t\n%s", "Item Plan Available", g_aItems[i][szName], reduced ? "discount" : "nodiscount", g_aItems[i][szDescription]);
-						}
-						else
-						{
-							Format(sBuffer, sizeof(sBuffer), "%t %t", "Item Plan Available", g_aItems[i][szName], reduced ? "discount" : "nodiscount");
-						}
-
-						menu.AddItem(sId, sBuffer, iStyle);
-					}
+					iStyle = ITEMDRAW_DISABLED;
 				}
 
+				// Player can buy the item as normal trade in
+				if (g_aItems[i].iPlans == 0)
+				{
+					if (gc_iDescription.IntValue < 3)
+					{
+						Format(sBuffer, sizeof(sBuffer), "%t %t\n%s", "Item Available", g_aItems[i].szName, costs, reduced ? "discount" : "nodiscount", g_aItems[i].szDescription);
+					}
+					else
+					{
+						Format(sBuffer, sizeof(sBuffer), "%t %t", "Item Available", g_aItems[i].szName, costs, reduced ? "discount" : "nodiscount");
+					}
+
+					menu.AddItem(sId, sBuffer, iStyle);
+				}
+				// Player can buy the item in a plan
+				else
+				{
+					if (gc_iDescription.IntValue < 3)
+					{
+						Format(sBuffer, sizeof(sBuffer), "%t %t\n%s", "Item Plan Available", g_aItems[i].szName, reduced ? "discount" : "nodiscount", g_aItems[i].szDescription);
+					}
+					else
+					{
+						Format(sBuffer, sizeof(sBuffer), "%t %t", "Item Plan Available", g_aItems[i].szName, reduced ? "discount" : "nodiscount");
+					}
+
+					menu.AddItem(sId, sBuffer, iStyle);
+				}
 			}
 
 		}
+
 	}
 
 	// Package
@@ -1377,7 +1386,7 @@ public int MenuHandler_Store(Menu menu, MenuAction action, int client, int param
 
 				if (g_iSelectedPlan[client] == -1)
 				{
-					costs = Forward_OnGetEndPrice(client, g_iSelectedItem[client], g_aItems[g_iSelectedItem[client]][iPrice]);
+					costs = Forward_OnGetEndPrice(client, g_iSelectedItem[client], g_aItems[g_iSelectedItem[client]].iPrice);
 				}
 				else
 				{
@@ -1419,11 +1428,11 @@ public int MenuHandler_Store(Menu menu, MenuAction action, int client, int param
 			else
 			{
 				int iIndex = StringToInt(sId);
-				g_iMenuBack[client] = g_aItems[iIndex][iParent];
+				g_iMenuBack[client] = g_aItems[iIndex].iParent;
 				g_iSelectedItem[client] = iIndex;
 				g_iSelectedPlan[client] = -1;
 
-				if (g_aItems[iIndex][bPreview] && !HasClientItem(target, iIndex) && g_aItems[iIndex][iPrice] != -1 && g_aItems[iIndex][iPlans] == 0)
+				if (g_aItems[iIndex].bPreview && !HasClientItem(target, iIndex) && g_aItems[iIndex].iPrice != -1 && g_aItems[iIndex].iPlans == 0)
 				{
 					DisplayPreviewMenu(client, iIndex);
 					return;
@@ -1432,9 +1441,9 @@ public int MenuHandler_Store(Menu menu, MenuAction action, int client, int param
 				int costs = GetLowestPrice(iIndex);
 				costs = Forward_OnGetEndPrice(client, iIndex, costs);
 
-				if ((g_iCredits[target] >= costs || g_aItems[iIndex][iPlans] > 0) && !HasClientItem(target, iIndex) && g_aItems[iIndex][iPrice] != -1)
+				if ((g_iCredits[target] >= costs || g_aItems[iIndex].iPlans > 0) && !HasClientItem(target, iIndex) && g_aItems[iIndex].iPrice != -1)
 				{
-					if (g_aItems[iIndex][iPlans] > 0)
+					if (g_aItems[iIndex].iPlans > 0)
 					{
 						DisplayPlanMenu(client, iIndex);
 						return;
@@ -1442,7 +1451,7 @@ public int MenuHandler_Store(Menu menu, MenuAction action, int client, int param
 					else if (gc_bConfirm.BoolValue)
 					{
 						char sTitle[128];
-						Format(sTitle, sizeof(sTitle), "%t", "Confirm_Buy", g_aItems[iIndex][szName], g_aTypeHandlers[g_aItems[iIndex][iHandler]][szType]);
+						Format(sTitle, sizeof(sTitle), "%t", "Confirm_Buy", g_aItems[iIndex].szName, g_aTypeHandlers[g_aItems[iIndex].iHandler].szType);
 						MyStore_DisplayConfirmMenu(client, sTitle, MenuHandler_Store, 0);
 						return;
 					}
@@ -1453,7 +1462,7 @@ public int MenuHandler_Store(Menu menu, MenuAction action, int client, int param
 					}
 				}
 
-				if (g_aItems[iIndex][iHandler] != g_iPackageHandler)
+				if (g_aItems[iIndex].iHandler != g_iPackageHandler)
 				{
 					if (HasClientItem(target, iIndex))
 					{
@@ -1466,13 +1475,13 @@ public int MenuHandler_Store(Menu menu, MenuAction action, int client, int param
 				}
 				else
 				{
-					if (HasClientItem(target, iIndex) || g_aItems[iIndex][iPrice] == -1)
+					if (HasClientItem(target, iIndex) || g_aItems[iIndex].iPrice == -1)
 					{
 						DisplayStoreMenu(client, iIndex);
 					}
 					else
 					{
-						DisplayStoreMenu(client, g_aItems[iIndex][iParent]);
+						DisplayStoreMenu(client, g_aItems[iIndex].iParent);
 					}
 				}
 			}
@@ -1495,23 +1504,23 @@ public void DisplayItemMenu(int client, int itemid)
 		return;
 	}
 
-	if (g_aTypeHandlers[g_aItems[itemid][iHandler]][bRaw])
+	if (g_aTypeHandlers[g_aItems[itemid].iHandler].bRaw)
 	{
-		Call_StartFunction(g_aTypeHandlers[g_aItems[itemid][iHandler]][hPlugin], g_aTypeHandlers[g_aItems[itemid][iHandler]][fnUse]);
+		Call_StartFunction(g_aTypeHandlers[g_aItems[itemid].iHandler].hPlugin, g_aTypeHandlers[g_aItems[itemid].iHandler].fnUse);
 		Call_PushCell(client);
 		Call_PushCell(itemid);
 		Call_Finish();
 		return;
 	}
 
-	if (g_aItems[itemid][iHandler] == g_iPackageHandler)
+	if (g_aItems[itemid].iHandler == g_iPackageHandler)
 	{
 		DisplayStoreMenu(client, itemid);
 		return;
 	}
 
 	g_iMenuNum[client] = MENU_STORE;
-	g_iMenuBack[client] = g_aItems[itemid][iParent];
+	g_iMenuBack[client] = g_aItems[itemid].iParent;
 	int target = g_iMenuClient[client];
 
 	Menu menu = new Menu(MenuHandler_Item);
@@ -1524,22 +1533,22 @@ public void DisplayItemMenu(int client, int itemid)
 	{
 		if (gc_iDescription.IntValue > 1)
 		{
-			iIndex = Format(sTitle, sizeof(sTitle), "%t\n%s\n%t", "Item Equipped", g_aItems[itemid][szName], g_aItems[itemid][szDescription], "Title Credits", g_sCreditsName, g_iCredits[target]);
+			iIndex = Format(sTitle, sizeof(sTitle), "%t\n%s\n%t", "Item Equipped", g_aItems[itemid].szName, g_aItems[itemid].szDescription, "Title Credits", g_sCreditsName, g_iCredits[target]);
 		}
 		else
 		{
-			iIndex = Format(sTitle, sizeof(sTitle), "%t\n%t", "Item Equipped", g_aItems[itemid][szName], "Title Credits", g_sCreditsName, g_iCredits[target]);
+			iIndex = Format(sTitle, sizeof(sTitle), "%t\n%t", "Item Equipped", g_aItems[itemid].szName, "Title Credits", g_sCreditsName, g_iCredits[target]);
 		}
 	}
 	else
 	{
 		if (gc_iDescription.IntValue > 1)
 		{
-			iIndex = Format(sTitle, sizeof(sTitle), "%s\n%s\n%t", g_aItems[itemid][szName], g_aItems[itemid][szDescription], "Title Credits", g_sCreditsName, g_iCredits[target]);
+			iIndex = Format(sTitle, sizeof(sTitle), "%s\n%s\n%t", g_aItems[itemid].szName, g_aItems[itemid].szDescription, "Title Credits", g_sCreditsName, g_iCredits[target]);
 		}
 		else
 		{
-			iIndex = Format(sTitle, sizeof(sTitle), "%s\n%t", g_aItems[itemid][szName], "Title Credits", g_sCreditsName, g_iCredits[target]);
+			iIndex = Format(sTitle, sizeof(sTitle), "%s\n%t", g_aItems[itemid].szName, "Title Credits", g_sCreditsName, g_iCredits[target]);
 		}
 	}
 
@@ -1554,7 +1563,7 @@ public void DisplayItemMenu(int client, int itemid)
 
 	menu.SetTitle(sTitle);
 
-	if (g_aTypeHandlers[g_aItems[itemid][iHandler]][bEquipable])
+	if (g_aTypeHandlers[g_aItems[itemid].iHandler].bEquipable)
 	{
 		if (!bEquipped)
 		{
@@ -1573,7 +1582,7 @@ public void DisplayItemMenu(int client, int itemid)
 		menu.AddItem("0", sTitle, ITEMDRAW_DEFAULT);
 	}
 
-	if (g_aItems[itemid][bPreview])
+	if (g_aItems[itemid].bPreview)
 	{
 		Format(sTitle, sizeof(sTitle), "%t", "Preview Item");
 		menu.AddItem("4", sTitle, ITEMDRAW_DEFAULT);
@@ -1610,18 +1619,18 @@ public void DisplayPreviewMenu(int client, int itemid)
 
 	if (gc_iDescription.IntValue > 1)
 	{
-		menu.SetTitle("%s\n%s\n%t", g_aItems[itemid][szName], g_aItems[itemid][szDescription], "Title Credits", g_sCreditsName, g_iCredits[target]);
+		menu.SetTitle("%s\n%s\n%t", g_aItems[itemid].szName, g_aItems[itemid].szDescription, "Title Credits", g_sCreditsName, g_iCredits[target]);
 	}
 	else
 	{
-		menu.SetTitle("%s\n%t", g_aItems[itemid][szName], "Title Credits", g_sCreditsName, g_iCredits[target]);
+		menu.SetTitle("%s\n%t", g_aItems[itemid].szName, "Title Credits", g_sCreditsName, g_iCredits[target]);
 	}
 
 	char sBuffer[128];
 
 	if (HasClientItem(client, itemid))
 	{
-		if (g_aTypeHandlers[g_aItems[itemid][iHandler]][bEquipable])
+		if (g_aTypeHandlers[g_aItems[itemid].iHandler].bEquipable)
 		{
 			if (!IsEquipped(client, itemid))
 			{
@@ -1641,19 +1650,19 @@ public void DisplayPreviewMenu(int client, int itemid)
 		}
 	}
 	// Player don't own the item
-	else if (!g_bInvMode[client] && g_aItems[itemid][bBuyable])
+	else if (!g_bInvMode[client] && g_aItems[itemid].bBuyable)
 	{
 		bool reduced = false;
-		int price = Forward_OnGetEndPrice(client, itemid, g_aItems[itemid][iPrice], reduced);
+		int price = Forward_OnGetEndPrice(client, itemid, g_aItems[itemid].iPrice, reduced);
 
 		int iStyle = ITEMDRAW_DEFAULT;
-		if ((g_iCredits[target] < price) || (gc_bShowVIP.BoolValue && (!CheckFlagBits(target, g_aItems[itemid][iFlagBits]) || !CheckSteamAuth(target, g_aItems[itemid][szSteam]))))
+		if ((g_iCredits[target] < price) || (gc_bShowVIP.BoolValue && (!CheckFlagBits(target, g_aItems[itemid].iFlagBits) || !CheckSteamAuth(target, g_aItems[itemid].szSteam))))
 		{
 			iStyle = ITEMDRAW_DISABLED;
 		}
 
 		// Player can buy the item as normal trade in
-		if (g_aItems[itemid][iPlans] == 0)
+		if (g_aItems[itemid].iPlans == 0)
 		{
 			Format(sBuffer, sizeof(sBuffer), "%t %t", "Buy Item", price, reduced ? "discount" : "nodiscount");
 			menu.AddItem("buy_item", sBuffer, iStyle);
@@ -1661,7 +1670,7 @@ public void DisplayPreviewMenu(int client, int itemid)
 		// Player can buy the item in a plan
 		else
 		{
-			Format(sBuffer, sizeof(sBuffer), "%t %t", "Choose Plan", g_aItems[itemid][szName], reduced ? "discount" : "nodiscount");
+			Format(sBuffer, sizeof(sBuffer), "%t %t", "Choose Plan", g_aItems[itemid].szName, reduced ? "discount" : "nodiscount");
 			menu.AddItem("item_plan", sBuffer, iStyle);
 		}
 	}
@@ -1700,7 +1709,7 @@ public int MenuHandler_Preview(Menu menu, MenuAction action, int client, int par
 			if (gc_bConfirm.BoolValue)
 			{
 				char sTitle[128];
-				Format(sTitle, sizeof(sTitle), "%t", "Confirm_Buy", g_aItems[itemid][szName], g_aTypeHandlers[g_aItems[itemid][iHandler]][szType]);
+				Format(sTitle, sizeof(sTitle), "%t", "Confirm_Buy", g_aItems[itemid].szName, g_aTypeHandlers[g_aItems[itemid].iHandler].szType);
 				MyStore_DisplayConfirmMenu(client, sTitle, MenuHandler_Store, 0);
 				return;
 			}
@@ -1710,9 +1719,9 @@ public int MenuHandler_Preview(Menu menu, MenuAction action, int client, int par
 				DisplayPreviewMenu(client, itemid);
 			}
 
-			if (g_aTypeHandlers[g_aItems[itemid][iHandler]][bRaw])
+			if (g_aTypeHandlers[g_aItems[itemid].iHandler].bRaw)
 			{
-				Call_StartFunction(g_aTypeHandlers[g_aItems[itemid][iHandler]][hPlugin], g_aTypeHandlers[g_aItems[itemid][iHandler]][fnUse]);
+				Call_StartFunction(g_aTypeHandlers[g_aItems[itemid].iHandler].hPlugin, g_aTypeHandlers[g_aItems[itemid].iHandler].fnUse);
 				Call_PushCell(client);
 				Call_PushCell(itemid);
 				Call_Finish();
@@ -1728,9 +1737,9 @@ public int MenuHandler_Preview(Menu menu, MenuAction action, int client, int par
 			bool bRet = UseItem(client, g_iSelectedItem[client]);
 			if (GetClientMenu(client) == MenuSource_None && bRet)
 			{
-				if (g_aTypeHandlers[g_aItems[itemid][iHandler]][bEquipable])
+				if (g_aTypeHandlers[g_aItems[itemid].iHandler].bEquipable)
 				{
-					if (g_aItems[g_iSelectedItem[client]][bPreview])
+					if (g_aItems[g_iSelectedItem[client]].bPreview)
 					{
 						DisplayPreviewMenu(client, g_iSelectedItem[client]);
 					}
@@ -1744,7 +1753,7 @@ public int MenuHandler_Preview(Menu menu, MenuAction action, int client, int par
 		else if (strcmp(sId, "item_unequipped") == 0)
 		{
 			UnequipItem(client, itemid);
-			if (g_aItems[g_iSelectedItem[client]][bPreview])
+			if (g_aItems[g_iSelectedItem[client]].bPreview)
 			{
 				DisplayPreviewMenu(client, g_iSelectedItem[client]);
 			}
@@ -1771,8 +1780,8 @@ public int MenuHandler_Preview(Menu menu, MenuAction action, int client, int par
 
 			Call_StartForward(gf_hPreviewItem);
 			Call_PushCell(client);
-			Call_PushString(g_aTypeHandlers[g_aItems[itemid][iHandler]][szType]);
-			Call_PushCell(g_aItems[itemid][iDataIndex]);
+			Call_PushString(g_aTypeHandlers[g_aItems[itemid].iHandler].szType);
+			Call_PushCell(g_aItems[itemid].iDataIndex);
 			Call_Finish();
 			g_iSpam[client] = GetTime() + 10;
 
@@ -1819,21 +1828,21 @@ public void DisplayPlanMenu(int client, int itemid)
 
 	if (gc_iDescription.IntValue > 1)
 	{
-		menu.SetTitle("%s\n%s\n%t", g_aItems[itemid][szName], g_aItems[itemid][szDescription], "Title Credits", g_sCreditsName, g_iCredits[target]);
+		menu.SetTitle("%s\n%s\n%t", g_aItems[itemid].szName, g_aItems[itemid].szDescription, "Title Credits", g_sCreditsName, g_iCredits[target]);
 	}
 	else
 	{
-		menu.SetTitle("%s\n%t", g_aItems[itemid][szName], "Title Credits", g_sCreditsName, g_iCredits[target]);
+		menu.SetTitle("%s\n%t", g_aItems[itemid].szName, "Title Credits", g_sCreditsName, g_iCredits[target]);
 	}
 
 	char sBuffer[64];
-	if (g_aItems[itemid][bPreview])
+	if (g_aItems[itemid].bPreview)
 	{
 		Format(sBuffer, sizeof(sBuffer), "%t", "Preview Item");
 		menu.AddItem("preview", sBuffer, ITEMDRAW_DEFAULT);
 	}
 
-	for (int i = 0; i < g_aItems[itemid][iPlans]; i++)
+	for (int i = 0; i < g_aItems[itemid].iPlans; i++)
 	{
 		bool reduced = false;
 		int price = Forward_OnGetEndPrice(client, itemid, g_iPlanPrice[itemid][i], reduced);
@@ -1865,8 +1874,8 @@ public int MenuHandler_Plan(Menu menu, MenuAction action, int client, int param2
 			{
 				Call_StartForward(gf_hPreviewItem);
 				Call_PushCell(client);
-				Call_PushString(g_aTypeHandlers[g_aItems[itemid][iHandler]][szType]);
-				Call_PushCell(g_aItems[itemid][iDataIndex]);
+				Call_PushString(g_aTypeHandlers[g_aItems[itemid].iHandler].szType);
+				Call_PushCell(g_aItems[itemid].iDataIndex);
 				Call_Finish();
 				g_iSpam[client] = GetTime() + 10;
 			}
@@ -1881,7 +1890,7 @@ public int MenuHandler_Plan(Menu menu, MenuAction action, int client, int param2
 
 		g_iSelectedPlan[client] = param2;
 
-		if (g_aItems[g_iSelectedItem[client]][bPreview])
+		if (g_aItems[g_iSelectedItem[client]].bPreview)
 		{
 			g_iSelectedPlan[client]--;
 		}
@@ -1889,7 +1898,7 @@ public int MenuHandler_Plan(Menu menu, MenuAction action, int client, int param2
 		if (gc_bConfirm.BoolValue)
 		{
 			char sTitle[128];
-			Format(sTitle, sizeof(sTitle), "%t", "Confirm_Buy", g_aItems[g_iSelectedItem[client]][szName], g_aTypeHandlers[g_aItems[g_iSelectedItem[client]][iHandler]][szType]);
+			Format(sTitle, sizeof(sTitle), "%t", "Confirm_Buy", g_aItems[g_iSelectedItem[client]].szName, g_aTypeHandlers[g_aItems[g_iSelectedItem[client]].iHandler].szType);
 			MyStore_DisplayConfirmMenu(client, sTitle, MenuHandler_Store, 0);
 		}
 		else
@@ -1951,9 +1960,9 @@ public int MenuHandler_Item(Menu menu, MenuAction action, int client, int param2
 				bool bRet = UseItem(target, g_iSelectedItem[client]);
 				if (GetClientMenu(client) == MenuSource_None && bRet)
 				{
-					if (g_aTypeHandlers[g_aItems[g_iSelectedItem[client]][iHandler]][bEquipable])
+					if (g_aTypeHandlers[g_aItems[g_iSelectedItem[client]].iHandler].bEquipable)
 					{
-						if (g_aItems[g_iSelectedItem[client]][bPreview])
+						if (g_aItems[g_iSelectedItem[client]].bPreview)
 						{
 							DisplayPreviewMenu(client, g_iSelectedItem[client]);
 						}
@@ -1968,7 +1977,7 @@ public int MenuHandler_Item(Menu menu, MenuAction action, int client, int param2
 			case 3:
 			{
 				UnequipItem(target, g_iSelectedItem[client]);
-				if (g_aItems[g_iSelectedItem[client]][bPreview])
+				if (g_aItems[g_iSelectedItem[client]].bPreview)
 				{
 					DisplayPreviewMenu(client, g_iSelectedItem[client]);
 				}
@@ -1984,8 +1993,8 @@ public int MenuHandler_Item(Menu menu, MenuAction action, int client, int param2
 				{
 					Call_StartForward(gf_hPreviewItem);
 					Call_PushCell(client);
-					Call_PushString(g_aTypeHandlers[g_aItems[g_iSelectedItem[client]][iHandler]][szType]);
-					Call_PushCell(g_aItems[g_iSelectedItem[client]][iDataIndex]);
+					Call_PushString(g_aTypeHandlers[g_aItems[g_iSelectedItem[client]].iHandler].szType);
+					Call_PushCell(g_aItems[g_iSelectedItem[client]].iDataIndex);
 					Call_Finish();
 					g_iSpam[client] = GetTime() + 10;
 				}
@@ -2124,8 +2133,8 @@ void SQL_SaveClientInventory(int client)
 
 	for (int i = 0; i < g_iItems[client]; i++)
 	{
-		strcopy(sType, sizeof(sType), g_aTypeHandlers[g_aItems[g_iPlayerItems[client][i][UNIQUE_ID]][iHandler]][szType]);
-		strcopy(sUniqueId, sizeof(sUniqueId), g_aItems[g_iPlayerItems[client][i][UNIQUE_ID]][szUniqueId]);
+		strcopy(sType, sizeof(sType), g_aTypeHandlers[g_aItems[g_iPlayerItems[client][i][UNIQUE_ID]].iHandler].szType);
+		strcopy(sUniqueId, sizeof(sUniqueId), g_aItems[g_iPlayerItems[client][i][UNIQUE_ID]].szUniqueId);
 
 		if (g_iPlayerItems[client][i][SYNCED] == 0 && g_iPlayerItems[client][i][DELETED] == 0)
 		{
@@ -2135,9 +2144,10 @@ void SQL_SaveClientInventory(int client)
 		}
 		else if (g_iPlayerItems[client][i][SYNCED] == 1 && g_iPlayerItems[client][i][DELETED] == 1)
 		{
+			g_iPlayerItems[client][i][DELETED] = 0;
 			Format(sQuery, sizeof(sQuery), "DELETE FROM mystore_items WHERE `player_id` = %i AND `type` = \"%s\" AND `unique_id` = \"%s\"", g_iPlayerID[client], sType, sUniqueId);
-
 			tnx.AddQuery(sQuery);
+			
 		}
 	}
 
@@ -2164,16 +2174,16 @@ void SQL_SaveClientEquipment(int client) //tnx
 			{
 				if (g_iEquipment[client][iIndex] == -1)
 				{
-					Format(sQuery, sizeof(sQuery), "DELETE FROM mystore_equipment WHERE `player_id` = %i AND `type` = \"%s\" AND `slot` = %i", g_iPlayerID[client], g_aTypeHandlers[i][szType], a);
+					Format(sQuery, sizeof(sQuery), "DELETE FROM mystore_equipment WHERE `player_id` = %i AND `type` = \"%s\" AND `slot` = %i", g_iPlayerID[client], g_aTypeHandlers[i].szType, a);
 				}
 				else
 				{
-					Format(sQuery, sizeof(sQuery), "UPDATE mystore_equipment SET `unique_id` = \"%s\" WHERE `player_id` = %i AND `type` = \"%s\" AND `slot` = %i", g_aItems[g_iEquipment[client][iIndex]][szUniqueId], g_iPlayerID[client], g_aTypeHandlers[i][szType], a);
+					Format(sQuery, sizeof(sQuery), "UPDATE mystore_equipment SET `unique_id` = \"%s\" WHERE `player_id` = %i AND `type` = \"%s\" AND `slot` = %i", g_aItems[g_iEquipment[client][iIndex]].szUniqueId, g_iPlayerID[client], g_aTypeHandlers[i].szType, a);
 				}
 			}
 			else
 			{
-				Format(sQuery, sizeof(sQuery), "INSERT INTO mystore_equipment (`player_id`, `type`, `unique_id`, `slot`) VALUES(%i, \"%s\", \"%s\", %i)", g_iPlayerID[client], g_aTypeHandlers[i][szType], g_aItems[g_iEquipment[client][iIndex]][szUniqueId], a);
+				Format(sQuery, sizeof(sQuery), "INSERT INTO mystore_equipment (`player_id`, `type`, `unique_id`, `slot`) VALUES(%i, \"%s\", \"%s\", %i)", g_iPlayerID[client], g_aTypeHandlers[i].szType, g_aItems[g_iEquipment[client][iIndex]].szUniqueId, a);
 			}
 
 			tnx.AddQuery(sQuery);
@@ -2614,15 +2624,15 @@ public int Native_RegisterHandler(Handle plugin, int numParams)
 		g_iTypeHandlers++;
 	}
 
-	g_aTypeHandlers[iIndex][hPlugin] = plugin;
-	g_aTypeHandlers[iIndex][fnMapStart] = GetNativeCell(2);
-	g_aTypeHandlers[iIndex][fnReset] = GetNativeCell(3);
-	g_aTypeHandlers[iIndex][fnConfig] = GetNativeCell(4);
-	g_aTypeHandlers[iIndex][fnUse] = GetNativeCell(5);
-	g_aTypeHandlers[iIndex][fnRemove] = GetNativeCell(6);
-	g_aTypeHandlers[iIndex][bEquipable] = GetNativeCell(7);
-	g_aTypeHandlers[iIndex][bRaw] = GetNativeCell(8);
-	strcopy(g_aTypeHandlers[iIndex][szType], 32, sType);
+	g_aTypeHandlers[iIndex].hPlugin = plugin;
+	g_aTypeHandlers[iIndex].fnMapStart = GetNativeCell(2);
+	g_aTypeHandlers[iIndex].fnReset = GetNativeCell(3);
+	g_aTypeHandlers[iIndex].fnConfig = GetNativeCell(4);
+	g_aTypeHandlers[iIndex].fnUse = GetNativeCell(5);
+	g_aTypeHandlers[iIndex].fnRemove = GetNativeCell(6);
+	g_aTypeHandlers[iIndex].bEquipable = GetNativeCell(7);
+	g_aTypeHandlers[iIndex].bRaw = GetNativeCell(8);
+	strcopy(g_aTypeHandlers[iIndex].szType, 32, sType);
 
 	return iIndex;
 }
@@ -2656,12 +2666,12 @@ public int Native_RegisterItemHandler(Handle plugin, int numParams)
 
 public int Native_SetDataIndex(Handle plugin, int numParams)
 {
-	g_aItems[GetNativeCell(1)][iDataIndex] = GetNativeCell(2);
+	g_aItems[GetNativeCell(1)].iDataIndex = GetNativeCell(2);
 }
 
 public int Native_GetDataIndex(Handle plugin, int numParams)
 {
-	return g_aItems[GetNativeCell(1)][iDataIndex];
+	return g_aItems[GetNativeCell(1)].iDataIndex;
 }
 
 public int Native_GetEquippedItem(Handle plugin, int numParams)
@@ -2694,8 +2704,8 @@ void DisplayPreviousMenu(int client)
 		case MENU_RESET: AdminMenu_ResetPlayer(g_hTopMenu, TopMenuAction_SelectOption, g_hTopMenuObject, client, "", 0);
 		case MENU_PLAN: DisplayPlanMenu(client, g_iSelectedItem[client]);
 		case MENU_ADMIN: RedisplayAdminMenu(g_hTopMenu, client);
-		case MENU_ITEM, MENU_PREVIEW: g_aItems[g_iSelectedItem[client]][bPreview] ? DisplayPreviewMenu(client, g_iSelectedItem[client]) : DisplayItemMenu(client, g_iSelectedItem[client]);
-		case MENU_PARENT: DisplayItemMenu(client, g_aItems[g_iSelectedItem[client]][iParent] == -1 ? 0 : g_aItems[g_iSelectedItem[client]][iParent]);
+		case MENU_ITEM, MENU_PREVIEW: g_aItems[g_iSelectedItem[client]].bPreview ? DisplayPreviewMenu(client, g_iSelectedItem[client]) : DisplayItemMenu(client, g_iSelectedItem[client]);
+		case MENU_PARENT: DisplayItemMenu(client, g_aItems[g_iSelectedItem[client]].iParent == -1 ? 0 : g_aItems[g_iSelectedItem[client]].iParent);
 		default: DisplayStoreMenu(client, g_iMenuBack[client], g_iLastSelection[client]);
 	}
 }
@@ -2759,7 +2769,7 @@ bool IsItemInBoughtPackage(int client, int itemid, int uid = -1)
 	int parent;
 	if (itemid > -1) //edited
 	{
-		parent = g_aItems[itemid][iParent];
+		parent = g_aItems[itemid].iParent;
 	}
 	else return false;
 
@@ -2771,7 +2781,7 @@ bool IsItemInBoughtPackage(int client, int itemid, int uid = -1)
 				return true;
 		}
 
-		parent = g_aItems[parent][iParent];
+		parent = g_aItems[parent].iParent;
 	}
 
 	return false;
@@ -2830,16 +2840,10 @@ public int Native_GetItem(Handle plugin, int numParams)
 	if (itemID > g_iItemCount)
 		return false;
 
-	any aBuffer[sizeof(g_aItems[])];
-
-	for (int i = 0; i < sizeof(g_aItems[]); i++)
-	{
-		aBuffer[i] = g_aItems[itemID][i];
-	}
-
-	SetNativeArray(2, aBuffer, sizeof(g_aItems[]));
+	SetNativeArray(2, g_aItems[itemID], sizeof(Item_Data));
 
 	return true;
+
 }
 
 public int Native_GetHandler(Handle plugin, int numParams)
@@ -2848,14 +2852,7 @@ public int Native_GetHandler(Handle plugin, int numParams)
 	if (iIndex > g_iTypeHandlers)
 		return false;
 
-	any aBuffer[sizeof(g_aTypeHandlers[])];
-
-	for (int i = 0; i < sizeof(g_aTypeHandlers[]); i++)
-	{
-		aBuffer[i] =  g_aTypeHandlers[iIndex][i];
-	}
-
-	SetNativeArray(2, aBuffer, sizeof(g_aTypeHandlers[]));
+	SetNativeArray(2, g_aTypeHandlers[iIndex], sizeof(Type_Handler));
 
 	return true;
 }
@@ -2867,7 +2864,7 @@ public int Native_GetItemIdbyUniqueId(Handle plugin, int numParams)
 
 	for (int i = 0; i < g_iItemCount; i++)
 	{
-		if (StrEqual(sUId, g_aItems[i][szUniqueId]))
+		if (StrEqual(sUId, g_aItems[i].szUniqueId))
 			return i;
 	}
 
@@ -2926,9 +2923,9 @@ public int Native_RemoveItem(Handle plugin, int numParams)
 
 void RemoveItem(int client, int itemid)
 {
-	if (itemid > 0 && g_aTypeHandlers[g_aItems[itemid][iHandler]][fnRemove] != INVALID_FUNCTION)
+	if (itemid > 0 && g_aTypeHandlers[g_aItems[itemid].iHandler].fnRemove != INVALID_FUNCTION)
 	{
-		Call_StartFunction(g_aTypeHandlers[g_aItems[itemid][iHandler]][hPlugin], g_aTypeHandlers[g_aItems[itemid][iHandler]][fnRemove]);
+		Call_StartFunction(g_aTypeHandlers[g_aItems[itemid].iHandler].hPlugin, g_aTypeHandlers[g_aItems[itemid].iHandler].fnRemove);
 		Call_PushCell(client);
 		Call_PushCell(itemid);
 		Call_Finish();
@@ -2950,17 +2947,15 @@ public int Native_UnequipItem(Handle plugin, int numParams)
 {
 	int client = GetNativeCell(1);
 	int itemid = GetNativeCell(2);
-	if (itemid > 0 && g_aTypeHandlers[g_aItems[itemid][iHandler]][fnRemove] != INVALID_FUNCTION)
+	if (itemid > 0 && g_aTypeHandlers[g_aItems[itemid].iHandler].fnRemove != INVALID_FUNCTION)
 	{
-		Call_StartFunction(g_aTypeHandlers[g_aItems[itemid][iHandler]][hPlugin], g_aTypeHandlers[g_aItems[itemid][iHandler]][fnRemove]);
+		Call_StartFunction(g_aTypeHandlers[g_aItems[itemid].iHandler].hPlugin, g_aTypeHandlers[g_aItems[itemid].iHandler].fnRemove);
 		Call_PushCell(client);
 		Call_PushCell(itemid);
 		Call_Finish();
 	}
 
 	UnequipItem(client, itemid, false);
-	
-	SQL_SaveClientEquipment(client);
 }
 
 public int Native_EquipItem(Handle plugin, int numParams)
@@ -2991,6 +2986,7 @@ public int Native_TransferClientItem(Handle plugin, int numParams)
 	g_iPlayerItems[client][item][DELETED] = 1;
 	UnequipItem(client, iIndex);
 
+
 	g_iPlayerItems[receiver][g_iItems[receiver]][UNIQUE_ID] = iIndex;
 	g_iPlayerItems[receiver][g_iItems[receiver]][SYNCED] = 0;
 	g_iPlayerItems[receiver][g_iItems[receiver]][DELETED] = 0;
@@ -2998,7 +2994,8 @@ public int Native_TransferClientItem(Handle plugin, int numParams)
 	g_iPlayerItems[receiver][g_iItems[receiver]][DATE_EXPIRATION] = g_iPlayerItems[target][item][DATE_EXPIRATION];
 	g_iPlayerItems[receiver][g_iItems[receiver]][PRICE_PURCHASE] = g_iPlayerItems[target][item][PRICE_PURCHASE];
 
-	g_iItems[receiver]++;
+	SQL_SaveClientInventory(client);
+	SQL_SaveClientInventory(receiver);
 
 	return true;
 }
@@ -3034,8 +3031,8 @@ public int Native_SellClientItem(Handle plugin, int numParams)
 	g_iPlayerItems[client][item][DELETED] = 1;
 	UnequipItem(client, itemid);
 	g_iCredits[client] += iCredit;
-	MyLogMessage(client, LOG_EVENT, "Sold a %s %s for %i credits", g_aItems[itemid][szName], g_aTypeHandlers[g_aItems[itemid][iHandler]][szType], iCredit);
-	CPrintToChat(client, "%s%t", g_sChatPrefix, "Chat Sold Item", g_aItems[itemid][szName], g_aTypeHandlers[g_aItems[itemid][iHandler]][szType]);
+	MyLogMessage(client, LOG_EVENT, "Sold a %s %s for %i credits", g_aItems[itemid].szName, g_aTypeHandlers[g_aItems[itemid].iHandler].szType, iCredit);
+	CPrintToChat(client, "%s%t", g_sChatPrefix, "Chat Sold Item", g_aItems[itemid].szName, g_aTypeHandlers[g_aItems[itemid].iHandler].szType);
 
 	return true;
 }
@@ -3051,15 +3048,15 @@ public int Native_HasClientItem(Handle plugin, int numParams)
 bool HasClientItem(int client, int itemid)
 {
 	// Can he even have it?
-	if (!CheckFlagBits(client, g_aItems[itemid][iFlagBits]) || !CheckSteamAuth(client, g_aItems[itemid][szSteam]))
+	if (!CheckFlagBits(client, g_aItems[itemid].iFlagBits) || !CheckSteamAuth(client, g_aItems[itemid].szSteam))
 		return false;
 
 	// Is the item free (available for everyone)?
-	if (Forward_OnGetEndPrice(client, itemid, g_aItems[itemid][iPrice]) <= 0 && g_aItems[itemid][iPlans] == 0 && g_aItems[itemid][iSecret] == 0)
+	if (Forward_OnGetEndPrice(client, itemid, g_aItems[itemid].iPrice) <= 0 && g_aItems[itemid].iPlans == 0 && g_aItems[itemid].iSecret == 0)
 		return true;
 
 	// Is the client a VIP therefore has access to all the items already?
-	if (IsClientVIP(client) && !g_aItems[itemid][bIgnoreVIP])
+	if (IsClientVIP(client) && !g_aItems[itemid].bIgnoreVIP)
 		return true;
 
 	// Check if the client actually has the item
@@ -3089,7 +3086,7 @@ public int Native_IterateEquippedItems(Handle plugin, int numParams)
 
 	for (int i = start + 1; i < STORE_MAX_TYPES * STORE_MAX_SLOTS; i++)
 	{
-		if (g_iEquipment[client][i] >= 0 && (attributes == false || (attributes && g_aItems[g_iEquipment[client][i]][hAttributes] != null)))
+		if (g_iEquipment[client][i] >= 0 && (attributes == false || (attributes && g_aItems[g_iEquipment[client][i]].hAttributes != null)))
 		{
 			SetNativeCellRef(2, i);
 			return g_iEquipment[client][i];
@@ -3255,9 +3252,9 @@ void ReloadConfig()
 
 	for (int i = 0; i < g_iTypeHandlers; i++)
 	{
-		if (g_aTypeHandlers[i][fnReset] != INVALID_FUNCTION)
+		if (g_aTypeHandlers[i].fnReset != INVALID_FUNCTION)
 		{
-			Call_StartFunction(g_aTypeHandlers[i][hPlugin], g_aTypeHandlers[i][fnReset]);
+			Call_StartFunction(g_aTypeHandlers[i].hPlugin, g_aTypeHandlers[i].fnReset);
 			Call_Finish();
 		}
 	}
@@ -3304,26 +3301,26 @@ void GoThroughConfig(KeyValues &kv, int parent = -1)
 		if (kv.GetNum("enabled", 1) && kv.GetNum("type", -1) == -1 && kv.GotoFirstSubKey())
 		{
 			kv.GoBack();
-			kv.GetSectionName(g_aItems[g_iItemCount][szName], 64);
-			kv.GetSectionName(g_aItems[g_iItemCount][szUniqueId], 64);
-			ReplaceString(g_aItems[g_iItemCount][szName], 64, "\\n", "\n");
-			kv.GetString("shortcut", g_aItems[g_iItemCount][szShortcut], 64, "\0");
-			kv.GetString("description", g_aItems[g_iItemCount][szDescription], 64, "\0");
-			kv.GetString("steam", g_aItems[g_iItemCount][szSteam], 256, "\0");
+			kv.GetSectionName(g_aItems[g_iItemCount].szName, 64);
+			kv.GetSectionName(g_aItems[g_iItemCount].szUniqueId, 64);
+			ReplaceString(g_aItems[g_iItemCount].szName, 64, "\\n", "\n");
+			kv.GetString("shortcut", g_aItems[g_iItemCount].szShortcut, 64, "\0");
+			kv.GetString("description", g_aItems[g_iItemCount].szDescription, 64, "\0");
+			kv.GetString("steam", g_aItems[g_iItemCount].szSteam, 256, "\0");
 			kv.GetString("flag", sFlags, sizeof(sFlags), "\0");
-			g_aItems[g_iItemCount][iFlagBits] = ReadFlagString(sFlags);
+			g_aItems[g_iItemCount].iFlagBits = ReadFlagString(sFlags);
 			kv.GetString("secret", sFlags, sizeof(sFlags), "\0");
-			g_aItems[g_iItemCount][iSecret] = ReadFlagString(sFlags);
-			g_aItems[g_iItemCount][iPrice] = kv.GetNum("price", -1);
-			g_aItems[g_iItemCount][iTrade] = kv.GetNum("trade", 15);
-			g_aItems[g_iItemCount][bBuyable] = kv.GetNum("buyable", 1) ? true : false;
-			g_aItems[g_iItemCount][bIgnoreVIP] = kv.GetNum("ignore_vip", 0) ? true : false;
-			g_aItems[g_iItemCount][iHandler] = g_iPackageHandler;
-			g_aItems[g_iItemCount][iId] = g_iItemCount;
+			g_aItems[g_iItemCount].iSecret = ReadFlagString(sFlags);
+			g_aItems[g_iItemCount].iPrice = kv.GetNum("price", -1);
+			g_aItems[g_iItemCount].iTrade = kv.GetNum("trade", 15);
+			g_aItems[g_iItemCount].bBuyable = kv.GetNum("buyable", 1) ? true : false;
+			g_aItems[g_iItemCount].bIgnoreVIP = kv.GetNum("ignore_vip", 0) ? true : false;
+			g_aItems[g_iItemCount].iHandler = g_iPackageHandler;
+			g_aItems[g_iItemCount].iId = g_iItemCount;
 
 			kv.GotoFirstSubKey();
 
-			g_aItems[g_iItemCount][iParent] = parent;
+			g_aItems[g_iItemCount].iParent = parent;
 
 			GoThroughConfig(kv, g_iItemCount++);
 			kv.GoBack();
@@ -3334,46 +3331,46 @@ void GoThroughConfig(KeyValues &kv, int parent = -1)
 			if (!kv.GetNum("enabled", 1))
 				continue;
 
-			kv.GetSectionName(g_aItems[g_iItemCount][szName], ITEM_NAME_LENGTH);
+			kv.GetSectionName(g_aItems[g_iItemCount].szName, ITEM_NAME_LENGTH);
 			kv.GetString("type", sType, sizeof(sType));
 
 			// Is there the suitable type for this item?
 			int iHandle = GetTypeHandler(sType);
 			if (iHandle == -1)
 			{
-				MyLogMessage(0, LOG_ERROR, "Can't find store module type '%s' for item '%s'.", sType, g_aItems[g_iItemCount][szName]);
+				MyLogMessage(0, LOG_ERROR, "Can't find store module type '%s' for item '%s'.", sType, g_aItems[g_iItemCount].szName);
 				continue;
 			}
 
-			g_aItems[g_iItemCount][iParent] = parent;
-			g_aItems[g_iItemCount][iPrice] = kv.GetNum("price");
-			g_aItems[g_iItemCount][iTrade] = kv.GetNum("trade", 15);
-			kv.GetString("description", g_aItems[g_iItemCount][szDescription], 64, "\0");
-			g_aItems[g_iItemCount][bBuyable] = kv.GetNum("buyable", 1) ? true : false;
-			g_aItems[g_iItemCount][bIgnoreVIP] = kv.GetNum("ignore_vip", 0) ? true : false;
-			kv.GetString("shortcut", g_aItems[g_iItemCount][szShortcut], 64, "\0");
-			g_aItems[g_iItemCount][bPreview] = kv.GetNum("preview", 0) ? true : false;
-			g_aItems[g_iItemCount][iId] = g_iItemCount;
+			g_aItems[g_iItemCount].iParent = parent;
+			g_aItems[g_iItemCount].iPrice = kv.GetNum("price");
+			g_aItems[g_iItemCount].iTrade = kv.GetNum("trade", 15);
+			kv.GetString("description", g_aItems[g_iItemCount].szDescription, 64, "\0");
+			g_aItems[g_iItemCount].bBuyable = kv.GetNum("buyable", 1) ? true : false;
+			g_aItems[g_iItemCount].bIgnoreVIP = kv.GetNum("ignore_vip", 0) ? true : false;
+			kv.GetString("shortcut", g_aItems[g_iItemCount].szShortcut, 64, "\0");
+			g_aItems[g_iItemCount].bPreview = kv.GetNum("preview", 0) ? true : false;
+			g_aItems[g_iItemCount].iId = g_iItemCount;
 
-			kv.GetString("steam", g_aItems[g_iItemCount][szSteam], 256, "\0");
+			kv.GetString("steam", g_aItems[g_iItemCount].szSteam, 256, "\0");
 
 			kv.GetString("flag", sFlags, sizeof(sFlags), "\0");
-			g_aItems[g_iItemCount][iFlagBits] = ReadFlagString(sFlags);
+			g_aItems[g_iItemCount].iFlagBits = ReadFlagString(sFlags);
 
 			kv.GetString("secret", sFlags, sizeof(sFlags), "\0");
-			g_aItems[g_iItemCount][iSecret] = ReadFlagString(sFlags);
+			g_aItems[g_iItemCount].iSecret = ReadFlagString(sFlags);
 
-			g_aItems[g_iItemCount][iHandler] = iHandle;
+			g_aItems[g_iItemCount].iHandler = iHandle;
 
-			kv.GetString("unique_id", g_aItems[g_iItemCount][szUniqueId], 64, "\0");
+			kv.GetString("unique_id", g_aItems[g_iItemCount].szUniqueId, 64, "\0");
 
-			if (!g_aItems[g_iItemCount][szUniqueId][0] && gc_bGenerateUId.BoolValue)
+			if (!g_aItems[g_iItemCount].szUniqueId[0] && gc_bGenerateUId.BoolValue)
 			{
-				Format(g_aItems[g_iItemCount][szUniqueId], 64, "uid_%s_%s_%i", sType, g_aItems[g_iItemCount][szName], parent);
-				ReplaceString(g_aItems[g_iItemCount][szUniqueId], 64, " ", "_");
-				ReplaceString(g_aItems[g_iItemCount][szUniqueId], 64, "-", "_");
-				StringToLower(g_aItems[g_iItemCount][szUniqueId]);
-				kv.SetString("unique_id", g_aItems[g_iItemCount][szUniqueId]);
+				Format(g_aItems[g_iItemCount].szUniqueId, 64, "uid_%s_%s_%i", sType, g_aItems[g_iItemCount].szName, parent);
+				ReplaceString(g_aItems[g_iItemCount].szUniqueId, 64, " ", "_");
+				ReplaceString(g_aItems[g_iItemCount].szUniqueId, 64, "-", "_");
+				StringToLower(g_aItems[g_iItemCount].szUniqueId);
+				kv.SetString("unique_id", g_aItems[g_iItemCount].szUniqueId);
 			}
 
 			// Has the item a plan?
@@ -3390,17 +3387,17 @@ void GoThroughConfig(KeyValues &kv, int parent = -1)
 				}
 				while kv.GotoNextKey();
 
-				g_aItems[g_iItemCount][iPlans] = index;
+				g_aItems[g_iItemCount].iPlans = index;
 
 				kv.GoBack();
 				kv.GoBack();
 			}
 
 			// Has the item attributes?
-			delete g_aItems[g_iItemCount][hAttributes];
+			delete g_aItems[g_iItemCount].hAttributes;
 			if (kv.JumpToKey("Attributes"))
 			{
-				g_aItems[g_iItemCount][hAttributes] = new StringMap();
+				g_aItems[g_iItemCount].hAttributes = new StringMap();
 
 				kv.GotoFirstSubKey(false);
 
@@ -3410,7 +3407,7 @@ void GoThroughConfig(KeyValues &kv, int parent = -1)
 				{
 					kv.GetSectionName(sAttribute, sizeof(sAttribute));
 					kv.GetString(NULL_STRING, sValue, sizeof(sValue));
-					g_aItems[g_iItemCount][hAttributes].SetString(sAttribute, sValue);
+					g_aItems[g_iItemCount].hAttributes.SetString(sAttribute, sValue);
 				}
 				while kv.GotoNextKey(false);
 
@@ -3420,9 +3417,9 @@ void GoThroughConfig(KeyValues &kv, int parent = -1)
 
 			// Call item plugins config function
 			bool bSuccess = true;
-			if (g_aTypeHandlers[iHandle][fnConfig] != INVALID_FUNCTION)
+			if (g_aTypeHandlers[iHandle].fnConfig != INVALID_FUNCTION)
 			{
-				Call_StartFunction(g_aTypeHandlers[iHandle][hPlugin], g_aTypeHandlers[iHandle][fnConfig]);
+				Call_StartFunction(g_aTypeHandlers[iHandle].hPlugin, g_aTypeHandlers[iHandle].fnConfig);
 				Call_PushCellRef(kv);
 				Call_PushCell(g_iItemCount);
 				Call_Finish(bSuccess);
@@ -3454,8 +3451,8 @@ void BuyItem(int client, int itemid, int plan = -1)
 	int costs = 0;
 	if (plan == -1)
 	{
-		price = g_aItems[itemid][iPrice];
-		costs = Forward_OnGetEndPrice(client, itemid, g_aItems[itemid][iPrice]);
+		price = g_aItems[itemid].iPrice;
+		costs = Forward_OnGetEndPrice(client, itemid, g_aItems[itemid].iPrice);
 	}
 	else
 	{
@@ -3487,9 +3484,9 @@ void BuyItem(int client, int itemid, int plan = -1)
 
 	g_iCredits[client] -= costs;
 
-	MyLogMessage(client, LOG_EVENT, "Bought a '%s' - '%s' for %i credits", g_aTypeHandlers[g_aItems[itemid][iHandler]][szType], g_aItems[itemid][szName], costs);
+	MyLogMessage(client, LOG_EVENT, "Bought a '%s' - '%s' for %i credits", g_aTypeHandlers[g_aItems[itemid].iHandler].szType, g_aItems[itemid].szName, costs);
 
-	CPrintToChat(client, "%s%t", g_sChatPrefix, "Chat Bought Item", g_aItems[itemid][szName], g_aTypeHandlers[g_aItems[itemid][iHandler]][szType]);
+	CPrintToChat(client, "%s%t", g_sChatPrefix, "Chat Bought Item", g_aItems[itemid].szName, g_aTypeHandlers[g_aItems[itemid].iHandler].szType);
 
 	SQL_SaveClientInventory(client);
 }
@@ -3500,10 +3497,10 @@ bool UseItem(int client, int itemid, bool synced = false, int slot = 0)
 		return false;
 
 	int iSlot = slot;
-	if (g_aTypeHandlers[g_aItems[itemid][iHandler]][fnUse] != INVALID_FUNCTION)
+	if (g_aTypeHandlers[g_aItems[itemid].iHandler].fnUse != INVALID_FUNCTION)
 	{
 		int iReturn = ITEM_EQUIP_SUCCESS;
-		Call_StartFunction(g_aTypeHandlers[g_aItems[itemid][iHandler]][hPlugin], g_aTypeHandlers[g_aItems[itemid][iHandler]][fnUse]);
+		Call_StartFunction(g_aTypeHandlers[g_aItems[itemid].iHandler].hPlugin, g_aTypeHandlers[g_aItems[itemid].iHandler].fnUse);
 		Call_PushCell(client);
 		Call_PushCell(itemid);
 		Call_Finish(iReturn);
@@ -3519,12 +3516,12 @@ bool UseItem(int client, int itemid, bool synced = false, int slot = 0)
 		Call_Finish();
 	}
 
-	if (g_aTypeHandlers[g_aItems[itemid][iHandler]][bEquipable])
+	if (g_aTypeHandlers[g_aItems[itemid].iHandler].bEquipable)
 	{
-		g_iEquipment[client][g_aItems[itemid][iHandler] * STORE_MAX_SLOTS + iSlot] = itemid;
+		g_iEquipment[client][g_aItems[itemid].iHandler * STORE_MAX_SLOTS + iSlot] = itemid;
 		if (synced)
 		{
-			g_iEquipmentSynced[client][g_aItems[itemid][iHandler] * STORE_MAX_SLOTS + iSlot] = itemid;
+			g_iEquipmentSynced[client][g_aItems[itemid].iHandler * STORE_MAX_SLOTS + iSlot] = itemid;
 		}
 	}
 	else if (iSlot == ITEM_EQUIP_REMOVE)
@@ -3542,18 +3539,18 @@ void UnequipItem(int client, int itemid, bool noDouble = true)
 		return;
 
 	int iSlot = 0;
-	if (noDouble && itemid > 0 && g_aTypeHandlers[g_aItems[itemid][iHandler]][fnRemove] != INVALID_FUNCTION)
+	if (noDouble && itemid > 0 && g_aTypeHandlers[g_aItems[itemid].iHandler].fnRemove != INVALID_FUNCTION)
 	{
-		Call_StartFunction(g_aTypeHandlers[g_aItems[itemid][iHandler]][hPlugin], g_aTypeHandlers[g_aItems[itemid][iHandler]][fnRemove]);
+		Call_StartFunction(g_aTypeHandlers[g_aItems[itemid].iHandler].hPlugin, g_aTypeHandlers[g_aItems[itemid].iHandler].fnRemove);
 		Call_PushCell(client);
 		Call_PushCell(itemid);
 		Call_Finish(iSlot);
 	}
 
 	int iIndex;
-	if (g_aItems[itemid][iHandler] != g_iPackageHandler)
+	if (g_aItems[itemid].iHandler != g_iPackageHandler)
 	{
-		iIndex = g_aItems[itemid][iHandler] * STORE_MAX_SLOTS + iSlot;
+		iIndex = g_aItems[itemid].iHandler * STORE_MAX_SLOTS + iSlot;
 		if (g_iEquipmentSynced[client][iIndex] == -2)
 		{
 			g_iEquipment[client][iIndex] = -2;
@@ -3587,19 +3584,21 @@ void UnequipItem(int client, int itemid, bool noDouble = true)
 			}
 		}
 	}
+
+	SQL_SaveClientEquipment(client);
 }
 
 bool PackageHasClientItem(int client, int packageid, bool invmode = false)
 {
 	int iFlags = GetUserFlagBits(client);
-	if (!gc_bShowVIP.BoolValue && !CheckFlagBits(client, g_aItems[packageid][iFlagBits], iFlags) && !CheckSteamAuth(client, g_aItems[packageid][szSteam]))
+	if (!gc_bShowVIP.BoolValue && !CheckFlagBits(client, g_aItems[packageid].iFlagBits, iFlags) && !CheckSteamAuth(client, g_aItems[packageid].szSteam))
 		return false;
 
 	for (int i = 0; i < g_iItemCount; i++)
 	{
-		if (g_aItems[i][iParent] == packageid && (gc_bShowVIP.BoolValue || CheckFlagBits(client, g_aItems[i][iFlagBits], iFlags) || CheckSteamAuth(client, g_aItems[i][szSteam])) && (invmode && HasClientItem(client, i) || !invmode))
+		if (g_aItems[i].iParent == packageid && (gc_bShowVIP.BoolValue || CheckFlagBits(client, g_aItems[i].iFlagBits, iFlags) || CheckSteamAuth(client, g_aItems[i].szSteam)) && (invmode && HasClientItem(client, i) || !invmode))
 		{
-			if ((g_aItems[i][iHandler] == g_iPackageHandler && PackageHasClientItem(client, i, invmode)) || g_aItems[i][iHandler] != g_iPackageHandler)
+			if ((g_aItems[i].iHandler == g_iPackageHandler && PackageHasClientItem(client, i, invmode)) || g_aItems[i].iHandler != g_iPackageHandler)
 				return true;
 		}
 	}
@@ -3661,7 +3660,7 @@ int GetItemId(char[] type, char[] uid, int start = -1)
 {
 	for (int i = start + 1; i <  g_iItemCount; i++)
 	{
-		if (strcmp(g_aTypeHandlers[g_aItems[i][iHandler]][szType], type) == 0 && strcmp(g_aItems[i][szUniqueId], uid) == 0 && g_aItems[i][iPrice] >= 0)
+		if (strcmp(g_aTypeHandlers[g_aItems[i].iHandler].szType, type) == 0 && strcmp(g_aItems[i].szUniqueId, uid) == 0 && g_aItems[i].iPrice >= 0)
 			return i;
 	}
 
@@ -3672,7 +3671,7 @@ int GetTypeHandler(char[] type)
 {
 	for (int i = 0; i < g_iTypeHandlers; i++)
 	{
-		if (strcmp(g_aTypeHandlers[i][szType], type) == 0)
+		if (strcmp(g_aTypeHandlers[i].szType, type) == 0)
 			return i;
 	}
 
@@ -3694,7 +3693,7 @@ bool IsEquipped(int client, int itemid)
 {
 	for (int i = 0; i < STORE_MAX_SLOTS; i++)
 	{
-		if (g_iEquipment[client][g_aItems[itemid][iHandler] * STORE_MAX_SLOTS + i] == itemid)
+		if (g_iEquipment[client][g_aItems[itemid].iHandler * STORE_MAX_SLOTS + i] == itemid)
 			return true;
 	}
 
@@ -3712,11 +3711,11 @@ int GetExpiration(int client, int itemid)
 
 int GetLowestPrice(int itemid)
 {
-	if (g_aItems[itemid][iPlans] == 0)
-		return g_aItems[itemid][iPrice];
+	if (g_aItems[itemid].iPlans == 0)
+		return g_aItems[itemid].iPrice;
 
 	int iLowest = g_iPlanPrice[itemid][0];
-	for (int i = 1; i < g_aItems[itemid][iPlans]; i++)
+	for (int i = 1; i < g_aItems[itemid].iPlans; i++)
 	{
 		if (iLowest > g_iPlanPrice[itemid][i])
 		{
@@ -3820,7 +3819,7 @@ bool HasClientAccess(int client)
 
 bool HasSecretAccess(int client, int itemid)
 {
-	if (CheckFlagBits(client, g_aItems[itemid][iSecret]))
+	if (CheckFlagBits(client, g_aItems[itemid].iSecret))
 		return true;
 
 	if (HasClientItem(client, itemid))
