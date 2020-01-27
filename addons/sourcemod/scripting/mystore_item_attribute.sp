@@ -82,7 +82,7 @@ public void MyStore_OnItemEquipt(int client, int itemid)
 	Item_Data item;
 	char sValue[32];
 
-	MyStore_GetItemEnum(itemid, item);
+	MyStore_GetItem(itemid, item);
 
 	if (item.hAttributes == null || g_bUsed[client])
 		return;
@@ -179,7 +179,7 @@ public void Event_PlayerSpawn(Event event, const char[] name, bool dontBroadcast
 
 	while ((item_idx = MyStore_IterateEquippedItems(client, idx, true)) != -1)
 	{
-		MyStore_GetItemEnum(item_idx, item);
+		MyStore_GetItem(item_idx, item);
 
 		if (item.hAttributes == null || g_bUsed[client])
 			return;

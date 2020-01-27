@@ -99,7 +99,7 @@ public void Store_OnMenu(Menu &menu, int client, int itemid)
 		return;
 
 	Item_Data item;
-	MyStore_GetItemEnum(itemid, item);
+	MyStore_GetItem(itemid, item);
 
 	if ((item.iTrade & TRADE_GIFT) != TRADE_GIFT)
 		return;
@@ -111,7 +111,7 @@ public void Store_OnMenu(Menu &menu, int client, int itemid)
 		return;
 
 	Type_Handler handler;
-	MyStore_GetHandlerEnum(item.iHandler, handler);
+	MyStore_GetHandler(item.iHandler, handler);
 
 	char sBuffer[128];
 	if (StrEqual(handler.szType, "package"))
@@ -132,7 +132,7 @@ public bool Store_OnHandler(int client, char[] selection, int itemid)
 	if (strcmp(selection, "gift_package") == 0|| strcmp(selection, "gift_package") == 0)
 	{
 		Item_Data item;
-		MyStore_GetItemEnum(itemid, item);
+		MyStore_GetItem(itemid, item);
 
 		g_iSelectedItem[client] = itemid;
 
@@ -218,9 +218,9 @@ public int MenuHandler_Gift(Menu menu, MenuAction action, int client, int param2
 			{
 				char sTitle[128];
 				Item_Data item;
-				MyStore_GetItemEnum(g_iSelectedItem[client], item);
+				MyStore_GetItem(g_iSelectedItem[client], item);
 				Type_Handler handler;
-				MyStore_GetHandlerEnum(item.iHandler, handler);
+				MyStore_GetHandler(item.iHandler, handler);
 				Format(sTitle, sizeof(sTitle), "%t", "Confirm_Gift", item.szName, handler.szType, iReceiver);
 				MyStore_DisplayConfirmMenu(client, sTitle, MenuHandler_Gift, iIndex);
 				return;
@@ -251,10 +251,10 @@ void GiftItem(int client, int receiver, int itemid)
 	}
 
 	Item_Data item;
-	MyStore_GetItemEnum(itemid, item);
+	MyStore_GetItem(itemid, item);
 
 	Type_Handler handler;
-	MyStore_GetHandlerEnum(item.iHandler, handler);
+	MyStore_GetHandler(item.iHandler, handler);
 
 	MyStore_TransferClientItem(client, receiver, itemid);
 

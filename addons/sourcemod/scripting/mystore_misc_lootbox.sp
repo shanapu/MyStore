@@ -397,9 +397,9 @@ public Action Timer_Open(Handle timer, int client)
 	}
 
 	Item_Data item;
-	MyStore_GetItemEnum(itemid, item);
+	MyStore_GetItem(itemid, item);
 	Type_Handler handler;
-	MyStore_GetHandlerEnum(item.iHandler, handler);
+	MyStore_GetHandler(item.iHandler, handler);
 
 	if (MyStore_HasClientItem(client, itemid))
 	{

@@ -501,7 +501,7 @@ native bool MyStore_IsItemInBoughtPackage(int client, int itemid, int uid = -1);
  * 
  * @return				True for success, otherwise false.
  */
-native bool MyStore_GetItem(int itemid, any output);
+native bool MyStore_GetItem(int itemid, any output[sizeof(Item_Data)]);
 
 /**
  * Get item data.
@@ -520,7 +520,7 @@ native int MyStore_GetItemIdbyUniqueId(char[] unique_id);
  * 
  * @return				True for success, otherwise false.
  */
-native bool MyStore_GetHandler(int index, any output);
+native bool MyStore_GetHandler(int index, any output[sizeof(Type_Handler)]);
 
 /**
  * Give a client a item.
@@ -728,22 +728,3 @@ forward void MyStore_OnConfigExecuted(ConVar enable, char[] name, char[] prefix,
  * @noreturn
  */
 forward void MyStore_OnPreviewItem(int client, char[] type, int index);
-
-
-
-
-stock void MyStore_GetItemEnum(int itemid, Item_Data item)
-{
-	ArrayList list = new ArrayList();
-	MyStore_GetItem(itemid, list);
-	list.GetArray(list.Length - 1, item, sizeof(Item_Data));
-	list.Erase(list.Length - 1);
-}
-
-stock void MyStore_GetHandlerEnum(int iHandler, Type_Handler handler)
-{
-	ArrayList list = new ArrayList();
-	MyStore_GetHandler(iHandler, list);
-	list.GetArray(list.Length - 1, handler, sizeof(Type_Handler));
-	list.Erase(list.Length - 1);
-}

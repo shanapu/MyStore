@@ -111,7 +111,7 @@ public int Spawn_Equip(int client, int itemid)
 	g_bEquipt[client] = true;
 
 	Item_Data item;
-	MyStore_GetItemEnum(itemid, item)
+	MyStore_GetItem(itemid, item)
 
 	CPrintToChat(client, "%s%t", g_sChatPrefix, "Recieve Spawn", item.szName);
 

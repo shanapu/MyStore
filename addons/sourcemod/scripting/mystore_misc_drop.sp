@@ -200,7 +200,7 @@ public void Store_OnMenu(Menu &menu, int client, int itemid)
 		return;
 
 	Item_Data item;
-	MyStore_GetItemEnum(itemid, item);
+	MyStore_GetItem(itemid, item);
 
 	if ((item.iTrade & TRADE_DROP) != TRADE_DROP)
 		return;
@@ -215,7 +215,7 @@ public void Store_OnMenu(Menu &menu, int client, int itemid)
 		return;
 
 	Type_Handler handler;
-	MyStore_GetHandlerEnum(item.iHandler, handler);
+	MyStore_GetHandler(item.iHandler, handler);
 
 	char sBuffer[128];
 	if (StrEqual(handler.szType, "package"))
@@ -235,12 +235,12 @@ public bool Store_OnHandler(int client, char[] selection, int itemid)
 	if (strcmp(selection, "drop_package") == 0 || strcmp(selection, "drop_item") == 0)
 	{
 		Item_Data item;
-		MyStore_GetItemEnum(itemid, item);
+		MyStore_GetItem(itemid, item);
 
 		g_iSelectedItem[client] = itemid;
 
 		Type_Handler handler;
-		MyStore_GetHandlerEnum(item.iHandler, handler);
+		MyStore_GetHandler(item.iHandler, handler);
 
 		if (MyStore_ShouldConfirm())
 		{
@@ -545,7 +545,7 @@ public void Hook_StartTouch(int entity, int client)
 	PrintToChatAll("touch %i price", price);
 
 	Item_Data item;
-	MyStore_GetItemEnum(itemid, item);
+	MyStore_GetItem(itemid, item);
 
 	if (MyStore_HasClientItem(client, itemid) && gc_iRemoveType.IntValue != 2)
 	{

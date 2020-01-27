@@ -115,13 +115,13 @@ public void Store_OnMenu(Menu &menu, int client, int itemid)
 		return;
 
 	Item_Data item;
-	MyStore_GetItemEnum(itemid, item);
+	MyStore_GetItem(itemid, item);
 
 	if ((item.iTrade & TRADE_SELL) != TRADE_SELL)
 		return;
 
 	Type_Handler handler;
-	MyStore_GetHandlerEnum(item.iHandler, handler);
+	MyStore_GetHandler(item.iHandler, handler);
 
 
 	char sBuffer[128];
@@ -142,12 +142,12 @@ public bool Store_OnHandler(int client, char[] selection, int itemid)
 	if (strcmp(selection, "sell_package") == 0 || strcmp(selection, "sell_item") == 0)
 	{
 		Item_Data item;
-		MyStore_GetItemEnum(itemid, item);
+		MyStore_GetItem(itemid, item);
 
 		g_iSelectedItem[client] = itemid;
 
 		Type_Handler handler;
-		MyStore_GetHandlerEnum(item.iHandler, handler);
+		MyStore_GetHandler(item.iHandler, handler);
 
 		int clientItem[CLIENT_ITEM_SIZE];
 		MyStore_GetClientItem(client, itemid, clientItem);
@@ -185,10 +185,10 @@ void SellItem(int client, int itemid)
 	}
 
 	Item_Data item;
-	MyStore_GetItemEnum(itemid, item);
+	MyStore_GetItem(itemid, item);
 
 	Type_Handler handler;
-	MyStore_GetHandlerEnum(item.iHandler, handler);
+	MyStore_GetHandler(item.iHandler, handler);
 
 	MyStore_SellClientItem(client, itemid, gc_fSellRatio.FloatValue);
 }
