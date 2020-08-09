@@ -306,7 +306,7 @@ public Action Command_JackPot(int client, int args)
 	{
 		char sBuffer[64];
 		SecToTime(g_iPause - GetTime(), sBuffer, sizeof(sBuffer));
-		PrintToChatAll("%s%t %t", g_sChatPrefix, "Jackpot paused", "You can start a new Jackpot in", sBuffer);
+		CPrintToChatAll("%s%t %t", g_sChatPrefix, "Jackpot paused", "You can start a new Jackpot in", sBuffer);
 
 		return Plugin_Handled;
 	}
