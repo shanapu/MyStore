@@ -242,13 +242,18 @@ public void MyStore_OnConfigExecuted(ConVar enable, char[] name, char[] prefix, 
 	gc_bFFA = FindConVar("mp_teammates_are_enemies");
 }
 
+public void OnClientConnected(int client)
+{
+    if (!IsFakeClient(client))
+        g_iClientCount++;
+}
+
 public void OnClientPostAdminCheck(int client)
 {
 	SDKHook(client, SDKHook_OnTakeDamage, OnTakeDamage);
 	if (IsFakeClient(client))
 		return;
 
-	g_iClientCount++;
 	g_iActive[client] = 0;
 	g_iSum[client] = 0;
 	g_fClientMulti[client] = 1.0;
